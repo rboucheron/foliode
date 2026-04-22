@@ -4,7 +4,7 @@ import type {
   ProjectUpdateRequestDTO,
   ProjectsBatchCreateRequestDTO,
 } from "../contract/project.dto";
-import { apiClient, deleteJson } from "./http";
+import { apiClient } from "../utils/createClient";
 
 const buildProjectFormData = (project: ProjectCreateRequestDTO | ProjectUpdateRequestDTO) => {
   const formData = new FormData();
@@ -73,5 +73,6 @@ export const createProjects = async (
 };
 
 export const deleteProject = async (projectId: string): Promise<{ message: string }> => {
-  return deleteJson<{ message: string }>(`/api/project/${projectId}`);
+  const response = await apiClient.delete<{ message: string }>(`/api/project/${projectId}`);
+  return response.data;
 };

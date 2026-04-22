@@ -1,14 +1,14 @@
 "use client";
 
 import DashboardTitle from "@/components/DashboardTitle";
-import {usePortfolioStore} from "@/store/portfolio.store";
-import React, {useEffect} from "react";
+import { usePortfolioStore } from "@/store/portfolio.store";
+import React, { useEffect } from "react";
 import Link from "next/link";
-import {Button, Input, Textarea} from "@heroui/react";
-import {URLInput} from "@/components/UI/URLInput";
+import { Button, Input, Textarea } from "@heroui/react";
+import { URLInput } from "@/components/UI/URLInput";
 
 export default function Edit() {
-    const {portfolio, setPortfolio, fetchPortfolio, updatePortfolio} = usePortfolioStore();
+    const { portfolio, setPortfolio, fetchPortfolio, updatePortfolio } = usePortfolioStore();
 
     useEffect(() => {
         fetchPortfolio();
@@ -28,7 +28,7 @@ export default function Edit() {
 
     return (
         <>
-            <DashboardTitle title="Modifier votre portfolio"/>
+            <DashboardTitle title="Modifier votre portfolio" />
             <Link href={`/${portfolio?.url}`} className={`text-blue-600 `}> voir mon portfolio</Link>
             <div className="p-2 w-1/2 space-y-4">
                 {portfolio && (
@@ -37,7 +37,7 @@ export default function Edit() {
                             label="Titre du portfolio "
                             value={portfolio?.title}
                             onChange={(e) =>
-                                setPortfolio({...portfolio, title: e.target.value})
+                                setPortfolio({ ...portfolio, title: e.target.value })
                             }
                             isRequired
                             classNames={inputStyles}
@@ -46,7 +46,7 @@ export default function Edit() {
                             label="Soutitre du portfolio "
                             value={portfolio?.subtitle}
                             onChange={(e) =>
-                                setPortfolio({...portfolio, subtitle: e.target.value})
+                                setPortfolio({ ...portfolio, subtitle: e.target.value })
                             }
                             isRequired
                             classNames={inputStyles}
@@ -54,12 +54,12 @@ export default function Edit() {
                         <Textarea
                             label="Présentation"
                             placeholder="Présentez-vous en quelques lignes..."
-                            onChange={(e) => setPortfolio({...portfolio, bio: e.target.value})}
+                            onChange={(e) => setPortfolio({ ...portfolio, bio: e.target.value })}
                             minRows={3}
                             value={portfolio?.bio}
                             isRequired
                         />
-                        < URLInput onChange={value => setPortfolio({...portfolio, url: value})} value={portfolio?.url}/>
+                        < URLInput onChange={value => setPortfolio({ ...portfolio, url: value })} value={portfolio?.url} />
                         <Button
                             onPress={() => updatePortfolio()}
                             className="dayMode bg-primary text-white"

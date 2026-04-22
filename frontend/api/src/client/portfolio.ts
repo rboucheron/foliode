@@ -3,34 +3,40 @@ import type {
   PortfolioStatisticsResponseDTO,
   PortfolioUpsertRequestDTO,
 } from "../contract/portfolio.dto";
-import { deleteJson, getJson, postJson, putJson } from "./http";
+import { apiClient } from "../utils/createClient";
 
 export const getCurrentPortfolio = async (): Promise<PortfolioResponseDTO> => {
-  return getJson<PortfolioResponseDTO>("/api/portfolio");
+  const response = await apiClient.get<PortfolioResponseDTO>("/api/portfolio");
+  return response.data;
 };
 
 export const getPublicPortfolioByUrl = async (url: string): Promise<PortfolioResponseDTO> => {
-  return getJson<PortfolioResponseDTO>(`/api/public/portfolio/${url}`);
+  const response = await apiClient.get<PortfolioResponseDTO>(`/api/public/portfolio/${url}`);
+  return response.data;
 };
 
 export const getPortfolioStatistics = async (): Promise<PortfolioStatisticsResponseDTO> => {
-  return getJson<PortfolioStatisticsResponseDTO>("/api/portfolio/stat");
+  const response = await apiClient.get<PortfolioStatisticsResponseDTO>("/api/portfolio/stat");
+  return response.data;
 };
 
 export const createPortfolio = async (
   portfolio: PortfolioUpsertRequestDTO
 ): Promise<PortfolioResponseDTO> => {
-  return postJson<PortfolioResponseDTO>("/api/portfolio", portfolio);
+  const response = await apiClient.post<PortfolioResponseDTO>("/api/portfolio", portfolio);
+  return response.data;
 };
 
 export const updatePortfolio = async (
   portfolio: PortfolioUpsertRequestDTO
 ): Promise<PortfolioResponseDTO> => {
-  return putJson<PortfolioResponseDTO>("/api/portfolio", portfolio);
+  const response = await apiClient.put<PortfolioResponseDTO>("/api/portfolio", portfolio);
+  return response.data;
 };
 
 export const deletePortfolio = async (): Promise<{ message: string }> => {
-  return deleteJson<{ message: string }>("/api/portfolio");
+  const response = await apiClient.delete<{ message: string }>("/api/portfolio");
+  return response.data;
 };
 
 export const fetchPortfolio = getCurrentPortfolio;

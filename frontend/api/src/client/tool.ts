@@ -4,7 +4,7 @@ import type {
   ToolUpdateRequestDTO,
   ToolsBatchCreateRequestDTO,
 } from "../contract/tool.dto";
-import { apiClient, deleteJson } from "./http";
+import { apiClient } from "../utils/createClient";
 
 const buildToolFormData = (tool: ToolCreateRequestDTO | ToolUpdateRequestDTO) => {
   const formData = new FormData();
@@ -52,5 +52,5 @@ export const updateTool = async (
 };
 
 export const deleteTool = async (toolId: string): Promise<void> => {
-  await deleteJson(`/api/portfolio/tool/${toolId}`);
+  await apiClient.delete(`/api/portfolio/tool/${toolId}`);
 };

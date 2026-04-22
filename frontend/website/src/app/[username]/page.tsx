@@ -1,9 +1,9 @@
-import BantoFlow    from "@/components/template/BantoFlow";
-import EmeraldFlow  from "@/components/template/EmeraldFlow";
+import BantoFlow from "@/components/template/BantoFlow";
+import EmeraldFlow from "@/components/template/EmeraldFlow";
 import PrestigeNoir from "@/components/template/PrestigeNoir";
 
 import { Portfolio } from "@/interfaces/Portfolio";
-import { apiGet }    from "@/utils/serverApiRequester";
+import { apiGet } from "@/utils/serverApiRequester";
 
 async function PortfolioPage({
   params,

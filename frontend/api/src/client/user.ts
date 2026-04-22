@@ -3,12 +3,13 @@ import type {
   UpdateUserProfileRequestDTO,
   UpdateUserResponseDTO,
 } from "../contract/user.dto";
-import { apiClient, putJson } from "./http";
+import { apiClient } from "../utils/createClient";
 
 export const updateUserProfile = async (
   user: UpdateUserProfileRequestDTO
 ): Promise<UpdateUserResponseDTO> => {
-  return putJson<UpdateUserResponseDTO>("/api/user", user);
+  const response = await apiClient.put<UpdateUserResponseDTO>("/api/user", user);
+  return response.data;
 };
 
 export const updateUserAvatar = async (

@@ -1,13 +1,13 @@
 import NextAuth from "next-auth"
-import GitHub   from "next-auth/providers/github"
+import GitHub from "next-auth/providers/github"
 import Dribbble from "next-auth/providers/dribbble"
-import axios    from "axios"
+import { authenticateDribbbleUser, authenticateGitHubUser } from "api/src/client/auth"
 
-import { cookies }    from "next/headers"
+import { cookies } from "next/headers"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub, Dribbble({ scope: 'public' })],
-  
+
   pages: {
     error: '/login'
   },
@@ -17,33 +17,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async jwt({ token, account }) {
+      if (account?.provider && account.access_token) {
+        const payload = { token: account.access_token, email: token.email ?? null }
 
-      const data      = { provider: account?.provider, accessToken: account?.access_token, email: token.email };
-      const headers   = { 'Content-Type': 'application/json', 'Authorization': '' };
-      const cookie    = cookies();
-      const authToken = cookie.get('token_auth')?.value;
+        const userAuth = account.provider === "dribbble"
+          ? await authenticateDribbbleUser(payload)
+          : await authenticateGitHubUser(payload)
 
-      if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`
-      }
-
-      if (data.provider && data.accessToken) {
-        try {
-          const res = await axios.post(
-            `${process.env.API_CLIENT_URL}/api/user/auth/${data.provider}`,
-            { 'token': data.accessToken, 'email': data.email },
-            { headers }
-          );
-          const cookie = await cookies();
-          cookie.set({ name: 'token_auth', value: `${res.data.token}` })
-        } catch (error) {
-          if (axios.isAxiosError(error) && error.response?.data?.error) {
-            const errorMessage = error.response.data.error;
-
-            const cookie = await cookies();
-            cookie.set({ name: 'error', value: `${errorMessage}`, path: '/', maxAge: 60 })
-          }
-        }
+        const cookieStore = await cookies()
+        cookieStore.set({ name: "token_auth", value: userAuth.token, path: "/" })
       }
 
       return token;

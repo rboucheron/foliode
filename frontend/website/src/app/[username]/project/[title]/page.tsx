@@ -1,11 +1,11 @@
 import React from "react";
 
-import BantoProjectPage        from "@/components/template/banto/ProjectPage";
-import EmeraldProjectPage      from "@/components/template/emerald/ProjectPage";
+import BantoProjectPage from "@/components/template/banto/ProjectPage";
+import EmeraldProjectPage from "@/components/template/emerald/ProjectPage";
 import PrestigeNoirProjectPage from "@/components/template/PrestigeNoir/ProjectPage";
 
-import { apiGet }     from "@/utils/serverApiRequester";
-import { Portfolio }  from "@/interfaces/Portfolio";
+import { apiGet } from "@/utils/serverApiRequester";
+import { Portfolio } from "@/interfaces/Portfolio";
 
 async function Page({
   params,
