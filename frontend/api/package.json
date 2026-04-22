@@ -1,6 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +11,7 @@
   "description": "",
   "dependencies": {
     "axios": "^1.15.2",
+    "env": "^0.0.2",
     "typescript": "^6.0.3"
   },
   "devDependencies": {

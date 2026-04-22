@@ -1,26 +1,33 @@
-import type { UserSignInDTO } from "contract/UserSignInDTO";
-import type { UserSignUpDTO } from "contract/UserSignUpDTO";
-import { createClient } from "utils/creatClient";
+import type {
+  AuthResponseDTO,
+  AuthSignInRequestDTO,
+  AuthSignUpRequestDTO,
+  OAuthUserLinkRequestDTO,
+  OAuthUserLinkResponseDTO,
+} from "../contract/auth.dto";
+import { postJson } from "./http";
 
-const apiClient = createClient(process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
+export const signUpUser = async (user: AuthSignUpRequestDTO): Promise<AuthResponseDTO> => {
+  return postJson<AuthResponseDTO>("/api/user/signup", user);
+};
 
-export const apiSignUpUser = async (user: UserSignUpDTO) => {
-    try {
-        const response = await apiClient.post('/api/user/signup', user);
-        return response.data;
-    } catch (error) {
-        console.error("Error signing up user:", error);
-        throw error;
-    }
-}
+export const signInUser = async (user: AuthSignInRequestDTO): Promise<AuthResponseDTO> => {
+  return postJson<AuthResponseDTO>("/api/user/signin", user);
+};
 
-export const apiSignInUser = async (user: UserSignInDTO) => {
-    try {
-        const response = await apiClient.post('/api/user/signin', user);
-        return response.data;
-    } catch (error) {
-        console.error("Error signing in user:", error);
-        throw error;
-    }
-}
+export const authenticateGitHubUser = async (
+  payload: OAuthUserLinkRequestDTO
+): Promise<OAuthUserLinkResponseDTO> => {
+  return postJson<OAuthUserLinkResponseDTO>("/api/user/auth/github", payload);
+};
 
+export const authenticateDribbbleUser = async (
+  payload: OAuthUserLinkRequestDTO
+): Promise<OAuthUserLinkResponseDTO> => {
+  return postJson<OAuthUserLinkResponseDTO>("/api/user/auth/dribbble", payload);
+};
+
+export const apiSignUpUser = signUpUser;
+export const apiSignInUser = signInUser;
+export const githubAuth = authenticateGitHubUser;
+export const dribbbleAuth = authenticateDribbbleUser;
