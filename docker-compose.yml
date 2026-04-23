@@ -15,7 +15,6 @@ services:
     command: php -S 0.0.0.0:9000 -t public
     volumes:
       - ./backend:/var/www/html
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     environment:
       SYMFONY_ENV: ${SYMFONY_ENV:-dev}
       DATABASE_URL: "${POSTGRES_URL}"
@@ -29,17 +28,22 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.frontend
+      dockerfile: website/Dockerfile.frontend
     container_name: foliode_frontend
-    working_dir: /app
+    working_dir: /workspace/website
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
+      - ./frontend:/workspace
+      - frontend_website_node_modules:/workspace/website/node_modules
+      - frontend_website_next:/workspace/website/.next
+      - frontend_api_node_modules:/workspace/api/node_modules
     environment:
-      - REACT_APP_API_URL=${REACT_APP_API_URL}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      API_CLIENT_URL: ${API_CLIENT_URL}
     env_file:
       - .env
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - backend
     networks:
       - frontend
   db:
@@ -71,3 +75,6 @@ services:
       - backend
 volumes:
   db_data:
+  frontend_website_node_modules:
+  frontend_website_next:
+  frontend_api_node_modules:
