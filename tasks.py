@@ -7,7 +7,7 @@ from pathlib import Path
 from invoke import task
 
 ROOT = Path(__file__).parent
-COMPOSE = "docker compose"
+COMPOSE = "docker-compose"
 
 
 def _run(ctx, command: str) -> None:
@@ -28,6 +28,19 @@ def _wait_db(ctx, timeout: int = 60) -> None:
         time.sleep(2)
 
     raise RuntimeError("PostgreSQL did not become ready in time.")
+
+
+def _ensure_backend_deps(ctx) -> None:
+    result = ctx.run(
+        f"{COMPOSE} exec -T backend sh -lc 'test -f vendor/autoload.php'",
+        warn=True,
+        hide=True,
+    )
+    if result.ok:
+        return
+
+    print("[info] backend dependencies missing, running composer install")
+    _run(ctx, f"{COMPOSE} exec -T backend composer install --no-interaction")
 
 
 @task
@@ -107,6 +120,7 @@ def wait_db(ctx, timeout=60):
 @task
 def jwt(ctx):
     """Generate Lexik JWT key pair."""
+    _ensure_backend_deps(ctx)
     _run(
         ctx,
         (
@@ -119,6 +133,7 @@ def jwt(ctx):
 @task(pre=[wait_db])
 def migrate(ctx):
     """Run doctrine migrations."""
+    _ensure_backend_deps(ctx)
     _run(
         ctx,
         f"{COMPOSE} exec -T backend php bin/console doctrine:migrations:migrate --no-interaction",
@@ -128,6 +143,7 @@ def migrate(ctx):
 @task(pre=[wait_db])
 def migrate_diff(ctx):
     """Create a doctrine migration file from entity changes."""
+    _ensure_backend_deps(ctx)
     _run(ctx, f"{COMPOSE} exec -T backend php bin/console doctrine:migrations:diff")
 
 
