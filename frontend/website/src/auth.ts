@@ -5,8 +5,30 @@ import { authenticateDribbbleUser, authenticateGitHubUser } from "api/src/client
 
 import { cookies } from "next/headers"
 
+const providers = [];
+
+if (process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET) {
+  providers.push(
+    GitHub({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    })
+  );
+}
+
+if (process.env.AUTH_DRIBBBLE_ID && process.env.AUTH_DRIBBBLE_SECRET) {
+  providers.push(
+    Dribbble({
+      scope: "public",
+      clientId: process.env.AUTH_DRIBBBLE_ID,
+      clientSecret: process.env.AUTH_DRIBBBLE_SECRET,
+    })
+  );
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [GitHub, Dribbble({ scope: 'public' })],
+  providers,
+  secret: process.env.AUTH_SECRET || process.env.APP_SECRET || "local-dev-auth-secret",
 
   pages: {
     error: '/login'
