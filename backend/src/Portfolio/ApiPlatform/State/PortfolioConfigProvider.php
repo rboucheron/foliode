@@ -25,9 +25,6 @@ class PortfolioConfigProvider implements ProviderInterface
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
-        if (null === $portfolio) {
-            return null;
-        }
 
         $resource = new PortfolioConfigResource();
         $resource->config = $portfolio->getConfig();

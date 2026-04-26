@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\PortfolioViews;
-use App\Entity\Portfolios;
+use App\Entity\Portfolio\PortfolioViews;
+use App\Entity\Portfolio\Portfolios;
 use App\Repository\PortfolioViewsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 

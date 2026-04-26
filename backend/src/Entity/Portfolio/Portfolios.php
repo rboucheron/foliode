@@ -79,6 +79,12 @@ class Portfolios
     #[Groups('getPortfolio')]
     private Collection $tools;
 
+    /**
+     * @var Collection<int, PortfolioViews>
+     */
+    #[ORM\OneToMany(targetEntity: PortfolioViews::class, mappedBy: 'portfolio')]
+    private Collection $portfolioViews;
+
 
     public function __construct()
     {
@@ -86,6 +92,7 @@ class Portfolios
 
         $this->projects = new ArrayCollection();
         $this->tools = new ArrayCollection();
+        $this->portfolioViews = new ArrayCollection();
     }
 
     public function setAuthor(string $author): static
@@ -254,6 +261,14 @@ class Portfolios
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, PortfolioViews>
+     */
+    public function getPortfolioViews(): Collection
+    {
+        return $this->portfolioViews;
     }
 
 }

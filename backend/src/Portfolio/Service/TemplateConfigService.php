@@ -20,7 +20,7 @@ class TemplateConfigService
 
     public function updateTemplateColor(TemplateColorConfigDTO $templateColorConfigDTO, Portfolios $portfolio): array
     {
-        $templateColor = new TemplateColor()
+        $templateColor = (new TemplateColor())
             ->setPrimary($templateColorConfigDTO->primary)
             ->setSecondary($templateColorConfigDTO->secondary)
             ->setWarning($templateColorConfigDTO->warning)

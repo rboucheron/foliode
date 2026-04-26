@@ -25,9 +25,6 @@ class PublicPortfolioProvider implements ProviderInterface
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUniqueUrl($url);
-        if (null === $portfolio) {
-            return null;
-        }
 
         if($portfolio->getStatus() !== PortfolioStatus::PUBLISHED) {
             return null;

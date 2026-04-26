@@ -8,7 +8,7 @@ use App\Portfolio\ApiPlatform\State\PortfolioConfigProvider;
 
 #[ApiResource(operations: [
     new Get(
-        uriTemplate: '/v1/portfolio/config',
+        uriTemplate: '/portfolio/config',
         provider: PortfolioConfigProvider::class,
         security: "is_granted('ROLE_USER')"
     )

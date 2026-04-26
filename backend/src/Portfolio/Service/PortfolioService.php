@@ -9,6 +9,7 @@ use App\Portfolio\Dto\UpdatePortfolioDTO;
 use App\Repository\PortfoliosRepository;
 use App\Service\ValidatorBaseService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class PortfolioService
@@ -21,14 +22,26 @@ class PortfolioService
     ) {
     }
 
-    public function getPortfolioByUser(Users $user): ?Portfolios
+    public function getPortfolioByUser(Users $user): Portfolios
     {
-        return $this->portfoliosRepository->findOneBy(['users' => $user]);
+        $portfolio = $this->portfoliosRepository->findOneBy(['users' => $user]);
+
+        if ($portfolio === null) {
+            throw new NotFoundHttpException('Portfolio not found.');
+        }
+
+        return $portfolio;
     }
 
     public function getPortfolioByUniqueUrl(string $url): ?Portfolios
     {
-        return $this->portfoliosRepository->findOneBy(['url' => $url]);
+        $portfolio = $this->portfoliosRepository->findOneBy(['url' => $url]);
+
+        if ($portfolio === null) {
+            throw new NotFoundHttpException('Portfolio not found for this url.');
+        }
+
+        return $portfolio;
     }
 
     public function createNewPortfolio(Users $user, CreatNewPortfolioDTO $portfolioDTO): Portfolios
@@ -57,7 +70,7 @@ class PortfolioService
 
         return $portfolio->getUrl();
     }
-  
+
     public function updatePortfolio(Portfolios $portfolio, UpdatePortfolioDTO $portfolioDTO)
     {
         $this->validatorBaseService->CatchInvalidData($portfolioDTO);
@@ -65,7 +78,7 @@ class PortfolioService
         $portfolio->setSubtitle($portfolioDTO->subtitle ?? $portfolio->getSubtitle());
         $portfolio->setBio($portfolioDTO->bio ?? $portfolio->getBio());
         $portfolio->setUrl($portfolioDTO->url ?? $portfolio->getUrl());
-        $this->em->flush(); 
+        $this->em->flush();
 
         return $portfolio;
     }
@@ -83,7 +96,7 @@ class PortfolioService
         $candidate = $base;
         $index = 1;
 
-        while ($this->getPortfolioByUniqueUrl($candidate) !== null) {
+        while ($this->portfoliosRepository->findOneBy(['url' => $candidate]) !== null) {
             $candidate = sprintf('%s-%d', $base, $index);
             $index++;
         }
@@ -107,6 +120,5 @@ class PortfolioService
     {
         return $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);
     }
-
 
 }

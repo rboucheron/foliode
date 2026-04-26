@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Portfolio\Portfolios;
+use App\Entity\Portfolio\Projects;
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -83,9 +85,15 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups('getUsers')]
     private  ?bool $is_email_verified = null;
 
-    #[ORM\OneToOne(mappedBy: 'users', targetEntity: \App\Entity\Portfolio\Portfolios::class)]
+    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     #[Groups(['getUsers'])]
     private ?Portfolios $portfolio = null;
+
+    /**
+     * @var Collection<int, Projects>
+     */
+    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'user')]
+    private Collection $projects;
 
     public function getId(): ?string
     {

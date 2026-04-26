@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class ValidatorBaseService
 {
@@ -22,7 +22,9 @@ class ValidatorBaseService
                 $errorMessages[$error->getPropertyPath()] = $error->getMessage();
             }
 
-            return $errorMessages;
+            throw new BadRequestHttpException(json_encode([
+                'error' => $errorMessages,
+            ], JSON_UNESCAPED_UNICODE));
         }
 
         return null;

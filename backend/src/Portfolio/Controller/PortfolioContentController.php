@@ -22,7 +22,7 @@ class PortfolioContentController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('v1/api/portfolio/create', methods: ['POST'])]
+    #[Route('/v1/api/portfolio/create', methods: ['POST'])]
     public function creatNewPortfolio(Request $request): JsonResponse
     {
         $portfolio = $this->portfolioService->createNewPortfolio(
@@ -43,7 +43,7 @@ class PortfolioContentController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('v1/api/portfolio/update', methods: ['PUT'])]
+    #[Route('/v1/api/portfolio/update', methods: ['PUT'])]
     public function updatePortfolio(Request $request): JsonResponse
     {
         $portfolio = $this->portfolioService->updatePortfolio(

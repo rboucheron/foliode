@@ -27,9 +27,6 @@ class PortfolioProvider implements ProviderInterface
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
-        if (null === $portfolio) {
-            return null;
-        }
 
         $payload = json_decode(
             $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']),

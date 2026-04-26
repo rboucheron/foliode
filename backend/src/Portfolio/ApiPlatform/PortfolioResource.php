@@ -9,12 +9,12 @@ use App\Portfolio\ApiPlatform\State\PortfolioProvider;
 
 #[ApiResource(operations: [
     new Get(
-        uriTemplate: '/v1/portfolio',
+        uriTemplate: '/portfolio',
         provider: PortfolioProvider::class,
         security: "is_granted('ROLE_USER')"
     ),
     new Get(
-        uriTemplate: '/v1/public/portfolio/{url}',
+        uriTemplate: '/public/portfolio/{url}',
         provider: PublicPortfolioProvider::class
     )
 ])]
