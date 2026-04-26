@@ -10,10 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class PortfolioViewService
 {
     public function __construct(
-        private EntityManagerInterface   $entityManager,
+        private EntityManagerInterface $entityManager,
         private PortfolioViewsRepository $portfolioViewsRepository
-    )
-    {
+    ) {
     }
 
     public function addView(Portfolios $portfolio): void

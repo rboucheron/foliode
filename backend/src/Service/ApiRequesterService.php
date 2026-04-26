@@ -12,7 +12,8 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 class ApiRequesterService
 {
     public function __construct(private HttpClientInterface $httpClient)
-    {}
+    {
+    }
 
     public function get(string $url, array $header): ?array
     {
@@ -22,11 +23,11 @@ class ApiRequesterService
             ]);
             return $response->toArray();
         } catch (ClientExceptionInterface |
-        RedirectionExceptionInterface |
-        ServerExceptionInterface |
-        TransportExceptionInterface |
-        DecodingExceptionInterface
-        $e) {
+            RedirectionExceptionInterface |
+            ServerExceptionInterface |
+            TransportExceptionInterface |
+            DecodingExceptionInterface
+            $e) {
             return null;
         }
     }

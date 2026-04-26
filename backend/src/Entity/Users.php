@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Portfolio\Portfolios;
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -82,7 +83,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups('getUsers')]
     private  ?bool $is_email_verified = null;
 
-    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
+    #[ORM\OneToOne(mappedBy: 'users', targetEntity: \App\Entity\Portfolio\Portfolios::class)]
     #[Groups(['getUsers'])]
     private ?Portfolios $portfolio = null;
 
@@ -100,6 +101,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     {
         $this->lastname = $lastname;
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return trim(($this->firstname ?? '') . ' ' . ($this->lastname ?? ''));
     }
 
     public function getFirstName(): ?string

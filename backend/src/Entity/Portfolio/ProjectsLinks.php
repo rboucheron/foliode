@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Portfolio;
 
 use App\Repository\ProjectsLinksRepository;
 use Doctrine\DBAL\Types\Types;

@@ -7,9 +7,10 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class ValidatorBaseService
 {
-   
-    public function __construct( private ValidatorInterface $validator)
-    {}
+
+    public function __construct(private ValidatorInterface $validator)
+    {
+    }
 
     public function CatchInvalidData(object $data): ?array
     {

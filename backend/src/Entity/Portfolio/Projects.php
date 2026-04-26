@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Portfolio;
 
 use App\Repository\ProjectsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -90,30 +90,6 @@ class Projects
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getStartDate(): ?\DateTimeInterface
-    {
-        return $this->start_date;
-    }
-
-    public function setStartDate(?\DateTimeInterface $start_date): static
-    {
-        $this->start_date = $start_date;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->end_date;
-    }
-
-    public function setEndDate(?\DateTimeInterface $end_date): static
-    {
-        $this->end_date = $end_date;
 
         return $this;
     }

@@ -8,7 +8,9 @@ use Symfony\Component\String\ByteString;
 
 class FileUploaderService
 {
-    public function __construct(private Filesystem $filesystem) {}
+    public function __construct(private Filesystem $filesystem)
+    {
+    }
 
     public function uploadFile(UploadedFile $file, string $directory): string
     {
@@ -27,7 +29,7 @@ class FileUploaderService
 
         $relativePath = $this->getRelativePath($directory);
 
-        return $relativePath . '/' .  $fileName;
+        return $relativePath . '/' . $fileName;
     }
 
     public function deleteFile(string $filePath): void

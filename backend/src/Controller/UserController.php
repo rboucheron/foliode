@@ -20,22 +20,20 @@ class UserController extends AbstractController
 {
 
     public function __construct(
-        private UsersRepository             $usersRepository,
-        private EntityManagerInterface      $entityManager,
+        private UsersRepository $usersRepository,
+        private EntityManagerInterface $entityManager,
         private UserPasswordHasherInterface $passwordHasher,
-        private JWTTokenManagerInterface    $jwtManager,
-        private SerializerInterface         $serializer,
-        private FileUploaderService         $fileUploader
-    )
-    {
+        private JWTTokenManagerInterface $jwtManager,
+        private SerializerInterface $serializer,
+        private FileUploaderService $fileUploader
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
     #[Route('/api/user', name: 'update_user', methods: ['PUT'])]
     public function update_user(
         Request $req
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $user = $this->getUser();
         $data = $req->getContent();
 
@@ -51,8 +49,7 @@ class UserController extends AbstractController
     #[Route('/api/user/profil', methods: ['POST'])]
     public function change_profil_picture(
         Request $request
-    )
-    {
+    ) {
         $user = $this->getUser();
         $files = $request->files->get('image');
         $uploadDir = $this->getParameter('upload_directory') . '/avatar';

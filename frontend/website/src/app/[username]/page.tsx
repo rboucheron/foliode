@@ -17,15 +17,15 @@ async function PortfolioPage({
     const portfolio: Portfolio = response.data;
     const template = portfolio.template;
 
-    if (template === "banto") {
+    if (template === "template-1") {
       return <BantoFlow portfolio={portfolio} />;
     }
 
-    if (template === "emerald") {
+    if (template === "template-2") {
       return <EmeraldFlow portfolio={portfolio} />;
     }
 
-    if (template === "prestige") {
+    if (template === "template-3") {
       return <PrestigeNoir portfolio={portfolio} />;
     }
   } catch (error) {
