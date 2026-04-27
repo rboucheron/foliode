@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PortfoliosRepository::class)]
+#[ORM\Table(name: "tbl_portfolio")]
 class Portfolios
 {
     #[ORM\Id]

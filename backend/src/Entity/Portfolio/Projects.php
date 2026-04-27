@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: ProjectsRepository::class)]
+#[ORM\Table(name: "tbl_project")]
 class Projects
 {
     #[ORM\Id]

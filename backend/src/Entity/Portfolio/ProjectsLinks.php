@@ -9,6 +9,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectsLinksRepository::class)]
+#[ORM\Table(name: "tbl_project_link")]
 class ProjectsLinks
 {
     #[ORM\Id]

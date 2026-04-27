@@ -11,6 +11,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ToolsRepository::class)]
+#[ORM\Table(name: "tbl_tool")]
 class Tools
 {
     #[ORM\Id]
