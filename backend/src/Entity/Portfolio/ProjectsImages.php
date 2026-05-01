@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Portfolio;
 
 use App\Repository\ProjectsImagesRepository;
 use Doctrine\DBAL\Types\Types;
@@ -9,6 +9,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectsImagesRepository::class)]
+#[ORM\Table(name: "tbl_project_image")]
 class ProjectsImages
 {
     #[ORM\Id]

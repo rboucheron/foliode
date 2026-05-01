@@ -2,7 +2,7 @@ import { Template } from "@/interfaces/Template";
 
 export const templates: Template[] = [
     {
-      id: "prestige",
+      id: "template-3",
       name: "Prestige",
       preview: "/templates/luxury.png",
       color: {
@@ -15,7 +15,7 @@ export const templates: Template[] = [
       },
     },
     {
-      id: "banto",
+      id: "template-1",
       name: "Bento",
       preview: "/templates/bento.png",
       color: {
@@ -28,7 +28,7 @@ export const templates: Template[] = [
       },
     },
     {
-      id: "emerald",
+      id: "template-2",
       name: "Emerald",
       preview: "/templates/emerald.png",
       color: {

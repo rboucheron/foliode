@@ -2,18 +2,17 @@
 
 namespace App\Service;
 
-use App\Entity\PortfolioViews;
-use App\Entity\Portfolios;
+use App\Entity\Portfolio\PortfolioViews;
+use App\Entity\Portfolio\Portfolios;
 use App\Repository\PortfolioViewsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PortfolioViewService
 {
     public function __construct(
-        private EntityManagerInterface   $entityManager,
+        private EntityManagerInterface $entityManager,
         private PortfolioViewsRepository $portfolioViewsRepository
-    )
-    {
+    ) {
     }
 
     public function addView(Portfolios $portfolio): void

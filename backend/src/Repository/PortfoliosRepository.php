@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Portfolios;
+use App\Entity\Portfolio\Portfolios;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

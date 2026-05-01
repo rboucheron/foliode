@@ -3,3 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+portfolio_controllers:
+    resource:
+        path: ../src/Portfolio/Controller/
+        namespace: App\Portfolio\Controller
+    type: attribute

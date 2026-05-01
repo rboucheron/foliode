@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Portfolio;
 
+use App\Entity\Users;
 use App\Repository\PortfoliosRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PortfoliosRepository::class)]
+#[ORM\Table(name: "tbl_portfolio")]
 class Portfolios
 {
     #[ORM\Id]
@@ -19,6 +21,10 @@ class Portfolios
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $id = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Groups('getPortfolio')]
+    private ?int $status = PortfolioStatus::DRAFT;
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
@@ -38,6 +44,10 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $subtitle = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('getPortfolio')]
+    private ?string $author = 'unknown';
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getPortfolio')]
     private ?string $bio = null;
@@ -46,9 +56,9 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?array $config = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     #[Groups('getPortfolio')]
-    private ?string $template = null;
+    private ?string $template = Template::TEMPLATE_1;
 
     #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -76,12 +86,36 @@ class Portfolios
     #[ORM\OneToMany(targetEntity: PortfolioViews::class, mappedBy: 'portfolio')]
     private Collection $portfolioViews;
 
+
     public function __construct()
     {
+        $this->config = TemplateConfig::defindeTemplateConfig();
 
         $this->projects = new ArrayCollection();
         $this->tools = new ArrayCollection();
         $this->portfolioViews = new ArrayCollection();
+    }
+
+    public function setAuthor(string $author): static
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
     }
 
     public function getId(): ?string
@@ -107,7 +141,7 @@ class Portfolios
         return $this;
     }
 
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -238,25 +272,4 @@ class Portfolios
         return $this->portfolioViews;
     }
 
-    public function addPortfolioView(PortfolioViews $portfolioView): static
-    {
-        if (!$this->portfolioViews->contains($portfolioView)) {
-            $this->portfolioViews->add($portfolioView);
-            $portfolioView->setPortfolio($this);
-        }
-
-        return $this;
-    }
-
-    public function removePortfolioView(PortfolioViews $portfolioView): static
-    {
-        if ($this->portfolioViews->removeElement($portfolioView)) {
-            // set the owning side to null (unless already changed)
-            if ($portfolioView->getPortfolio() === $this) {
-                $portfolioView->setPortfolio(null);
-            }
-        }
-
-        return $this;
-    }
 }

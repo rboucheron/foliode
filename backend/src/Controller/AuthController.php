@@ -19,15 +19,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AuthController extends AbstractController
 {
     public function __construct(
-        private MailerService               $mailerService,
-        private UsersRepository             $usersRepository,
-        private EntityManagerInterface      $entityManager,
-        private SerializerInterface         $serializer,
+        private MailerService $mailerService,
+        private UsersRepository $usersRepository,
+        private EntityManagerInterface $entityManager,
+        private SerializerInterface $serializer,
         private UserPasswordHasherInterface $passwordHasher,
-        private JWTTokenManagerInterface    $jwtManager,
-        private ValidatorBaseService        $validatorBaseService,
-    )
-    {
+        private JWTTokenManagerInterface $jwtManager,
+        private ValidatorBaseService $validatorBaseService,
+    ) {
     }
 
     #[Route('/api/user/signup', methods: ['POST'])]
@@ -35,35 +34,74 @@ class AuthController extends AbstractController
     {
         $data = $request->getContent();
         $user = $this->serializer->deserialize($data, Users::class, 'json');
-        $user->setIsEmailVerified(false);
+        $normalizedEmail = strtolower(trim((string) $user->getEmail()));
+        $user->setEmail($normalizedEmail);
+
+        $errors = $this->validatorBaseService->CatchInvalidData($user);
+
+        if ($errors) {
+            return new JsonResponse(['error' => $errors], Response::HTTP_BAD_REQUEST);
+        }
 
         $verificationCode = random_int(100000, 999999);
+        $existingUser = $this->usersRepository->findOneBy(['email' => $normalizedEmail]);
+
+        if ($existingUser) {
+            if ($existingUser->getIsEmailVerified()) {
+                return new JsonResponse(['error' => 'L\'adresse email est déjà utilisé.'], Response::HTTP_BAD_REQUEST);
+            }
+
+            $existingUser
+                ->setLastName((string) $user->getLastName())
+                ->setFirstName((string) $user->getFirstName())
+                ->setPassword($this->passwordHasher->hashPassword($existingUser, (string) $user->getPassword()))
+                ->setIsEmailVerified(false)
+                ->setEmailVerificationCode($verificationCode);
+
+            $subject = 'Vérification de votre adresse email';
+            $content = "Votre code de vérification est : $verificationCode";
+
+            if (!$this->mailerService->sendEmail($subject, $content, $normalizedEmail)) {
+                return new JsonResponse(["error" => 'internal serveur error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            try {
+                $token = $this->jwtManager->create($existingUser);
+            } catch (\Throwable) {
+                return new JsonResponse([
+                    'error' => 'Erreur de configuration JWT (clé privée/passphrase).'
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $this->entityManager->flush();
+
+            return new JsonResponse(['token' => $token], Response::HTTP_OK);
+        }
+
+        $user->setIsEmailVerified(false);
         $user->setEmailVerificationCode($verificationCode);
 
         $subject = 'Vérification de votre adresse email';
         $content = "Votre code de vérification est : $verificationCode";
 
-        if (!$this->mailerService->sendEmail($subject, $content, $user->getEmail())) {
+        if (!$this->mailerService->sendEmail($subject, $content, $normalizedEmail)) {
             return new JsonResponse(["error" => 'internal serveur error'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        $errors = $this->validatorBaseService->CatchInvalidData($user);
-
-        if($errors) {
-            return new JsonResponse(['error' => $errors], Response::HTTP_BAD_REQUEST);
-        }
-
-        if($this->usersRepository->findOneBy(['email' => $user->getEmail()])) {
-            return new JsonResponse(['error' => 'L\'adresse email est déjà utilisé.'], Response::HTTP_BAD_REQUEST);
         }
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $user->getPassword());
         $user->setPassword($hashedPassword);
 
+        try {
+            $token = $this->jwtManager->create($user);
+        } catch (\Throwable) {
+            return new JsonResponse([
+                'error' => 'Erreur de configuration JWT (clé privée/passphrase).'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $token = $this->jwtManager->create($user);
         return new JsonResponse(['token' => $token], Response::HTTP_CREATED);
     }
 

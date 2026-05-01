@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Portfolio;
 
 use App\Repository\ToolsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +11,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ToolsRepository::class)]
+#[ORM\Table(name: "tbl_tool")]
 class Tools
 {
     #[ORM\Id]

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Portfolio;
 
+use App\Entity\Users;
 use App\Repository\ProjectsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: ProjectsRepository::class)]
+#[ORM\Table(name: "tbl_project")]
 class Projects
 {
     #[ORM\Id]
@@ -35,6 +37,10 @@ class Projects
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Portfolios $portfolio = null;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $user = null;
 
     /**
      * @var Collection<int, ProjectsImages>
@@ -94,26 +100,14 @@ class Projects
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getUser(): ?Users
     {
-        return $this->start_date;
+        return $this->user;
     }
 
-    public function setStartDate(?\DateTimeInterface $start_date): static
+    public function setUser(?Users $user): static
     {
-        $this->start_date = $start_date;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->end_date;
-    }
-
-    public function setEndDate(?\DateTimeInterface $end_date): static
-    {
-        $this->end_date = $end_date;
+        $this->user = $user;
 
         return $this;
     }
