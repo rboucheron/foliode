@@ -84,7 +84,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
 
     #[ORM\Column]
     #[Groups('getUsers')]
-    private  ?bool $is_email_verified = null;
+    private bool $is_email_verified = false;
 
     #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
     #[Groups(['getUsers'])]
