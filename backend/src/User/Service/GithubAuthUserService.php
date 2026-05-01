@@ -6,6 +6,7 @@ use App\Entity\Users;
 use App\Service\InternalServerExceptionService;
 use App\Service\ApiRequesterService;
 use App\Repository\UsersRepository;
+use App\Service\ValidatorBaseService;
 use App\User\Dto\GithubUserDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -17,11 +18,14 @@ class GithubAuthUserService
         private InternalServerExceptionService $internalServerExceptionService,
         private UsersRepository $usersRepository,
         private EntityManagerInterface $em,
+        private ValidatorBaseService $validator,
     ) {
     }
 
     public function authenticateGithubUser(GithubUserDto $githubUserDto): Users
     {
+        $this->validator->CatchInvalidData($githubUserDto);
+        
         try {
             $userDate = $this->authenticateUserFromGithub($githubUserDto);
 
