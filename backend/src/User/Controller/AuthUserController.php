@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AuthUserController extends AbstractController
@@ -57,6 +58,25 @@ class AuthUserController extends AbstractController
         return new JsonResponse(
             ['token' => $this->authUserService->createJWT($user)],
             Response::HTTP_CREATED
+        );
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/v1/api/user/auth/email/verify', methods: ['POST'])]
+    public function verifyEmail(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $code = $data['code'] ?? null;
+
+        if (!$code) {
+            return new JsonResponse(['error' => 'Verification code is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->userEmailVerificationCodeService->verifyEmail($this->getUser(), $code);
+
+        return new JsonResponse(
+            ['message' => 'Email verified successfully'],
+            Response::HTTP_OK
         );
     }
 }

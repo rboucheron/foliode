@@ -13,6 +13,9 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class GithubAuthUserService
 {
+    private const GITHUB_USER_URL = 'https://api.github.com/user';
+    private const GITHUB_API_VERSION = 'application/vnd.github.v3+json';
+
     public function __construct(
         private ApiRequesterService $apiRequester,
         private InternalServerExceptionService $internalServerExceptionService,
@@ -25,7 +28,7 @@ class GithubAuthUserService
     public function authenticateGithubUser(GithubUserDto $githubUserDto): Users
     {
         $this->validator->CatchInvalidData($githubUserDto);
-        
+
         try {
             $userDate = $this->authenticateUserFromGithub($githubUserDto);
 
@@ -39,8 +42,8 @@ class GithubAuthUserService
     private function authenticateUserFromGithub(GithubUserDto $user): array
     {
         $userData = $this->apiRequester->get(
-            'https://api.github.com/user',
-            ['Authorization' => 'Bearer ' . $user->token, 'Accept' => 'application/vnd.github.v3+json',]
+            self::GITHUB_USER_URL,
+            ['Authorization' => 'Bearer ' . $user->token, 'Accept' => self::GITHUB_API_VERSION,]
         );
 
         if (!$userData) {
@@ -63,10 +66,26 @@ class GithubAuthUserService
             throw new UnauthorizedHttpException('Account already exists. Please log in to link your accounts.');
         }
 
+        $user = $this->creatGithubUserFromData($userData);
+
+        return $user;
+    }
+
+    private function updateUserWithGithub(Users $user, array $userData): Users
+    {
+        $user->setGithubLogin($userData['login']);
+        $user->setAvatarUrl($userData['avatar_url'] ?? null);
+        $this->em->flush();
+
+        return $user;
+    }
+
+    private function creatGithubUserFromData(array $userData): Users
+    {
         $user = (new Users())
             ->setLastName($userData['lastname'] ?? 'Unknown')
             ->setFirstName($userData['firstname'] ?? 'Unknown')
-            ->setEmail($userData['email'] ?? $email)
+            ->setEmail($userData['email'] ?? 'Unknown')
             ->setIsEmailVerified(true)
             ->setGithubLogin($userData['login'])
             ->setGithubId($userData['id'])
@@ -77,4 +96,5 @@ class GithubAuthUserService
 
         return $user;
     }
+
 }
