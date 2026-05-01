@@ -11,4 +11,3 @@ class CreatNewPortfolioDTO
     public ?string $subtitle = null;
     public ?string $bio = null;
 }
-

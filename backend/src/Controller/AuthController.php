@@ -29,7 +29,7 @@ class AuthController extends AbstractController
     ) {
     }
 
-    #[Route('/api/user/signup', methods: ['POST'])]
+    #[Route('/v1/api/user/signup', methods: ['POST'])]
     public function signup(Request $request): JsonResponse
     {
         $data = $request->getContent();
@@ -105,7 +105,7 @@ class AuthController extends AbstractController
         return new JsonResponse(['token' => $token], Response::HTTP_CREATED);
     }
 
-    #[Route('/api/user/signin', methods: ['POST'])]
+    #[Route('/v1/api/user/signin', methods: ['POST'])]
     public function auth_signin(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
