@@ -17,7 +17,8 @@ class ExternalUserService
         private EntityManagerInterface $entityManager,
         private JWTTokenManagerInterface $JWTManager,
         private SerializerInterface $serializer,
-    ) {}
+    ) {
+    }
 
     private function getJsonUser(Users $user): array
     {

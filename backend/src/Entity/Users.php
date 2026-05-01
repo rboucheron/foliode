@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Portfolio\Portfolios;
+use App\Entity\Portfolio\Projects;
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -12,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[ORM\Table(name: "tbl_user")]
 class Users implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
@@ -86,6 +90,12 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups(['getUsers'])]
     private ?Portfolios $portfolio = null;
 
+    /**
+     * @var Collection<int, Projects>
+     */
+    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'user')]
+    private Collection $projects;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -100,6 +110,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     {
         $this->lastname = $lastname;
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return trim(($this->firstname ?? '') . ' ' . ($this->lastname ?? ''));
     }
 
     public function getFirstName(): ?string

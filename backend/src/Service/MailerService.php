@@ -12,8 +12,8 @@ class MailerService
 
     public function __construct(
         private MailerInterface $mailer
-    )
-    {}
+    ) {
+    }
 
     public function sendEmail(string $subject, string $content, string $recipient): bool
     {
