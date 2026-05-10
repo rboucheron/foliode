@@ -35,7 +35,7 @@ class AuthUserService
             throw new ConflictHttpException('User with this email already exists');
         }
 
-        $user = new Users()
+        $user = (new Users())
             ->setEmail($this->normalizeEmail($userDto->email))
             ->setFirstName($userDto->firstName)
             ->setLastName($userDto->lastName);

@@ -3,6 +3,7 @@
 namespace App\User\Service;
 
 use App\Entity\Users;
+use App\Github\GithubApiRequester;
 use App\Service\InternalServerExceptionService;
 use App\Service\ApiRequesterService;
 use App\Repository\UsersRepository;
@@ -10,6 +11,7 @@ use App\Service\ValidatorBaseService;
 use App\User\Dto\GithubUserDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Flex\GithubApi;
 
 class GithubAuthUserService
 {
@@ -22,6 +24,7 @@ class GithubAuthUserService
         private UsersRepository $usersRepository,
         private EntityManagerInterface $em,
         private ValidatorBaseService $validator,
+        private GithubApiRequester $githubApiRequester,
     ) {
     }
 
@@ -30,57 +33,39 @@ class GithubAuthUserService
         $this->validator->CatchInvalidData($githubUserDto);
 
         try {
-            $userDate = $this->authenticateUserFromGithub($githubUserDto);
+            $userData = $this->githubApiRequester->authenticateUserFromGithub($githubUserDto);
 
-            return $this->findOrCreateUserFromGithub($userDate, $githubUserDto->email);
+            $user = $this->usersRepository->findOneBy(['github_id' => $userData['id']]);
+            $existingUser = $this->usersRepository->findOneBy(['email' => $githubUserDto->email]);
+
+            if ($user) {
+                return $this->updateUserWithGithub($user, $userData, $githubUserDto->token);
+            }
+
+            if ($existingUser) {
+                throw new UnauthorizedHttpException('Account already exists. Please log in to link your accounts.');
+            }
+
+            $user = $this->creatGithubUserFromData($userData, $githubUserDto->token);
+
+            return $user;
 
         } catch (\Exception $e) {
             $this->internalServerExceptionService->raise('GithubAuthenticationFailed', $e);
         }
     }
 
-    private function authenticateUserFromGithub(GithubUserDto $user): array
-    {
-        $userData = $this->apiRequester->get(
-            self::GITHUB_USER_URL,
-            ['Authorization' => 'Bearer ' . $user->token, 'Accept' => self::GITHUB_API_VERSION,]
-        );
-
-        if (!$userData) {
-            throw new UnauthorizedHttpException('', 'Github Token is invalid');
-        }
-
-        return $userData;
-    }
-
-    private function findOrCreateUserFromGithub(array $userData, string $email): Users
-    {
-        $user = $this->usersRepository->findOneBy(['github_id' => $userData['id']]);
-        $existingUser = $this->usersRepository->findOneBy(['email' => $email]);
-
-        if ($user) {
-            return $user;
-        }
-
-        if ($existingUser) {
-            throw new UnauthorizedHttpException('Account already exists. Please log in to link your accounts.');
-        }
-
-        $user = $this->creatGithubUserFromData($userData);
-
-        return $user;
-    }
-
-    private function updateUserWithGithub(Users $user, array $userData): Users
+    private function updateUserWithGithub(Users $user, array $userData, string $githubToken): Users
     {
         $user->setGithubLogin($userData['login']);
         $user->setAvatarUrl($userData['avatar_url'] ?? null);
+        $user->setGithubToken($githubToken);
         $this->em->flush();
 
         return $user;
     }
 
-    private function creatGithubUserFromData(array $userData): Users
+    private function creatGithubUserFromData(array $userData, string $githubToken): Users
     {
         $user = (new Users())
             ->setLastName($userData['lastname'] ?? 'Unknown')
@@ -89,6 +74,7 @@ class GithubAuthUserService
             ->setIsEmailVerified(true)
             ->setGithubLogin($userData['login'])
             ->setGithubId($userData['id'])
+            ->setGithubToken($githubToken)
             ->setAvatarUrl($userData['avatar_url'] ?? null);
 
         $this->em->persist($user);

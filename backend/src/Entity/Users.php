@@ -25,36 +25,22 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le nom est requis.")]
-    #[Assert\Regex(
-        pattern: '/^[\p{L}\s]+$/u',
-        message: 'Le nom doit contenir uniquement des lettres et des espaces.'
-    )]
     #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le prénom est requis.")]
-    #[Assert\Regex(
-        pattern: '/^[\p{L}\s]+$/u',
-        message: 'Le prénom doit contenir uniquement des lettres et des espaces.'
-    )]
     #[Groups(['getUsers', 'getPortfolio'])]
     private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\NotBlank(message: "L'adresse email est requis.")]
-    #[Assert\Email(message: "Le format de l'adresse email est invalide.")]
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\NotBlank(message: "Le mot de passe est requis.")]
-    #[Assert\Length(
-        min: 8,
-        minMessage: "Le mot de passe doit avoir au moins {{ limit }} caractères."
-    )]
     private ?string $password = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $github_token = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups('getUsers')]
@@ -99,6 +85,17 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getGithubToken(): ?string
+    {
+        return $this->github_token;
+    }
+
+    public function setGithubToken(?string $github_token): self
+    {
+        $this->github_token = $github_token;
+        return $this;
     }
 
     public function getLastName(): ?string

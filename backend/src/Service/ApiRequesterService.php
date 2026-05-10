@@ -28,7 +28,7 @@ class ApiRequesterService
             TransportExceptionInterface |
             DecodingExceptionInterface
             $e) {
-            return null;
+            throw new \RuntimeException("API request failed: " . $e->getMessage(), 0, $e);
         }
     }
 
