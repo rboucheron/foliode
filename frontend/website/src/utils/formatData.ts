@@ -1,44 +1,29 @@
 import { Project } from "@/interfaces/Project";
+import { fileToBase64, filesToBase64 } from "@/utils/fileToBase64";
 
-export const formatProjectsData = (projects: Project[]) => {
-  const projectsFormData = new FormData();
+export const formatProjectsData = async (projects: Project[]) => {
+  return Promise.all(
+    projects.map(async (project) => {
+      const encodedImages = await filesToBase64(project.images ?? []);
 
-  projects.forEach((project, index) => {
-    projectsFormData.append(`projects[${index}][title]`, project.title);
-    projectsFormData.append(
-      `projects[${index}][description]`,
-      project.description
-    );
-    project.projectsLinks.forEach((link, linkIndex) => {
-      projectsFormData.append(
-        `projects[${index}][projectsLinks][${linkIndex}][url]`,
-        link.url
-      );
-      projectsFormData.append(
-        `projects[${index}][projectsLinks][${linkIndex}][name]`,
-        link.name
-      );
-    });
-    project.images.forEach((image, imageIndex) => {
-      projectsFormData.append(
-        `projects[${index}][images][${imageIndex}]`,
-        image
-      );
-    });
-  });
-
-  return projectsFormData;
+      return {
+        title: project.title,
+        description: project.description,
+        links: project.projectsLinks,
+        images: encodedImages.map((file, index) => ({
+          file,
+          imageAlt: project.title || `project-image-${index + 1}`,
+        })),
+      };
+    })
+  );
 };
 
-export const formatToolsData = (tools: any[]) => {
-  const toolsFormData = new FormData();
-
-  tools.forEach((tool, index) => {
-    toolsFormData.append(`tools[${index}][name]`, tool.name);
-    if (tool.image) {
-      toolsFormData.append(`tools[${index}][image]`, tool.image);
-    }
-  });
-
-  return toolsFormData;
+export const formatToolsData = async (tools: any[]) => {
+  return Promise.all(
+    tools.map(async (tool) => ({
+      name: tool.name,
+      image: tool.image ? await fileToBase64(tool.image) : null,
+    }))
+  );
 };

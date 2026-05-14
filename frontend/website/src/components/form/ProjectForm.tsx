@@ -12,8 +12,8 @@ import {
 
 import { useState } from 'react';
 import { Project } from '@/interfaces/Project';
-import { apiPost } from '@/utils/apiRequester';
 import { useProjects } from '@/utils/store';
+import { createProject as createProjectAPI } from "api/src/client/project";
 
 function ProjectForm() {
   const { projects, setProjects } = useProjects();
@@ -26,28 +26,26 @@ function ProjectForm() {
   });
   const [images, setImages] = useState<File[]>([]);
 
-  const createProject = async (e: React.FormEvent) => {
+  const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("json", JSON.stringify(project));
 
-    images.forEach((image, index) => {
-      data.append(`images[${index}]`, image);
-    });
+    const payload = {
+      title: project.title,
+      description: project.description,
+      links: project.projectsLinks,
+      images,
+    };
 
     try {
-      const response = await apiPost("project", data, "multipart/form-data");
-      if (response.status === 201) {
-        setProjects([...projects, response.data]);
-        setProject({
-          title: "",
-          description: "",
-          projectsLinks: [],
-          images: [],
-          projectsImages: [],
-        })
-        // setImages([])
-      }
+      const response = await createProjectAPI(payload);
+      setProjects([...projects, response]);
+      setProject({
+        title: "",
+        description: "",
+        projectsLinks: [],
+        images: [],
+        projectsImages: [],
+      })
     } catch (error) {
       console.log("Erreur lors de la création du projet :", error);
     }
@@ -66,7 +64,7 @@ function ProjectForm() {
 
   return (
     <Card className="py-4 relative w-full sm:w-[300px] h-max">
-      <form onSubmit={createProject} method="POST" className="pb-0 pt-2 px-4 flex-col space-y-2">
+      <form onSubmit={handleCreateProject} method="POST" className="pb-0 pt-2 px-4 flex-col space-y-2">
         <Input
           label="Titre du projet"
           value={project.title}

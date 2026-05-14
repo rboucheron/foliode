@@ -4,8 +4,8 @@ import BantoProjectPage from "@/components/template/banto/ProjectPage";
 import EmeraldProjectPage from "@/components/template/emerald/ProjectPage";
 import PrestigeNoirProjectPage from "@/components/template/PrestigeNoir/ProjectPage";
 
-import { apiGet } from "@/utils/serverApiRequester";
 import { Portfolio } from "@/interfaces/Portfolio";
+import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
 
 async function Page({
   params,
@@ -13,8 +13,7 @@ async function Page({
   params: { username: string; title: string };
 }) {
   const { username, title } = await params;
-  const response = await apiGet(`public/portfolio/${username}`);
-  const portfolio: Portfolio = response.data;
+  const portfolio: Portfolio = await getPublicPortfolioByUrl(username);
   const project = portfolio.projects.find(
     (project) => project.title === title
   );

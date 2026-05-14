@@ -8,9 +8,8 @@ import FourStepForm from "@/components/form/multistepform/FourStepForm";
 import React, { useState, useRef } from "react";
 import { Button, Card, Progress } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
-import { apiPost } from "@/utils/apiRequester";
 import { useRouter } from "next/navigation";
-import { formatProjectsData, formatToolsData } from "@/utils/formatData";
+import { createPortfolio, createProjects, createTools } from "api/src/client";
 
 import ModelViewer from "@/components/model/modelviewer";
 
@@ -34,18 +33,27 @@ export default function MultiStepForm() {
 
   const postData = async () => {
     try {
-      const response = await apiPost("portfolio", portfolio, "application/json");
-
-      if (response.status !== 201) return;
+      await createPortfolio(portfolio);
   
       if (tools.length !== 0) {
-        const formatTools = formatToolsData(tools);
-        await apiPost("portfolio/tools", formatTools, "multipart/form-data");
+        const normalizedTools = tools.filter(
+          (tool): tool is { name: string; image: File } => Boolean(tool.image)
+        );
+
+        if (normalizedTools.length !== 0) {
+          await createTools({ tools: normalizedTools });
+        }
       }
   
       if (projects.length !== 0) {
-        const formatProjects = formatProjectsData(projects);
-        await apiPost("projects", formatProjects, "multipart/form-data");
+        const normalizedProjects = projects.map((project) => ({
+          title: project.title,
+          description: project.description,
+          projectsLinks: project.projectsLinks,
+          images: project.images ?? [],
+        }));
+
+        await createProjects({ projects: normalizedProjects });
       }
     } catch(e) {
       console.log(e)

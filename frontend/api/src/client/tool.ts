@@ -5,41 +5,31 @@ import type {
   ToolsBatchCreateRequestDTO,
 } from "../contract/tool.dto";
 import { apiClient } from "../utils/createClient";
+import { fileToBase64 } from "../utils/fileToBase64";
 
-const buildToolFormData = (tool: ToolCreateRequestDTO | ToolUpdateRequestDTO) => {
-  const formData = new FormData();
-  formData.append("json", JSON.stringify({ name: tool.name }));
-
-  if (tool.image) {
-    formData.append("images", tool.image);
-  }
-
-  return formData;
+const buildToolPayload = async (tool: ToolCreateRequestDTO | ToolUpdateRequestDTO) => {
+  return {
+    name: tool.name,
+    image: tool.image ? await fileToBase64(tool.image) : null,
+  };
 };
 
-const buildToolsFormData = (payload: ToolsBatchCreateRequestDTO) => {
-  const formData = new FormData();
-
-  payload.tools.forEach((tool, toolIndex) => {
-    formData.append(`tools[${toolIndex}][name]`, tool.name);
-    formData.append(`tools[${toolIndex}][image]`, tool.image);
-  });
-
-  return formData;
+const buildToolsPayload = async (payload: ToolsBatchCreateRequestDTO) => {
+  return Promise.all(payload.tools.map((tool) => buildToolPayload(tool)));
 };
 
 export const getPortfolioTools = async (): Promise<ToolResponseDTO[]> => {
-  const response = await apiClient.get<ToolResponseDTO[]>("/api/portfolio/tools");
+  const response = await apiClient.get<ToolResponseDTO[]>("/v1/api/portfolio/tools");
   return response.data;
 };
 
 export const createTool = async (tool: ToolCreateRequestDTO): Promise<ToolResponseDTO> => {
-  const response = await apiClient.post<ToolResponseDTO>("/api/portfolio/tool", buildToolFormData(tool));
+  const response = await apiClient.post<ToolResponseDTO>("/v1/api/portfolio/tools", await buildToolPayload(tool));
   return response.data;
 };
 
 export const createTools = async (payload: ToolsBatchCreateRequestDTO): Promise<ToolResponseDTO[]> => {
-  const response = await apiClient.post<ToolResponseDTO[]>("/api/portfolio/tools", buildToolsFormData(payload));
+  const response = await apiClient.post<ToolResponseDTO[]>("/v1/api/portfolio/tools/batch", await buildToolsPayload(payload));
   return response.data;
 };
 
@@ -47,10 +37,10 @@ export const updateTool = async (
   toolId: string,
   tool: ToolUpdateRequestDTO
 ): Promise<ToolResponseDTO> => {
-  const response = await apiClient.put<ToolResponseDTO>(`/api/portfolio/tool/${toolId}`, buildToolFormData(tool));
+  const response = await apiClient.put<ToolResponseDTO>(`/v1/api/portfolio/tools/${toolId}`, await buildToolPayload(tool));
   return response.data;
 };
 
 export const deleteTool = async (toolId: string): Promise<void> => {
-  await apiClient.delete(`/api/portfolio/tool/${toolId}`);
+  await apiClient.delete(`/v1/api/portfolio/tools/${toolId}`);
 };

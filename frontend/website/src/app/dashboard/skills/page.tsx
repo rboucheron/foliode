@@ -6,12 +6,11 @@ import Buttons        from "@/components/UI/button";
 
 import { useEffect, useState }                from "react";
 import { Input, Image }                       from "@heroui/react";
-import { apiPost, apiGetWithAuth, apiDelete } from "@/utils/apiRequester";
 import { formatImage }                        from "@/utils/formatImage";
 import { Tools }                              from "@/interfaces/Tools";
-import { formatToolsData }                    from "@/utils/formatData";
 import { RxCross2 }                           from "react-icons/rx";
 import { Skill }                              from "@/interfaces/Skill";
+import { createTool, deleteTool, getCurrentPortfolio } from "api/src/client";
 
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -23,10 +22,8 @@ export default function SkillsPage() {
   
   const fetchSkills = async () => {
     try {
-      const response = await apiGetWithAuth("portfolio");
-      if (response.status === 200) {
-        setSkills(response.data.tools);
-      }
+      const response = await getCurrentPortfolio();
+      setSkills(response.tools);
     } catch (error) {
       console.error("Erreur lors du chargement des compétences :", error);
     }
@@ -37,13 +34,12 @@ export default function SkillsPage() {
       alert("Tous les champs doivent être remplis");
       return;
     }
-    const tools = formatToolsData([formData]);
-    await apiPost("portfolio/tools", tools, "multipart/form-data");
+    await createTool({ name: formData.name, image: formData.image });
     await fetchSkills();
   };
 
   const handleDelete = async (id: string) => {
-    await apiDelete(`portfolio/tool/${id}`);
+    await deleteTool(id);
     setSkills(skills.filter((skill) => skill.id !== id));
   };
 

@@ -9,3 +9,9 @@ portfolio_controllers:
         path: ../src/Portfolio/Controller/
         namespace: App\Portfolio\Controller
     type: attribute
+
+user_controllers:
+    resource:
+        path: ../src/User/Controller/
+        namespace: App\User\Controller
+    type: attribute

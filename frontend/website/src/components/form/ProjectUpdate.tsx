@@ -12,27 +12,27 @@ import {
 
 import { useState }             from 'react';
 import { Project }              from '@/interfaces/Project';
-import { apiPost }              from '@/utils/apiRequester';
 import { RiDeleteBin5Fill }     from 'react-icons/ri';
 import { ProjectUpdateProps }   from '@/interfaces/Project';
+import { updateProject as updateProjectAPI } from "api/src/client/project";
 
 export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
   const [project, setProject] = useState<Project>(initialProject);
 
   const [images, setImages] = useState<File[]>([]);
 
-  const createProject = async (e: React.FormEvent) => {
+  const handleUpdateProject = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('json', JSON.stringify({ ...project }));
-
-    images.forEach((file) => {
-      formData.append('images[]', file);
-    });
+    const payload = {
+      title: project.title,
+      description: project.description,
+      links: project.projectsLinks,
+      images,
+    };
     
     try {
-      await apiPost(`project/${project.id}`, formData, 'multipart/form-data');
+      await updateProjectAPI(project.id!, payload);
       if (onFinish) onFinish();
     } catch (error) {
       console.log('Erreur lors de la modification du projet :', error);
@@ -56,7 +56,7 @@ export default function ProjectUpdate({ project: initialProject, onFinish }: Pro
 
   return (
     <Card className="py-4 relative w-full sm:w-[300px] h-max">
-      <form onSubmit={createProject} method="POST" className="pb-0 pt-2 px-4 flex-col space-y-2">
+      <form onSubmit={handleUpdateProject} method="POST" className="pb-0 pt-2 px-4 flex-col space-y-2">
         <Input
           label="Titre du projet"
           value={project.title}

@@ -1,8 +1,6 @@
-import axios from "axios";
-
-const apiURL: string = `${process.env.API_CLIENT_URL}`
+import { apiClient } from "api/src/utils/createClient";
 
 export const apiGet = async (url: string) => {
-    const response = await axios.get(`${apiURL}/api/${url}`)
-    return response
-}
+    const response = await apiClient.get(`/v1/api/${url}`);
+    return response;
+};
