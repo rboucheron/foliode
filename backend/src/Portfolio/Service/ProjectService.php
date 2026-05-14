@@ -171,7 +171,7 @@ class ProjectService
 
     public function serializeProjects(array $projects): string
     {
-        return $this->serializer->serialize($projects, 'json', ['groups' => 'getProjects']);
+        return $this->serializer->serialize($projects, 'json', ['groups' => 'getPortfolio']);
     }
 
 }
