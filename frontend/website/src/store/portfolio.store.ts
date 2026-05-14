@@ -52,7 +52,9 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
 
         const {users, projects, tools, ...portfolioWithoutUser} = portfolio;
 
-        await updatePortfolioApi(portfolioWithoutUser);
+        const response = await updatePortfolioApi(portfolioWithoutUser);
+
+        set({portfolio: response});
 
     },
 

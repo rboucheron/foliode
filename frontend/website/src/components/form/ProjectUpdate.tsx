@@ -1,19 +1,17 @@
 'use client';
 
-import FileInput  from '@/components/UI/FileInput';
-import Buttons    from '@/components/UI/button';
-import LinkAdder  from '../UI/LinkAdder';
-
-import { 
-  Input, 
-  Textarea, 
+import FileInput from '@/components/UI/FileInput';
+import Buttons from '@/components/UI/button';
+import LinkAdder from '../UI/LinkAdder';
+import {
+  Input,
+  Textarea,
   Card
 } from '@heroui/react';
-
-import { useState }             from 'react';
-import { Project }              from '@/interfaces/Project';
-import { RiDeleteBin5Fill }     from 'react-icons/ri';
-import { ProjectUpdateProps }   from '@/interfaces/Project';
+import { useState } from 'react';
+import { Project } from '@/interfaces/Project';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { ProjectUpdateProps } from '@/interfaces/Project';
 import { updateProject as updateProjectAPI } from "api/src/client/project";
 
 export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
@@ -30,7 +28,7 @@ export default function ProjectUpdate({ project: initialProject, onFinish }: Pro
       links: project.projectsLinks,
       images,
     };
-    
+
     try {
       await updateProjectAPI(project.id!, payload);
       if (onFinish) onFinish();

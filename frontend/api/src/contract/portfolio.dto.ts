@@ -55,6 +55,7 @@ export interface PortfolioToolDTO {
 }
 
 export interface PortfolioResponseDTO {
+  status?: number;
   title: string;
   subtitle: string;
   bio: string;

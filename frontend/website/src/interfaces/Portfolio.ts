@@ -2,6 +2,7 @@ import { receivedProject } from "./Project";
 import { Promotion } from "./Promotion";
 
 export interface Portfolio {
+  status?: number;
   title: string;
   subtitle: string;
   bio: string;

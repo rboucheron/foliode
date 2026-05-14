@@ -14,7 +14,7 @@ use App\Portfolio\ApiPlatform\State\PortfolioProvider;
         security: "is_granted('ROLE_USER')"
     ),
     new Get(
-        uriTemplate: '/public/portfolio/{url}',
+        uriTemplate: '/public/abc/de/v9/portfolio/{url}',
         provider: PublicPortfolioProvider::class
     )
 ])]
