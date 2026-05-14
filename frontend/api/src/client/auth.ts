@@ -9,7 +9,7 @@ import { apiClient } from "../utils/createClient";
 
 export const signUpUser = async (user: AuthSignUpRequestDTO): Promise<AuthResponseDTO> => {
   try {
-    const response = await apiClient.post<AuthResponseDTO>("/api/user/signup", user);
+    const response = await apiClient.post<AuthResponseDTO>("/v1/api/user/auth/email/signup", user);
     return response.data;
   } catch (error) {
     console.error("Error signing up user:", error);
@@ -19,7 +19,7 @@ export const signUpUser = async (user: AuthSignUpRequestDTO): Promise<AuthRespon
 
 export const signInUser = async (user: AuthSignInRequestDTO): Promise<AuthResponseDTO> => {
   try {
-    const response = await apiClient.post<AuthResponseDTO>("/api/user/signin", user);
+    const response = await apiClient.post<AuthResponseDTO>("/v1/api/user/auth/email/signin", user);
     return response.data;
   } catch (error) {
     console.error("Error signing in user:", error);
@@ -31,7 +31,7 @@ export const authenticateGitHubUser = async (
   payload: OAuthUserLinkRequestDTO
 ): Promise<OAuthUserLinkResponseDTO> => {
   try {
-    const response = await apiClient.post<OAuthUserLinkResponseDTO>("/api/user/auth/github", payload);
+    const response = await apiClient.post<OAuthUserLinkResponseDTO>("/v1/api/user/auth/github", payload);
     return response.data;
   } catch (error) {
     console.error("Error authenticating GitHub user:", error);
@@ -43,7 +43,7 @@ export const authenticateDribbbleUser = async (
   payload: OAuthUserLinkRequestDTO
 ): Promise<OAuthUserLinkResponseDTO> => {
   try {
-    const response = await apiClient.post<OAuthUserLinkResponseDTO>("/api/user/auth/dribbble", payload);
+    const response = await apiClient.post<OAuthUserLinkResponseDTO>("/v1/api/user/auth/dribbble", payload);
     return response.data;
   } catch (error) {
     console.error("Error authenticating Dribbble user:", error);

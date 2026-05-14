@@ -116,6 +116,13 @@ class PortfolioService
         $this->em->flush();
     }
 
+    public function deletePortfolio(Users $user): void
+    {
+        $portfolio = $this->getPortfolioByUser($user);
+        $this->em->remove($portfolio);
+        $this->em->flush();
+    }
+
     public function serializePortfolio(Portfolios $portfolio): string
     {
         return $this->serializer->serialize($portfolio, 'json', ['groups' => 'getPortfolio']);

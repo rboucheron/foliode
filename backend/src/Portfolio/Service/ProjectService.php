@@ -13,6 +13,7 @@ use App\Service\ValidatorBaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ProjectService
@@ -33,10 +34,17 @@ class ProjectService
         $newProject = (new Projects())
             ->setPortfolio($portfolio)
             ->setTitle($project->title)
-            ->addProjectsImage(...$this->uploadImages($project->images))
             ->setDescription($project->description)
-            ->addProjectsLink(...$this->buildLinks($project->links))
             ->setUser($portfolio->getUsers());
+
+        foreach ($this->uploadImages($project->images) as $image) {
+            $newProject->addProjectsImage($image);
+        }
+
+        foreach ($this->buildLinks($project->links) as $link) {
+            $newProject->addProjectsLink($link);
+        }
+
         $this->emPersist($newProject);
 
         return $newProject;
@@ -51,27 +59,65 @@ class ProjectService
         return $projects;
     }
 
-    public function getProjectsByUsersAndID(Users $user, string $id): array
+    public function getProjectsByUsersAndID(Users $user, string $id): Projects
     {
-        $projects = $this->projectsRepository->findBy(['user' => $user, 'id' => $id]);
+        $project = $this->projectsRepository->findOneBy(['user' => $user, 'id' => $id]);
 
-        if ($projects === []) {
+        if ($project === null) {
             throw new NotFoundHttpException('Projet non trouve.');
         }
 
-        return $projects;
+        return $project;
+    }
+
+    public function getPortfolioProjects(Users $user): array
+    {
+        return $this->projectsRepository->findBy(['user' => $user]);
     }
 
     public function updateProject(Projects $project, ProjectDTO $projectDTO): Projects
     {
         $this->validatorBaseService->CatchInvalidData($projectDTO);
+
         $project->setTitle($projectDTO->title ?? $project->getTitle())
-            ->setDescription($projectDTO->description ?? $project->getDescription())
-            ->addProjectsImage(...$this->uploadImages($projectDTO->images) ?? $project->getProjectsImages()->toArray())
-            ->addProjectsLink(...$this->buildLinks($projectDTO->links) ?? $project->getProjectsLinks()->toArray());
+            ->setDescription($projectDTO->description ?? $project->getDescription());
+
+        if ($projectDTO->images !== []) {
+            foreach ($this->uploadImages($projectDTO->images) as $image) {
+                $project->addProjectsImage($image);
+            }
+        }
+
+        if ($projectDTO->links !== []) {
+            foreach ($project->getProjectsLinks()->toArray() as $existingLink) {
+                $project->removeProjectsLink($existingLink);
+                $this->em->remove($existingLink);
+            }
+
+            foreach ($this->buildLinks($projectDTO->links) as $link) {
+                $project->addProjectsLink($link);
+            }
+        }
+
         $this->em->flush();
 
         return $project;
+    }
+
+    public function deleteProject(Users $user, string $id): void
+    {
+        $project = $this->projectsRepository->findOneBy(['id' => $id]);
+
+        if ($project === null) {
+            throw new NotFoundHttpException('Projet non trouve.');
+        }
+
+        if ($project->getUser()?->getId() !== $user->getId()) {
+            throw new AccessDeniedHttpException('You are not allowed to delete this project.');
+        }
+
+        $this->em->remove($project);
+        $this->em->flush();
     }
 
     private function uploadImages(array $images): array
@@ -82,7 +128,7 @@ class ProjectService
             $uplodedImage = $this->fileUploader->uploadFileBase64($image['file'], $uploadDir);
             $imageEntity = new ProjectsImages();
             $imageEntity->setImgSrc($uplodedImage);
-            $imageEntity->setImgAlt($image['alt'] ?? '');
+            $imageEntity->setImgAlt($image['imageAlt'] ?? '');
 
             $image = $imageEntity;
         }

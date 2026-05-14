@@ -16,6 +16,11 @@ class ProjectDTO
                 'file' => [
                     new Assert\NotBlank(message: 'file is required.'),
                     new Assert\Type(type: 'string', message: 'file must be a string.'),
+                    new Assert\Length(max: 12000000, maxMessage: 'file payload is too large.'),
+                    new Assert\Regex(
+                        pattern: '/^data:image\/(png|jpe?g|webp);base64,[A-Za-z0-9+\/=\r\n]+$/',
+                        message: 'file must be a valid base64 data URI image (png, jpg, jpeg, webp).'
+                    ),
                 ],
                 'imageAlt' => [
                     new Assert\NotBlank(message: 'imageAlt is required.'),

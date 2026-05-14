@@ -5,55 +5,38 @@ import type {
   ProjectsBatchCreateRequestDTO,
 } from "../contract/project.dto";
 import { apiClient } from "../utils/createClient";
+import { filesToBase64 } from "../utils/fileToBase64";
 
-const buildProjectFormData = (project: ProjectCreateRequestDTO | ProjectUpdateRequestDTO) => {
-  const formData = new FormData();
+const buildProjectPayload = async (project: ProjectCreateRequestDTO | ProjectUpdateRequestDTO) => {
+  const encodedImages = await filesToBase64(project.images ?? []);
 
-  formData.append(
-    "json",
-    JSON.stringify({
-      title: project.title,
-      description: project.description,
-      projectsLinks: project.projectsLinks,
-    })
-  );
-
-  project.images?.forEach((image, index) => {
-    formData.append(`images[${index}]`, image);
-  });
-
-  return formData;
+  return {
+    title: project.title,
+    description: project.description,
+    links: project.projectsLinks,
+    images: encodedImages.map((file, index) => ({
+      file,
+      imageAlt: project.title || `project-image-${index + 1}`,
+    })),
+  };
 };
 
-const buildProjectsFormData = (payload: ProjectsBatchCreateRequestDTO) => {
-  const formData = new FormData();
-
-  payload.projects.forEach((project, projectIndex) => {
-    formData.append(`projects[${projectIndex}][title]`, project.title);
-    formData.append(`projects[${projectIndex}][description]`, project.description);
-
-    project.projectsLinks.forEach((link, linkIndex) => {
-      formData.append(`projects[${projectIndex}][projectsLinks][${linkIndex}][name]`, link.name);
-      formData.append(`projects[${projectIndex}][projectsLinks][${linkIndex}][url]`, link.url);
-    });
-
-    project.images.forEach((image, imageIndex) => {
-      formData.append(`projects[${projectIndex}][images][${imageIndex}]`, image);
-    });
-  });
-
-  return formData;
+const buildProjectsPayload = async (payload: ProjectsBatchCreateRequestDTO) => {
+  return Promise.all(payload.projects.map((project) => buildProjectPayload(project)));
 };
 
 export const getPortfolioProjects = async (): Promise<ProjectResponseDTO[]> => {
-  const response = await apiClient.get<ProjectResponseDTO[]>("/api/projects");
+  const response = await apiClient.get<ProjectResponseDTO[]>("/v1/api/portfolio/projects");
   return response.data;
 };
 
 export const createProject = async (
   project: ProjectCreateRequestDTO
 ): Promise<ProjectResponseDTO> => {
-  const response = await apiClient.post<ProjectResponseDTO>("/api/project", buildProjectFormData(project));
+  const response = await apiClient.post<ProjectResponseDTO>(
+    "/v1/api/portfolio/projects",
+    await buildProjectPayload(project)
+  );
   return response.data;
 };
 
@@ -61,18 +44,24 @@ export const updateProject = async (
   projectId: string,
   project: ProjectUpdateRequestDTO
 ): Promise<ProjectResponseDTO> => {
-  const response = await apiClient.post<ProjectResponseDTO>(`/api/project/${projectId}`, buildProjectFormData(project));
+  const response = await apiClient.put<ProjectResponseDTO>(
+    `/v1/api/portfolio/projects/${projectId}`,
+    await buildProjectPayload(project)
+  );
   return response.data;
 };
 
 export const createProjects = async (
   payload: ProjectsBatchCreateRequestDTO
 ): Promise<ProjectResponseDTO[]> => {
-  const response = await apiClient.post<ProjectResponseDTO[]>("/api/projects", buildProjectsFormData(payload));
+  const response = await apiClient.post<ProjectResponseDTO[]>(
+    "/v1/api/portfolio/projects/batch",
+    await buildProjectsPayload(payload)
+  );
   return response.data;
 };
 
 export const deleteProject = async (projectId: string): Promise<{ message: string }> => {
-  const response = await apiClient.delete<{ message: string }>(`/api/project/${projectId}`);
+  const response = await apiClient.delete<{ message: string }>(`/v1/api/portfolio/projects/${projectId}`);
   return response.data;
 };

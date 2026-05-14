@@ -9,11 +9,11 @@ import Image from "next/image";
 import { Input } from "@heroui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { apiAuth } from "@/utils/apiRequester";
 import { getCookie } from "@/utils/cookiesHelpers";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordInput from "@/components/UI/PasswordInput";
+import { signInUser } from "api/src/client/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,17 +42,17 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    const response = await apiAuth("user/signin", data);
+    const response = await signInUser(data);
 
-    if (response?.data.error) {
-      setError(response.data.error);
+    if ("error" in response) {
+      setError(response.error);
       setData({ email: "", password: "" });
       setIsLoading(false);
       return;
     }
 
-    if (response !== null && response.data.token) {
-      document.cookie = `token_auth=${response.data.token}; path=/`;
+    if ("token" in response) {
+      document.cookie = `token_auth=${response.token}; path=/`;
       router.push("/dashboard");
     }
   };
