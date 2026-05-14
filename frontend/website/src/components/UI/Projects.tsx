@@ -70,7 +70,7 @@ function Projects() {
                 </div>
                 <Divider />
                 <div className="my-1 w-full flex flex-col">
-                  {project.projectsLinks.map((link, index) => (
+                  {(project.projectsLinks ?? []).map((link, index) => (
                     <Link key={index} showAnchorIcon href={`${link.url}`} className="!text-primary !text-sm">
                       {link.name}
                     </Link>

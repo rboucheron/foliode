@@ -13,6 +13,10 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api_auth_public:
+            pattern: ^/v1/api/user/auth/email/(signin|signup)|^/v1/api/user/auth/(github|dribbble)
+            stateless: true
+            security: false
         api:
             pattern: ^/v1/api
             stateless: true
