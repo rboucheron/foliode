@@ -78,6 +78,8 @@ class PortfolioService
         $portfolio->setSubtitle($portfolioDTO->subtitle ?? $portfolio->getSubtitle());
         $portfolio->setBio($portfolioDTO->bio ?? $portfolio->getBio());
         $portfolio->setUrl($portfolioDTO->url ?? $portfolio->getUrl());
+        $portfolio->setTemplate($portfolioDTO->template ?? $portfolio->getTemplate());
+        $portfolio->setConfig($portfolioDTO->config ?? $portfolio->getConfig());
         $this->em->flush();
 
         return $portfolio;

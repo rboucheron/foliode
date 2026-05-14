@@ -47,14 +47,7 @@ class PortfolioContentController extends AbstractController
             return new JsonResponse(['error' => 'Portfolio not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $payload = json_decode($this->portfolioService->serializePortfolio($portfolio), true);
-        if (!is_array($payload)) {
-            return new JsonResponse(['error' => 'Portfolio not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        unset($payload['users']);
-
-        return new JsonResponse($payload, Response::HTTP_OK);
+        return new JsonResponse($this->portfolioService->serializePortfolio($portfolio), Response::HTTP_OK, [], true);
     }
 
     #[IsGranted('ROLE_USER')]

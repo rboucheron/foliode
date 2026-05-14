@@ -27,6 +27,16 @@ export const createPortfolio = async (
   return response.data;
 };
 
+export const publishPortfolio = async (): Promise<PortfolioResponseDTO> => {
+  const response = await apiClient.patch<PortfolioResponseDTO>("/v1/api/portfolio/status/publish");
+  return response.data;
+}
+
+export const draftPortfolio = async (): Promise<PortfolioResponseDTO> => {
+  const response = await apiClient.patch<PortfolioResponseDTO>("/v1/api/portfolio/status/draft");
+  return response.data;
+};
+
 export const updatePortfolio = async (
   portfolio: PortfolioUpsertRequestDTO
 ): Promise<PortfolioResponseDTO> => {
