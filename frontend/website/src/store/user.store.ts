@@ -1,8 +1,8 @@
 import {create} from "zustand";
-import {apiPost, apiPut} from "@/utils/apiRequester";
 import {User} from "@/interfaces/User";
 import {getCookie} from "@/utils/cookiesHelpers";
 import {jwtDecode} from "jwt-decode";
+import { updateUserAvatar, updateUserProfile } from "api/src/client/user";
 
 
 interface UserState {
@@ -44,10 +44,8 @@ export const useUserStore = create<UserState>((set, get) => ({
     },
 
     updateProfilPicture: async (image: File) => {
-        const profilPicture = new FormData();
-        profilPicture.append("image", image);
-        const response =  await apiPost("user/profil", profilPicture, "multipart/form-data");
-        document.cookie = `token_auth=${response.data.token}; path=/`;
+        const response = await updateUserAvatar({ image });
+        document.cookie = `token_auth=${response.token}; path=/`;
 
 
     },
@@ -55,7 +53,11 @@ export const useUserStore = create<UserState>((set, get) => ({
     updateUser: async () => {
         const user = get().user;
         if (!user) throw new Error("No user data available");
-        const response = await apiPut("user", user, "application/json");
+        const response = await updateUserProfile({
+            lastname: user.lastname,
+            firstname: user.firstname,
+            email: user.email,
+        });
         document.cookie = `token_auth=${response.token}; path=/`;
 
     },

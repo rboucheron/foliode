@@ -9,10 +9,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@heroui/react";
-import { apiAuth } from "@/utils/apiRequester";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordStrengthChecker from "@/components/UI/PasswordStrengthChecker";
+import { signUpUser } from "api/src/client/auth";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -45,15 +45,20 @@ export default function RegisterPage() {
       return;
     }
 
-    const response = await apiAuth("user/signup", data);
+    const response = await signUpUser({
+      email: data.email,
+      firstName: data.firstname,
+      lastName: data.lastname,
+      password: data.password,
+    });
 
-    if (response?.data?.token) {
-      document.cookie = `token_auth=${response.data.token}; path=/`;
+    if ("token" in response) {
+      document.cookie = `token_auth=${response.token}; path=/`;
       router.push("/portfolio/edit");
     }
 
-    if (response?.data.error) {
-      setError(response.data.error);
+    if ("error" in response) {
+      setError(response.error);
       setIsLoading(false);
       return;
     }

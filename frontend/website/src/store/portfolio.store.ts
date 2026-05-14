@@ -1,7 +1,12 @@
 import {create} from "zustand";
 import {Portfolio} from "@/interfaces/Portfolio";
-import {apiGetWithAuth, apiPost, apiPut} from "@/utils/apiRequester";
 import {PortfolioStat} from "@/interfaces/PortfolioStat";
+import {
+    createPortfolio,
+    getCurrentPortfolio,
+    getPortfolioStatistics,
+    updatePortfolio as updatePortfolioApi,
+} from "api/src/client/portfolio";
 
 
 interface PortfolioState {
@@ -22,10 +27,8 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
 
     fetchPortfolio: async () => {
         try {
-            const response = await apiGetWithAuth("portfolio");
-            if (response.status === 200) {
-                set({portfolio: response.data});
-            }
+            const response = await getCurrentPortfolio();
+            set({portfolio: response});
         } catch (error) {
             console.log("Error fetching portfolio", error);
         }
@@ -33,10 +36,8 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
 
     fetchPortfolioStats : async () => {
         try {
-            const response = await apiGetWithAuth("portfolio/stat");
-            if (response.status === 200) {
-                set({portfolioStats: response.data});
-            }
+            const response = await getPortfolioStatistics();
+            set({portfolioStats: response});
         } catch (error) {
             console.log("Error fetching portfolio stats", error);
         }
@@ -51,7 +52,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
 
         const {users, projects, tools, ...portfolioWithoutUser} = portfolio;
 
-        await apiPut("portfolio", portfolioWithoutUser, "application/json");
+        await updatePortfolioApi(portfolioWithoutUser);
 
     },
 
@@ -69,8 +70,9 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
         try {
             const portfolio = get().portfolio;
             if (!portfolio) throw new Error("No portfolio data available");
-            const response = await apiPost("portfolio", portfolio, "application/json");
-            set({portfolio: response.data});
+            const {users, projects, tools, ...portfolioWithoutUser} = portfolio;
+            const response = await createPortfolio(portfolioWithoutUser);
+            set({portfolio: response});
 
         } catch (error) {
             console.log("Error setting portfolio", error);

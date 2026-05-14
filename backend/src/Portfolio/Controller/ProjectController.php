@@ -24,7 +24,7 @@ class ProjectController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/v1/api/portfolio/project', methods: ['POST'])]
+    #[Route('/v1/api/portfolio/projects', methods: ['POST'])]
     public function createProject(Request $request): JsonResponse
     {
         $project = $this->projectService->createANewProject(
@@ -47,7 +47,7 @@ class ProjectController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/v1/api/portfolio/projects', methods: ['POST'])]
+    #[Route('/v1/api/portfolio/projects/batch', methods: ['POST'])]
     public function createProjects(Request $request): JsonResponse
     {
 
@@ -84,14 +84,14 @@ class ProjectController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/v1/api/portfolio/project/{id}', methods: ['PUT'])]
+    #[Route('/v1/api/portfolio/projects/{id}', methods: ['PUT'])]
     public function updateProject(Request $request, string $id): JsonResponse
     {
         $updatedProject = $this->projectService->updateProject(
             $this->projectService->getProjectsByUsersAndID(
                 $this->getUser(),
                 $id
-            )[0],
+            ),
             $this->serializer->deserialize(
                 $request->getContent(),
                 ProjectDTO::class,
@@ -105,6 +105,43 @@ class ProjectController extends AbstractController
             [],
             true
         );
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/v1/api/portfolio/projects', methods: ['GET'])]
+    public function getProjects(): JsonResponse
+    {
+        return new JsonResponse(
+            $this->projectService->serializeProjects(
+                $this->projectService->getPortfolioProjects($this->getUser())
+            ),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/v1/api/portfolio/projects/{id}', methods: ['GET'])]
+    public function getProject(string $id): JsonResponse
+    {
+        return new JsonResponse(
+            $this->projectService->serializeProject(
+                $this->projectService->getProjectsByUsersAndID($this->getUser(), $id)
+            ),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/v1/api/portfolio/projects/{id}', methods: ['DELETE'])]
+    public function deleteProject(string $id): JsonResponse
+    {
+        $this->projectService->deleteProject($this->getUser(), $id);
+
+        return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
     }
 
 }

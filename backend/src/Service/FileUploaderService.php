@@ -9,6 +9,9 @@ use Symfony\Component\String\ByteString;
 
 class FileUploaderService
 {
+    private const MAX_BASE64_FILE_SIZE_BYTES = 5242880;
+    private const ALLOWED_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+
     public function __construct(private Filesystem $filesystem)
     {
     }
@@ -19,10 +22,10 @@ class FileUploaderService
             throw new \InvalidArgumentException('Invalid file upload');
         }
 
-        $decodedFile = $this->decodeBase64File($fileContent);
-        $extension = $decodedFile->guessExtension() ?? $this->guessExtensionFromMimeType($decodedFile->getMimeType());
+        ['file' => $decodedFile, 'mimeType' => $mimeType] = $this->decodeBase64File($fileContent);
+        $extension = $this->guessExtensionFromMimeType($mimeType ?? $decodedFile->getMimeType());
 
-        if (!in_array($extension, ['pdf', 'png', 'jpg', 'jpeg'], true)) {
+        if (!in_array($mimeType, self::ALLOWED_IMAGE_MIME_TYPES, true) || !in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
             @unlink($decodedFile->getPathname());
             throw new \InvalidArgumentException('Unsupported file type');
         }
@@ -76,19 +79,22 @@ class FileUploaderService
         return ByteString::fromRandom(25, 'abcdefghijklmnopqrstuvwxyz0123456789');
     }
 
-    private function decodeBase64File(string $fileContent): File
+    private function decodeBase64File(string $fileContent): array
     {
         if (preg_match('/^data:(.*?);base64,(.*)$/', $fileContent, $matches)) {
             $mimeType = $matches[1];
             $base64Data = $matches[2];
         } else {
-            $mimeType = null;
-            $base64Data = $fileContent;
+            throw new \InvalidArgumentException('Invalid base64 data URI');
         }
 
         $binaryData = base64_decode($base64Data, true);
         if ($binaryData === false) {
             throw new \InvalidArgumentException('Invalid base64 content');
+        }
+
+        if (strlen($binaryData) > self::MAX_BASE64_FILE_SIZE_BYTES) {
+            throw new \InvalidArgumentException('File exceeds max allowed size');
         }
 
         $tempFilePath = tempnam(sys_get_temp_dir(), 'upload_');
@@ -98,7 +104,7 @@ class FileUploaderService
 
         file_put_contents($tempFilePath, $binaryData);
 
-        return new File($tempFilePath, false);
+        return ['file' => new File($tempFilePath, false), 'mimeType' => $mimeType];
     }
 
     private function guessExtensionFromMimeType(?string $mimeType): ?string
@@ -107,6 +113,7 @@ class FileUploaderService
             'application/pdf' => 'pdf',
             'image/png' => 'png',
             'image/jpeg' => 'jpg',
+            'image/webp' => 'webp',
             default => null,
         };
     }

@@ -18,7 +18,7 @@ export interface receivedProject {
     name: string;
     url: string;
   }[];
-  projectsImages: { img_src: string; img_alt: string }[] | undefined;
+  projectsImages?: { img_src: string; img_alt: string }[];
   links?: string[];
 }
 

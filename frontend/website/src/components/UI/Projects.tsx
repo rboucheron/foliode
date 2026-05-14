@@ -1,5 +1,4 @@
 "use client";
-import { apiDelete, apiGetWithAuth } from "@/utils/apiRequester";
 import { formatImage }               from "@/utils/formatImage";
 import { useProjects }               from "@/utils/store";
 import { RiDeleteBin5Fill }          from "react-icons/ri";
@@ -17,6 +16,7 @@ import {
 
 import React, { useEffect} from "react";
 import ProjectUpdate       from "../form/ProjectUpdate";
+import { deleteProject, getPortfolioProjects } from "api/src/client/project";
 
 function Projects() {
   const { projects, setProjects } = useProjects();
@@ -26,20 +26,17 @@ function Projects() {
     fetchProjects();
   }, []);
 
-  const deleteProject = async (id: string) => {
+  const handleDeleteProject = async (id: string) => {
   const isConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer ce projet ?");
   if (isConfirmed) {
-    await apiDelete(`project/${id}`);
+    await deleteProject(id);
     setProjects(projects.filter((project) => project.id !== id));
   }
 };
 
   const fetchProjects = async () => {
-    const response = await apiGetWithAuth("projects");
-
-    if (response.status == 200) {
-      setProjects(response.data);
-    }
+    const response = await getPortfolioProjects();
+    setProjects(response);
   };
 
   const toggleEdition = (projectId: string) => {
@@ -66,7 +63,7 @@ function Projects() {
                     <button onClick={() => toggleEdition(project.id)}>
                       <FaPencilAlt className="text-primary duration-200 hover:text-primary-200 hover:scale-110" />
                     </button>
-                    <button onClick={() => deleteProject(project.id)}>
+                    <button onClick={() => handleDeleteProject(project.id)}>
                       <RiDeleteBin5Fill className="text-red-500 duration-200 hover:text-red-700 hover:scale-110" />
                     </button>
                   </div>

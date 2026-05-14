@@ -3,7 +3,7 @@ import EmeraldFlow from "@/components/template/EmeraldFlow";
 import PrestigeNoir from "@/components/template/PrestigeNoir";
 
 import { Portfolio } from "@/interfaces/Portfolio";
-import { apiGet } from "@/utils/serverApiRequester";
+import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
 
 async function PortfolioPage({
   params,
@@ -12,9 +12,7 @@ async function PortfolioPage({
 }) {
   try {
     const { username } = await params;
-    const response = await apiGet(`public/portfolio/${username}`);
-
-    const portfolio: Portfolio = response.data;
+    const portfolio: Portfolio = await getPublicPortfolioByUrl(username);
     const template = portfolio.template;
 
     if (template === "template-1") {
