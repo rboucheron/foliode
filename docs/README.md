@@ -27,8 +27,6 @@ Le projet **Foliode**  permet de générer et personnaliser un portfolio web pro
 
 Ce projet utilise Docker et `invoke` (`inv`) pour simplifier les commandes de développement.
 
-##  Prérequis
-
 Avant de commencer, assurez vous d’avoir installé :
 
 - [Docker](https://www.docker.com/)
