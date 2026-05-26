@@ -18,7 +18,7 @@ def _wait_db(ctx, timeout: int = 60) -> None:
     start = time.time()
     while time.time() - start < timeout:
         result = ctx.run(
-            f"{COMPOSE} exec -T db sh -lc 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'",
+            f"{COMPOSE} exec -T database sh -lc 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'",
             warn=True,
             hide=True,
         )
