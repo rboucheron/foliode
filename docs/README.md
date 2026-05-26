@@ -1,5 +1,7 @@
 # Foliode
 
+[notion](https://www.notion.so/36cb117ffd6e80289beaf6598f8e90e6?v=36cb117ffd6e80cf9684000cbfc35017&source=copy_link)
+
 Le projet **Foliode**  permet de générer et personnaliser un portfolio web professionnel, mettant en valeur les compétences et les projets personnel et pro. 
 
 ## Diagramme Use Case
