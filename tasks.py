@@ -18,7 +18,7 @@ def _wait_db(ctx, timeout: int = 60) -> None:
     start = time.time()
     while time.time() - start < timeout:
         result = ctx.run(
-            f"{COMPOSE} exec -T database sh -lc 'pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"'",
+            f'{COMPOSE} exec -T database sh -lc \'pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"\'',
             warn=True,
             hide=True,
         )
@@ -49,7 +49,10 @@ def env(ctx, force=False):
     env_pairs = [
         (ROOT / ".env.example", ROOT / ".env"),
         (ROOT / "backend/.env.example", ROOT / "backend/.env"),
-        (ROOT / "frontend/website/.env.local.example", ROOT / "frontend/website/.env.local"),
+        (
+            ROOT / "frontend/website/.env.local.example",
+            ROOT / "frontend/website/.env.local",
+        ),
         (ROOT / "frontend/api/.env.example", ROOT / "frontend/api/.env"),
     ]
 
@@ -171,6 +174,15 @@ def setup(ctx):
     _run(
         ctx,
         f"{COMPOSE} exec -T backend php bin/console doctrine:migrations:migrate --no-interaction",
+    )
+
+
+@task()
+def test(ctx):
+    "run in local php unit test"
+    _run(
+        ctx,
+        (f"{COMPOSE} exec -T backend " "php bin/phpunit"),
     )
 
 
