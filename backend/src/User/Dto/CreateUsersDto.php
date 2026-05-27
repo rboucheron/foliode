@@ -4,7 +4,7 @@ namespace App\User\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateUsersDto
+class createUsersDto
 {
     #[Assert\NotBlank(message: "email should not be blank")]
     #[Assert\Email(message: "email format is invalid.")]

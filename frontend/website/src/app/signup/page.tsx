@@ -3,7 +3,6 @@
 import Buttons from "@/components/UI/button";
 import Link from "next/link";
 import GithubAuth from "@/components/GitHub/GithubAuth";
-import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import Image from "next/image";
 
 import { useState } from "react";
@@ -66,31 +65,43 @@ export default function RegisterPage() {
 
   const styles = {
     inputWrapper: [
-      "border-primary",
-      "data-[hover=true]:border-primary-100",
+      "border-default-300",
+      "data-[hover=true]:border-primary-300",
       "group-data-[focus=true]:border-primary",
+      "bg-background/50",
     ],
-    input: ["text-white", "placeholder:text-gray-400", "focus:text-blue-500"],
-    label: "text-white",
+    input: ["text-foreground", "placeholder:text-default-400"],
+    label: "text-foreground-700",
     clearButton: "text-primary",
   };
 
   return (
-    <div className="min-h-screen w-full nightMode bg-background text-white flex items-center justify-center">
-      <div className="flex flex-col items-center w-full max-w-md p-5 gap-5">
-        <div className="flex flex-col items-center justify-center gap-5">
-          <Image
-            src="/foliode-icon.svg"
-            alt="Logo Foliode"
-            width={50}
-            height={50}
-          />
-          <h1 className="text-lg font-bold">Inscrivez-vous sur Foliode !</h1>
+    <div className="min-h-screen w-full bg-gradient-to-tr from-default-100 via-background to-default-50 flex items-center justify-center p-4 sm:p-6 transition-colors duration-300">
+      <div className="w-full max-w-md bg-content1/80 dark:bg-content1/50 backdrop-blur-md border border-default-200/60 shadow-xl rounded-2xl p-6 sm:p-8 flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center justify-center gap-3 text-center">
+          <div className="p-3 bg-primary/10 rounded-full border border-primary/20 hover:scale-105 transition-transform duration-300">
+            <Image
+              src="/foliode-icon.svg"
+              alt="Logo Foliode"
+              width={48}
+              height={48}
+              priority
+            />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Inscrivez-vous sur Foliode !
+          </h1>
+          <p className="text-sm text-default-500">
+            Rejoignez-nous et commencez à valoriser vos projets
+          </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col gap-4 items-center md:items-start"
+          role="form"
+          aria-label="Formulaire d'inscription"
+          data-testid="signup-form"
+          className="w-full flex flex-col gap-4"
         >
           <Input
             isRequired
@@ -98,8 +109,11 @@ export default function RegisterPage() {
             value={data.email}
             type="email"
             name="email"
+            id="email"
+            autoComplete="email"
+            data-testid="email-input"
             variant="bordered"
-            label="Email"
+            label="Adresse email"
             placeholder="john.doe@example.com"
             classNames={styles}
             onChange={handleInputChange}
@@ -112,6 +126,9 @@ export default function RegisterPage() {
             type="text"
             variant="bordered"
             name="firstname"
+            id="firstname"
+            autoComplete="given-name"
+            data-testid="firstname-input"
             label="Prénom"
             placeholder="John"
             classNames={styles}
@@ -125,6 +142,9 @@ export default function RegisterPage() {
             type="text"
             variant="bordered"
             name="lastname"
+            id="lastname"
+            autoComplete="family-name"
+            data-testid="lastname-input"
             label="Nom"
             placeholder="DOE"
             classNames={styles}
@@ -141,52 +161,69 @@ export default function RegisterPage() {
             }
           />
 
-          {typeof error === "string" && (
-            <p className="text-[#F31260] text-sm">{error}</p>
+          {error && typeof error === "string" && (
+            <p 
+              role="alert" 
+              id="signup-error" 
+              data-testid="signup-error" 
+              className="text-danger text-sm font-medium bg-danger-50 border border-danger-200 rounded-lg p-2.5"
+            >
+              {error}
+            </p>
           )}
 
-          {typeof error === "object" &&
-            Object.keys(error).map(
-              (key) =>
-                error[key] && (
-                  <p key={key} className="text-[#F31260] text-sm">
-                    {error[key]}
-                  </p>
-                )
-            )}
+          {error && typeof error === "object" && (
+            <div 
+              role="alert" 
+              id="signup-error" 
+              data-testid="signup-error" 
+              className="text-danger text-sm font-medium bg-danger-50 border border-danger-200 rounded-lg p-2.5 flex flex-col gap-1 w-full"
+            >
+              {Object.keys(error).map(
+                (key) =>
+                  error[key] && (
+                    <p key={key} className="text-danger text-xs">
+                      {error[key]}
+                    </p>
+                  )
+              )}
+            </div>
+          )}
+
+          <div className="flex items-center justify-between text-xs sm:text-sm">
+            <span className="text-default-500">
+              Déjà un compte ?{" "}
+              <Link
+                href="/login"
+                className="cursor-pointer font-semibold text-primary hover:text-primary-500 hover:underline"
+              >
+                Connectez-vous !
+              </Link>
+            </span>
+          </div>
 
           <Buttons
             style="form"
             type="submit"
             isDisabled={isLoading}
+            testId="signup-submit"
             text={
               isLoading ? (
-                <CircularProgress aria-label="Loading..." size="sm" />
+                <CircularProgress aria-label="Chargement..." size="sm" />
               ) : (
                 "S'inscrire"
               )
             }
           />
-
-          <span className="text-sm sm:text-base">
-            Déjà un compte ?{" "}
-            <Link
-              href="/login"
-              className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:underline"
-            >
-              Connectez-vous !
-            </Link>
-          </span>
         </form>
 
-        <div className="flex gap-5 items-center w-full">
-          <hr className="border border-primary w-full" />
-          <span className="text-sm">OU</span>
-          <hr className="border border-primary w-full" />
+        <div className="flex gap-4 items-center w-full my-1">
+          <hr className="border-default-200 w-full" />
+          <span className="text-xs text-default-400 font-semibold uppercase tracking-wider whitespace-nowrap">OU</span>
+          <hr className="border-default-200 w-full" />
         </div>
 
-        <div className="flex flex-col gap-2 items-center w-full md:flex-row">
-          <DribbbleAuth disable={isLoading} />
+        <div className="flex flex-col gap-3 items-center w-full">
           <GithubAuth disable={isLoading} />
         </div>
       </div>

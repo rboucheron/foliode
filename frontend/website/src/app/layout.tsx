@@ -13,7 +13,16 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
        <body suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          value={{
+            light: "dayMode",
+            dark: "nightMode"
+          }}
+        >
           <HeroUIProvider>
             <SidebarProvider>
               {children}

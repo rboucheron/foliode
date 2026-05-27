@@ -49,7 +49,7 @@ module.exports = {
       },
     },  
   },
-  darkMode: "class",
+  darkMode: ["class", ".nightMode"],
   plugins: [heroui({
 
     themes:{
@@ -74,7 +74,7 @@ module.exports = {
       "nightMode": {
         colors: {
           background: "#0C0C0C",
-          foreground: "#191919",
+          foreground: "#ECEDEE",
           primary: {
               DEFAULT: '#3E3F92',
               100: '#4E529E',

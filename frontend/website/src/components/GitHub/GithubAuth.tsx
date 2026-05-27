@@ -10,9 +10,11 @@ export default function SignIn({ disable = false }) {
       <Buttons 
         text="GitHub"
         style="form"
-        icon={<FaGithub />}
+        icon={<FaGithub className="text-lg" />}
         type="submit"
         isDisabled={disable}
+        className="!bg-[#24292F] hover:!bg-[#1B1F23] !border-transparent !text-white font-semibold transition-all duration-200"
+        testId="github-submit"
       />
     </form>
   );

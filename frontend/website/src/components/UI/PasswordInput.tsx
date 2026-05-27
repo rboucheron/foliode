@@ -8,24 +8,34 @@ interface PasswordInputProps {
   value: string;
   label: string;
   name: string;
+  id?: string;
+  autoComplete?: string;
+  testId?: string;
 }
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
   onChange,
   value,
   label,
-  name
+  name,
+  id,
+  autoComplete,
+  testId
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const styles = {
     inputWrapper: [
-      "border-primary",
-      "data-[hover=true]:border-primary-100",
+      "border-default-300",
+      "data-[hover=true]:border-primary-300",
       "group-data-[focus=true]:border-primary",
+      "bg-background",
     ],
-    input: ["text-white", "placeholder:text-gray-400", "focus:text-blue-500"],
-    label: "text-white",
+    input: [
+      "text-foreground",
+      "placeholder:text-default-400",
+    ],
+    label: "text-foreground-700",
     clearButton: "text-primary",
   };
 
@@ -33,21 +43,26 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
     <Input
       isRequired
       label={label}
+      id={id}
+      autoComplete={autoComplete}
+      data-testid={testId}
       variant="bordered"
-      placeholder={label}
+      placeholder="••••••••"
       value={value}
       onChange={(e) => onChange(e)}
       name={name}
       endContent={
         <button
-          className="focus:outline-none"
+          className="focus:outline-none flex items-center justify-center p-1 rounded-full hover:bg-default-100 transition-colors"
           type="button"
           onClick={() => setIsVisible(!isVisible)}
+          aria-label={isVisible ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          data-testid={testId ? `${testId}-toggle` : undefined}
         >
           {isVisible ? (
-            <FaEyeSlash className="text-2xl text-primary pointer-events-none" />
+            <FaEyeSlash className="text-xl text-default-500 pointer-events-none" />
           ) : (
-            <IoEyeSharp className="text-2xl text-primary pointer-events-none" />
+            <IoEyeSharp className="text-xl text-default-500 pointer-events-none" />
           )}
         </button>
       }

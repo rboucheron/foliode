@@ -10,9 +10,11 @@ export default function SignIn({ disable = false }) {
       <Buttons 
         text="Dribbble"
         style="form"
-        icon={<FaDribbble />}
+        icon={<FaDribbble className="text-lg" />}
         type="submit"
         isDisabled={disable}
+        className="!bg-[#EA4C89] hover:!bg-[#DF3E7B] !border-transparent !text-white font-semibold transition-all duration-200"
+        testId="dribbble-submit"
       />
     </form>
   );

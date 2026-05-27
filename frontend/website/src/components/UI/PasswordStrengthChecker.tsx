@@ -40,20 +40,33 @@ const PasswordStrengthChecker: React.FC<PasswordStrengthCheckerProps> = ({
         onChange={(value) => handlePasswordChange(value.target.value)}
         label="Mot de passe"
         name="password"
+        id="password"
+        autoComplete="new-password"
+        testId="password-input"
       />
       {hasUpperCase && hasNumber && hasSpecialChar && isAtLeast8Chars ? (
         <PasswordInput
           value={confirmPasswordValue}
           onChange={(value) => handleConfirmPasswordChange(value.target.value)}
-          label="Confirmer mot de passe"
+          label="Confirmer le mot de passe"
           name="confirmpassword"
+          id="password-confirm"
+          autoComplete="new-password"
+          testId="password-confirm-input"
         />
       ) : (
         <>
           {passwordValue === "" ? (
             ""
           ) : (
-            <div className="space-y-2">
+            <div 
+              className="space-y-2 p-3 w-full rounded-lg bg-default-50 border border-default-200 transition-all duration-200" 
+              aria-live="polite"
+              data-testid="password-criteria"
+            >
+              <p className="text-xs text-foreground-500 font-semibold mb-1">
+                Le mot de passe doit respecter les critères suivants :
+              </p>
               <CriteriaItem
                 met={hasUpperCase}
                 label="Contient une lettre majuscule"
