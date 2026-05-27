@@ -59,42 +59,57 @@ export default function LoginPage() {
 
   const styles = {
     inputWrapper: [
-      "border-primary",
-      "data-[hover=true]:border-primary-100",
+      "border-default-300",
+      "data-[hover=true]:border-primary-300",
       "group-data-[focus=true]:border-primary",
+      "bg-background/50",
     ],
-    input: ["text-white", "placeholder:text-gray-400", "focus:text-blue-500"],
-    label: "text-white",
+    input: ["text-foreground", "placeholder:text-default-400"],
+    label: "text-foreground-700",
     clearButton: "text-primary",
   };
 
   return (
     <>
-      <div className="min-h-screen w-full nightMode bg-background text-white flex items-center justify-center">
-        <div className="flex flex-col items-center w-full max-w-md p-5 gap-5">
-          <div className="flex flex-col items-center justify-center gap-5">
-            <Image
-              src="/foliode-icon.svg"
-              alt="Logo Foliode"
-              width={50}
-              height={50}
-            />
-            <h1 className="text-lg font-bold">Connectez vous sur Foliode !</h1>
+      <div className="min-h-screen w-full bg-gradient-to-tr from-default-100 via-background to-default-50 flex items-center justify-center p-4 sm:p-6 transition-colors duration-300">
+        <div className="w-full max-w-md bg-content1/80 dark:bg-content1/50 backdrop-blur-md border border-default-200/60 shadow-xl rounded-2xl p-6 sm:p-8 flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center justify-center gap-3 text-center">
+            <div className="p-3 bg-primary/10 rounded-full border border-primary/20 hover:scale-105 transition-transform duration-300">
+              <Image
+                src="/foliode-icon.svg"
+                alt="Logo Foliode"
+                width={48}
+                height={48}
+                priority
+              />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              Connectez-vous sur Foliode !
+            </h1>
+            <p className="text-sm text-default-500">
+              Accédez à votre espace et gérez vos portfolios
+            </p>
           </div>
 
           <form
             onSubmit={validateForm}
-            className="w-full flex flex-col gap-4 items-center md:items-start"
+            role="form"
+            aria-label="Formulaire de connexion"
+            data-testid="login-form"
+            className="w-full flex flex-col gap-4"
           >
             <Input
               isRequired
               isClearable
               name="email"
               type="email"
+              id="email"
+              autoComplete="email"
+              data-testid="email-input"
               value={data.email}
               onChange={handleInputChange}
               variant="bordered"
-              label="Email"
+              label="Adresse email"
               placeholder="john.doe@example.com"
               classNames={styles}
               onClear={() => setData({ ...data, email: "" })}
@@ -103,49 +118,63 @@ export default function LoginPage() {
               label="Mot de passe"
               value={data.password}
               name="password"
+              id="password"
+              autoComplete="current-password"
+              testId="password-input"
               onChange={handleInputChange}
             />
-            {error && <p className="text-[#F31260] text-sm">{error}</p>}
-            <span className="text-sm sm:text-base">
-              Mot de passe oublié ?{" "}
+
+            {error && (
+              <p 
+                role="alert" 
+                id="login-error" 
+                data-testid="login-error" 
+                className="text-danger text-sm font-medium bg-danger-50 border border-danger-200 rounded-lg p-2.5"
+              >
+                {error}
+              </p>
+            )}
+
+            <div className="flex items-center justify-between text-xs sm:text-sm">
+              <span className="text-default-500">
+                Pas de compte ?{" "}
+                <Link
+                  href="/signup"
+                  className="cursor-pointer font-semibold text-primary hover:text-primary-500 hover:underline"
+                >
+                  {"S'inscrire"}
+                </Link>
+              </span>
               <Link
                 href="/"
-                className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:underline"
+                className="cursor-pointer font-semibold text-primary hover:text-primary-500 hover:underline"
               >
-                Cliquez ici !
-              </Link>{" "}
-            </span>
+                Mot de passe oublié ?
+              </Link>
+            </div>
+
             <Buttons
               style="form"
               type="submit"
               isDisabled={isLoading}
+              testId="login-submit"
               text={
                 isLoading ? (
-                  <CircularProgress aria-label="Loading..." size="sm" />
+                  <CircularProgress aria-label="Chargement..." size="sm" />
                 ) : (
                   "Se connecter"
                 )
               }
             />
-
-            <span className="text-sm sm:text-base">
-              Pas de compte ?{" "}
-              <Link
-                href="/signup"
-                className="cursor-pointer text-[#3E3F92] hover:text-[#5b5dd8] hover:underline"
-              >
-                Créez votre compte !
-              </Link>{" "}
-            </span>
           </form>
 
-          <div className="flex gap-5 items-center w-full">
-            <hr className="border border-primary w-full" />
-            <span className="text-sm">OU</span>
-            <hr className="border border-primary w-full" />
+          <div className="flex gap-4 items-center w-full my-1">
+            <hr className="border-default-200 w-full" />
+            <span className="text-xs text-default-400 font-semibold uppercase tracking-wider whitespace-nowrap">OU</span>
+            <hr className="border-default-200 w-full" />
           </div>
 
-          <div className="flex flex-col gap-2 items-center w-full md:flex-row">
+          <div className="flex flex-col gap-3 items-center w-full sm:flex-row">
             <DribbbleAuth disable={isLoading} />
             <GithubAuth disable={isLoading} />
           </div>
