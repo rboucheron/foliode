@@ -176,15 +176,17 @@ def setup(ctx):
         f"{COMPOSE} exec -T backend php bin/console doctrine:migrations:migrate --no-interaction",
     )
 
-
 @task()
 def test(ctx):
-    "run in local php unit test"
-    _run(
-        ctx,
-        (f"{COMPOSE} exec -T backend " "php bin/phpunit"),
+    "run local phpunit and e2e tests"
+    ctx.run(
+        "cd tests/end2end && npm run test",
+        warn=True,
     )
-
+    ctx.run(
+        f"{COMPOSE} exec -T backend php bin/phpunit",
+        warn=True,
+    )
 
 @task
 def restart(ctx):

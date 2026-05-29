@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "yarn playwright test",
-    "test:headed": "yarn playwright test --headed",
-    "test:ui": "yarn playwright test --ui-host=0.0.0.0 --ui-port=8080",
-    "test:codegen": "yarn playwright codegen",
-    "test:showreport": "yarn playwright show-report"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui-host=0.0.0.0 --ui-port=8080",
+    "test:codegen": "playwright codegen",
+    "test:showreport": "playwright show-report"
   },
   "keywords": [],
   "author": "",
