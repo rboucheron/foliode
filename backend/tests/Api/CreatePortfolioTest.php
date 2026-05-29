@@ -8,7 +8,7 @@ class CreatePortfolioTest extends ApiTestCase
         $client = $this->createAuthenticatedClient();
         $client->request(
             'POST',
-            '/v1/api/portfolio/create',
+            '/v1/api/portfolio',
             [], [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode([

@@ -33,6 +33,7 @@ abstract class ApiTestCase extends WebTestCase
             throw new \RuntimeException('Failed to create test user: ' . $client->getResponse()->getContent());
         }
         self::$authToken = $data['token'];
+        static::ensureKernelShutdown();
     }
 
     protected function createAuthenticatedClient(): KernelBrowser
