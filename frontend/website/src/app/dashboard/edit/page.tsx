@@ -18,12 +18,17 @@ import {
 import { URLInput } from "@/components/UI/URLInput";
 import { templates } from "@/data/templates/templates";
 import { templatesStyles } from "@/data/templates/styles";
+import {
+  draftPortfolio as draftPortfolioApi,
+  publishPortfolio as publishPortfolioApi,
+} from "api/src/client/portfolio";
 
 export default function Edit() {
   const { portfolio, setPortfolio, fetchPortfolio, updatePortfolio } =
     usePortfolioStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [isTogglingStatus, setIsTogglingStatus] = useState(false);
 
   useEffect(() => {
     const initPortfolio = async () => {
@@ -119,6 +124,27 @@ export default function Edit() {
     });
   };
 
+  const handleToggleVisibility = async () => {
+    if (!portfolio) return;
+
+    setIsTogglingStatus(true);
+    try {
+      const currentStatus = (portfolio as any)?.status ?? 0;
+
+      if (currentStatus === 1) {
+        await draftPortfolioApi();
+      } else {
+        await publishPortfolioApi();
+      }
+
+      await fetchPortfolio();
+    } catch (error) {
+      console.error("Erreur lors de la mise a jour du statut", error);
+    } finally {
+      setIsTogglingStatus(false);
+    }
+  };
+
   if (isLoading) {
     return <div className="p-4 text-center">Chargement...</div>;
   }
@@ -134,6 +160,8 @@ export default function Edit() {
           <PortfolioStatusCard
             status={(portfolio as any)?.status ?? 0}
             url={portfolio?.url}
+            isTogglingStatus={isTogglingStatus}
+            onToggleVisibility={handleToggleVisibility}
           />
           <div className="bg-white dark:bg-[#0f0f0f] rounded-lg p-4 shadow">
             <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -152,6 +180,7 @@ export default function Edit() {
         <div className="col-span-2 bg-white dark:bg-[#0b0b0b] rounded-lg p-6 shadow space-y-4">
           <Input
             label="Titre du portfolio"
+            data-testid="dashboard-edit-title-input"
             value={portfolio?.title}
             onChange={(e) =>
               setPortfolio({ ...portfolio, title: e.target.value })
@@ -161,6 +190,7 @@ export default function Edit() {
           />
           <Input
             label="Soutitre du portfolio"
+            data-testid="dashboard-edit-subtitle-input"
             value={portfolio?.subtitle}
             onChange={(e) =>
               setPortfolio({ ...portfolio, subtitle: e.target.value })
@@ -171,6 +201,7 @@ export default function Edit() {
           <Textarea
             label="Présentation"
             placeholder="Présentez-vous en quelques lignes..."
+            data-testid="dashboard-edit-bio-input"
             onChange={(e) =>
               setPortfolio({ ...portfolio, bio: e.target.value })
             }
@@ -181,6 +212,7 @@ export default function Edit() {
           <URLInput
             onChange={(value) => setPortfolio({ ...portfolio, url: value })}
             value={portfolio?.url}
+            testId="dashboard-edit-url-input"
           />
 
           <div className="space-y-3 pt-4 border-t border-gray-200 dark:border-gray-800">
@@ -256,6 +288,7 @@ export default function Edit() {
           <div className="flex justify-end">
             <Button
               onPress={() => updatePortfolio()}
+              data-testid="dashboard-edit-save-button"
               className="dayMode bg-primary text-white"
             >
               Modifier
@@ -270,7 +303,11 @@ export default function Edit() {
 export const PortfolioStatusCard: React.FC<{
   status?: number;
   url: string;
-}> = ({ status, url }) => {
+  isTogglingStatus?: boolean;
+  onToggleVisibility: () => Promise<void>;
+}> = ({ status, url, isTogglingStatus = false, onToggleVisibility }) => {
+  const isPublished = status === 1;
+
   return (
     <div className="bg-white dark:bg-[#0f0f0f] rounded-lg p-4 shadow">
       <div className="flex items-center justify-between">
@@ -279,6 +316,7 @@ export const PortfolioStatusCard: React.FC<{
             Statut du portfolio
           </div>
           <div
+            data-testid="dashboard-edit-status-text"
             className={`mt-2 text-lg font-semibold ${status == 1 ? "text-green-500" : "text-red-500"}`}
           >
             {status == 1 ? "En ligne" : "Hors ligne"}
@@ -292,9 +330,23 @@ export const PortfolioStatusCard: React.FC<{
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <Link href={`/${url}`} className="text-blue-600">
+        <Link
+          href={`/${url}`}
+          className="text-blue-600"
+          data-testid="dashboard-edit-preview-link"
+        >
           Voir
         </Link>
+        <Button
+          size="sm"
+          color={isPublished ? "default" : "primary"}
+          variant={isPublished ? "bordered" : "solid"}
+          onPress={onToggleVisibility}
+          isLoading={isTogglingStatus}
+          data-testid="dashboard-edit-visibility-toggle"
+        >
+          {isPublished ? "Passer en brouillon" : "Passer en public"}
+        </Button>
       </div>
     </div>
   );

@@ -8,6 +8,10 @@ export function getDecodedToken(request: NextRequest): User | null {
   if (!token) {
     return null;
   }
-  
-  return jwtDecode<User>(token);
+
+  try {
+    return jwtDecode<User>(token);
+  } catch {
+    return null;
+  }
 }

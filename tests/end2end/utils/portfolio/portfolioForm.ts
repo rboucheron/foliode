@@ -1,10 +1,13 @@
 import { fillNextUIInput } from "@utils/next/input";
-import { Page } from "playwright";
+import { Page } from "@playwright/test";
 
-export const fillCreatePortfolioForm = async (page: Page) => {
+export const fillCreatePortfolioForm = async (
+  page: Page,
+  title = "Titre du portfolio",
+) => {
   await fillNextUIInput(
     page.getByTestId("portfolio-title-input"),
-    "Titre du portfolio",
+    title,
   );
   await fillNextUIInput(
     page.getByTestId("portfolio-subtitle-input"),
@@ -17,14 +20,14 @@ export const fillCreatePortfolioForm = async (page: Page) => {
 };
 
 export const clickNextStepButton = async (page: Page) => {
-  await page.getByRole("button", { name: "Suivant" }).click();
+  await page.getByTestId("portfolio-edit-next-step").click();
 };
 
 export const selectPortfolioTemplate = async (page: Page) => {
-  await page.getByRole("button", { name: "Bento Bento" }).click();
-  await page.getByRole("button", { name: "Bento", exact: true }).click();
+  await page.getByTestId("portfolio-template-template-1").click();
+  await page.getByTestId("portfolio-style-bento").click();
 };
 
 export const clickPublishPortfolioButton = async (page: Page) => {
-  await page.getByRole("button", { name: "Publier" }).click();
+  await page.getByTestId("portfolio-edit-publish").click();
 };

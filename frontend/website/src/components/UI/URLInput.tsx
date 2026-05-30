@@ -6,12 +6,14 @@ import React from "react";
 interface URLInputProps {
   onChange: (url: string) => void;
   value: string;
+  testId?: string;
 }
 
-export const URLInput: React.FC<URLInputProps> = ({ onChange, value }) => {
+export const URLInput: React.FC<URLInputProps> = ({ onChange, value, testId }) => {
   return (
     <div className="relative flex items-center">
       <Input
+        data-testid={testId}
         classNames={{
           base: "max-w-full",
           input: "pl-[78px] pr-[105px] text-white",

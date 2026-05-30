@@ -101,7 +101,11 @@ export default function MultiStepForm() {
 
             <div className="flex justify-between mt-6">
               {currentStep > 0 ? (
-                <Button onPress={handlePrevious} disabled={currentStep === 0}>
+                <Button
+                  onPress={handlePrevious}
+                  disabled={currentStep === 0}
+                  data-testid="portfolio-edit-prev-step"
+                >
                   Précédent
                 </Button>
               ) : (<div></div>)
@@ -109,6 +113,7 @@ export default function MultiStepForm() {
               {currentStep < totalSteps ? (
                 <Button
                   onPress={() => formRef.current?.requestSubmit()}
+                  data-testid="portfolio-edit-next-step"
                   className="dayMode bg-primary text-white"
                 >
                   Suivant
@@ -116,6 +121,7 @@ export default function MultiStepForm() {
               ) : (
                 <Button
                   onPress={postData}
+                  data-testid="portfolio-edit-publish"
                   className="dayMode bg-primary text-white"
                   isDisabled={portfolio.config.colors ? false : true}
                 >
