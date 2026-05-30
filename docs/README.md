@@ -48,6 +48,11 @@ inv setup
 
 Cette commande va automatiquement : Créer les fichiers .env, Builder les images Docker, Démarrer les conteneurs, Installer les dépendances backend/frontend, Générer les clés JWT, Exécuter les migrations Doctrine
 
+- si inv ne fonctionne pas 
+```bash 
+source .venv/bin/activate 
+```
+
 - Build des images Docker
 
 ```bash

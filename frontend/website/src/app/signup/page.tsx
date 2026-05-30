@@ -5,13 +5,34 @@ import Link from "next/link";
 import GithubAuth from "@/components/GitHub/GithubAuth";
 import Image from "next/image";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@heroui/react";
+import axios from "axios";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordStrengthChecker from "@/components/UI/PasswordStrengthChecker";
-import { signUpUser } from "api/src/client/auth";
+import { signInUser, signUpUser } from "api/src/client/auth";
+import { getCookie } from "@/utils/cookiesHelpers";
+
+const extractToken = (payload: unknown): string | null => {
+  if (!payload || typeof payload !== "object") return null;
+
+  const directToken = (payload as { token?: unknown }).token;
+  if (typeof directToken === "string" && directToken.length > 0) {
+    return directToken;
+  }
+
+  const nestedData = (payload as { data?: unknown }).data;
+  if (nestedData && typeof nestedData === "object") {
+    const nestedToken = (nestedData as { token?: unknown }).token;
+    if (typeof nestedToken === "string" && nestedToken.length > 0) {
+      return nestedToken;
+    }
+  }
+
+  return null;
+};
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -24,6 +45,13 @@ export default function RegisterPage() {
     password: "",
     passwordConfirm: "",
   });
+
+  useEffect(() => {
+    const token = getCookie("token_auth");
+    if (token) {
+      router.replace("/portfolio/edit");
+    }
+  }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,22 +72,53 @@ export default function RegisterPage() {
       return;
     }
 
-    const response = await signUpUser({
-      email: data.email,
-      firstName: data.firstname,
-      lastName: data.lastname,
-      password: data.password,
-    });
+    try {
+      const response = await signUpUser({
+        email: data.email,
+        firstName: data.firstname,
+        lastName: data.lastname,
+        password: data.password,
+      });
 
-    if ("token" in response) {
-      document.cookie = `token_auth=${response.token}; path=/`;
-      router.push("/portfolio/edit");
-    }
+      const signupToken = extractToken(response);
+      if (signupToken) {
+        document.cookie = `token_auth=${signupToken}; path=/`;
+        window.location.assign("/portfolio/edit");
+        return;
+      }
 
-    if ("error" in response) {
-      setError(response.error);
+      if ("error" in response) {
+        setError(response.error);
+        return;
+      }
+
+      // Some auth APIs return success without a token on signup; fallback to email sign in.
+      const signInResponse = await signInUser({
+        email: data.email,
+        password: data.password,
+      });
+
+      const signinToken = extractToken(signInResponse);
+      if (signinToken) {
+        document.cookie = `token_auth=${signinToken}; path=/`;
+        window.location.assign("/portfolio/edit");
+        return;
+      }
+
+      if ("error" in signInResponse) {
+        setError(signInResponse.error);
+      } else {
+        setError("Inscription reussie, mais connexion impossible automatiquement.");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const apiError = error.response?.data?.error;
+        setError(apiError || "Une erreur est survenue pendant l'inscription.");
+      } else {
+        setError("Une erreur est survenue pendant l'inscription.");
+      }
+    } finally {
       setIsLoading(false);
-      return;
     }
   };
 

@@ -79,6 +79,7 @@ function FourStepForm() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {templates.map((template) => (
           <Card key={template.id} isPressable shadow="sm" onPress={() => handleTemplateChange(template)}
+            data-testid={`portfolio-template-${template.id}`}
             className={portfolio.template === template.id ? "ring-2 ring-primary" : ""}
           >
             <CardBody className="overflow-visible p-0">
@@ -107,6 +108,7 @@ function FourStepForm() {
               key={style.name} 
               variant={selectedStyle?.primary === style.primary ? "solid" : "bordered"} 
               color={selectedStyle?.primary === style.primary ? "primary" : "default"}
+              data-testid={`portfolio-style-${style.name.toLowerCase().replace(/\s+/g, "-")}`}
               className="w-full"
               onPress={() => handleStyleChange(style)}
             >

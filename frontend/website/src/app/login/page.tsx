@@ -10,6 +10,7 @@ import { Input } from "@heroui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/utils/cookiesHelpers";
+import axios from "axios";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordInput from "@/components/UI/PasswordInput";
@@ -42,18 +43,29 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    const response = await signInUser(data);
 
-    if ("error" in response) {
-      setError(response.error);
-      setData({ email: "", password: "" });
+    try {
+      const response = await signInUser(data);
+
+      if ("error" in response) {
+        setError(response.error);
+        setData({ email: "", password: "" });
+        return;
+      }
+
+      if ("token" in response) {
+        document.cookie = `token_auth=${response.token}; path=/`;
+        window.location.assign("/dashboard");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const apiError = error.response?.data?.error;
+        setError(apiError || "Une erreur est survenue pendant la connexion.");
+      } else {
+        setError("Une erreur est survenue pendant la connexion.");
+      }
+    } finally {
       setIsLoading(false);
-      return;
-    }
-
-    if ("token" in response) {
-      document.cookie = `token_auth=${response.token}; path=/`;
-      router.push("/dashboard");
     }
   };
 

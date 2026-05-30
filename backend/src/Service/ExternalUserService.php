@@ -47,9 +47,7 @@ class ExternalUserService
             ->setIsEmailVerified(true)
             ->setGithubLogin($userData['login'])
             ->setGithubId($userData['id'])
-            ->setAvatarUrl($userData['avatar_url'] ?? null)
-            ->setStudent(true)
-            ->setTeacher(false);
+            ->setAvatarUrl($userData['avatar_url'] ?? null);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
