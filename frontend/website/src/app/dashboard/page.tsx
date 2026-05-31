@@ -232,6 +232,23 @@ export default function Dashboard() {
                     </Card>
 
                     <Card
+                        className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
+                        <CardBody>
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-bold">Commentaires</h2>
+                                <Link href="/dashboard/comments"
+                                      className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200">
+                                    <FaPencilAlt
+                                        className="dayMode text-primary duration-200 hover:text-primary-200 hover:scale-110"/>
+                                </Link>
+                            </div>
+                            <p className="text-gray-600 dark:text-gray-300">
+                                Consultez les commentaires reçus, masquez ceux qui ne respectent pas les règles et gardez l'historique.
+                            </p>
+                        </CardBody>
+                    </Card>
+
+                    <Card
                         className="col-span-full shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
                         <CardBody>
                             <div className="flex items-center gap-3 mb-4">

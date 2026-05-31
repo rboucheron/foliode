@@ -8,6 +8,7 @@ import { FaRegUser, FaRegFolder, FaRegEdit }  from "react-icons/fa";
 import { LuArrowLeftFromLine, LuBrain }       from "react-icons/lu";
 import { IoMdMenu }                           from "react-icons/io";
 import { IoColorPaletteOutline }              from "react-icons/io5";
+import { HiOutlineChatBubbleLeftRight }       from "react-icons/hi2";
 import { usePathname }                        from 'next/navigation';
 import { useSidebar }                         from "@/contexts/SidebarContext";
 import { ThemeSwitcher }                      from "@/components/UI/ThemeSwitcher";
@@ -23,6 +24,7 @@ export default function Sidebar() {
     { name: "Profile",          icon: <FaRegUser />, link: "dashboard/profile" },
     { name: "Mes compétences",  icon: <LuBrain />, link: "dashboard/skills" },
     { name: "Mes projets",      icon: <FaRegFolder />, link: "dashboard/projects" },
+    { name: "Commentaires",     icon: <HiOutlineChatBubbleLeftRight />, link: "dashboard/comments" },
     { name: "Editer",           icon: <FaRegEdit />, link: "dashboard/edit" },
     { name: "Thème",            icon: <IoColorPaletteOutline fontSize={22} />, link: "dashboard/theme" },
   ];

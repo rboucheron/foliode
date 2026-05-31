@@ -10,6 +10,8 @@ class UpdatePortfolioDTO
     #[Assert\Length(max: 255, maxMessage: "subtitle cannot exceed 255 characters")]
     public ?string $subtitle = null;
     public ?string $bio = null;
+    #[Assert\Length(max: 1000, maxMessage: "commentMessage cannot exceed 1000 characters")]
+    public ?string $commentMessage = null;
     #[Assert\Length(max: 255, maxMessage: "url cannot exceed 255 characters")]
     public ?string $url = null;
     public ?string $template = null;
