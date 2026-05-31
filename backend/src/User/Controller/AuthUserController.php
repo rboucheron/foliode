@@ -4,7 +4,7 @@ namespace App\User\Controller;
 
 use App\Service\MailerService;
 use App\User\Dto\AuthUserDto;
-use App\User\Dto\createUsersDto;
+use App\User\Dto\CreateUsersDto;
 use App\User\Service\AuthUserService;
 use App\User\Service\UserEmailVerificationCodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +31,7 @@ class AuthUserController extends AbstractController
         $newUser = $this->authUserService->createUser(
             $this->serializer->deserialize(
                 $request->getContent(),
-                createUsersDto::class,
+                CreateUsersDto::class,
                 'json'
             )
         );
