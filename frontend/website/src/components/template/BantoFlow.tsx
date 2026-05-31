@@ -128,8 +128,10 @@ function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
             </div>
 
             <PortfolioCommentsSection
+                
                 portfolioUrl={portfolio.url}
                 commentMessage={portfolio.commentMessage}
+                titleColor={secondary}
             />
         </div>
     );

@@ -14,11 +14,13 @@ import type { PortfolioComment } from "@/interfaces/PortfolioComment";
 type PortfolioCommentsSectionProps = {
   portfolioUrl: string;
   commentMessage?: string | null;
+  titleColor?: string;
 };
 
 const PortfolioCommentsSection = ({
   portfolioUrl,
   commentMessage,
+  titleColor,
 }: PortfolioCommentsSectionProps) => {
   const { user, fetchFromJwt } = useUserStore();
   const [comments, setComments] = useState<PortfolioComment[]>([]);
@@ -126,10 +128,10 @@ const PortfolioCommentsSection = ({
     <section className="px-4 py-20" id="comments">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+          <h2 className="text-4xl md:text-5xl font-bold" style={{ color: titleColor }}>
             Commentaires
           </h2>
-          <p className="text-base md:text-lg text-gray-500 max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-gray-500 max-w-3xl mx-auto" style={{ color: titleColor }} >
             {commentMessage ||
               "Laissez un message constructif pour encourager l'auteur de ce portfolio."}
           </p>
