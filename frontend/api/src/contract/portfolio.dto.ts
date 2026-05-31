@@ -59,6 +59,7 @@ export interface PortfolioResponseDTO {
   title: string;
   subtitle: string;
   bio: string;
+  commentMessage?: string | null;
   template: string;
   url: string;
   config: {
@@ -73,6 +74,7 @@ export interface PortfolioUpsertRequestDTO {
   title: string;
   subtitle: string;
   bio: string;
+  commentMessage?: string | null;
   template: string;
   url: string;
   config: PortfolioConfigDTO;

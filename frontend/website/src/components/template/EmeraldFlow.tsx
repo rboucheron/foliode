@@ -5,6 +5,7 @@ import { Image }          from "@heroui/react";
 import { Portfolio }      from "@/interfaces/Portfolio";
 import { generateAvatar } from "@/utils/generateAvatar";
 import { formatImage }    from "@/utils/formatImage";
+import PortfolioCommentsSection from "@/components/portfolio/PortfolioCommentsSection";
 
 const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
   const { primary, secondary, warning, success, info, light } =
@@ -173,6 +174,11 @@ const EmeraldFlow = ({ portfolio }: { portfolio: Portfolio }) => {
           </div>
         </div>
       </section>
+
+      <PortfolioCommentsSection
+        portfolioUrl={portfolio.url}
+        commentMessage={portfolio.commentMessage}
+      />
     </main>
   );
 };

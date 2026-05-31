@@ -53,6 +53,7 @@ class PortfolioService
         $portfolio->setTitle($portfolioDTO->title);
         $portfolio->setSubtitle($portfolioDTO->subtitle);
         $portfolio->setBio($portfolioDTO->bio);
+        $portfolio->setCommentMessage($portfolioDTO->commentMessage ?? null);
         $portfolio->setUrl($this->generateUniqueUrl($portfolioDTO->title));
         $this->emPersist($portfolio);
 
@@ -77,6 +78,7 @@ class PortfolioService
         $portfolio->setTitle($portfolioDTO->title ?? $portfolio->getTitle());
         $portfolio->setSubtitle($portfolioDTO->subtitle ?? $portfolio->getSubtitle());
         $portfolio->setBio($portfolioDTO->bio ?? $portfolio->getBio());
+        $portfolio->setCommentMessage($portfolioDTO->commentMessage ?? $portfolio->getCommentMessage());
         $portfolio->setUrl($portfolioDTO->url ?? $portfolio->getUrl());
         $portfolio->setTemplate($portfolioDTO->template ?? $portfolio->getTemplate());
         $portfolio->setConfig($portfolioDTO->config ?? $portfolio->getConfig());
