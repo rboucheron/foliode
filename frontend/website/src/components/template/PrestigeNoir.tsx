@@ -5,6 +5,7 @@ import {Image} from "@heroui/react";
 import {Portfolio} from "@/interfaces/Portfolio";
 import {generateAvatar} from "@/utils/generateAvatar";
 import {formatImage} from "@/utils/formatImage";
+import PortfolioCommentsSection from "@/components/portfolio/PortfolioCommentsSection";
 
 const PrestigeNoir = ({portfolio}: { portfolio: Portfolio }) => {
     const {primary, secondary, success, info, light} =
@@ -168,6 +169,11 @@ const PrestigeNoir = ({portfolio}: { portfolio: Portfolio }) => {
                     ))}
                 </div>
             </section>
+
+            <PortfolioCommentsSection
+                portfolioUrl={portfolio.url}
+                commentMessage={portfolio.commentMessage}
+            />
         </main>
     );
 };

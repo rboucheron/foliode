@@ -1,14 +1,13 @@
-import {Portfolio} from "@/interfaces/Portfolio";
-import {Card, Image} from "@heroui/react";
-import {formatImage} from "@/utils/formatImage";
-import {generateAvatar} from "@/utils/generateAvatar";
+import { Portfolio } from "@/interfaces/Portfolio";
+import { Card, Image } from "@heroui/react";
+import { formatImage } from "@/utils/formatImage";
+import { generateAvatar } from "@/utils/generateAvatar";
+import PortfolioCommentsSection from "@/components/portfolio/PortfolioCommentsSection";
 
 import Link from "next/link";
 
-function BantoFlow({portfolio}: { portfolio: Portfolio }) {
-    const {primary, secondary, light} =
-        portfolio.config.colors;
-
+function BantoFlow({ portfolio }: { portfolio: Portfolio }) {
+    const { primary, secondary, light } = portfolio.config.colors;
     const avatar = portfolio.users.avatar_url;
 
     return (
@@ -21,18 +20,18 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 2xl:w-3/4 xl:w-5/6 m-auto">
                 <Card
                     className="shadow-xl rounded-xl overflow-hidden col-span-2"
-                    style={{backgroundColor: secondary}}
+                    style={{ backgroundColor: secondary }}
                 >
-                    <div className="p-6" style={{backgroundColor: primary}}>
+                    <div className="p-6" style={{ backgroundColor: primary }}>
                         <h1
                             className="text-4xl font-bold mb-2 transition-colors duration-300"
-                            style={{color: secondary}}
+                            style={{ color: secondary }}
                         >
                             {portfolio.title}
                         </h1>
                         <h3
                             className="text-xl transition-colors duration-300"
-                            style={{color: secondary}}
+                            style={{ color: secondary }}
                         >
                             {portfolio.subtitle}
                         </h3>
@@ -45,12 +44,12 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
                                     alt={portfolio.title}
                                     width={250}
                                     height={250}
-                                    className="rounded-lg  object-cover"
+                                    className="rounded-lg object-cover"
                                 />
                             </div>
                             <p
                                 className="text-lg col-span-2 leading-relaxed p-4"
-                                style={{color: light}}
+                                style={{ color: light }}
                             >
                                 {portfolio.bio}
                             </p>
@@ -60,10 +59,10 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
 
                 <Card
                     className="shadow-xl rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl"
-                    style={{backgroundColor: secondary}}
+                    style={{ backgroundColor: secondary }}
                 >
                     <div className="p-6">
-                        <h2 className="text-2xl font-bold mb-4" style={{color: light}}>
+                        <h2 className="text-2xl font-bold mb-4" style={{ color: light }}>
                             Compétences
                         </h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -80,7 +79,7 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
                                     />
                                     <p
                                         className="text-sm font-semibold text-center"
-                                        style={{color: light}}
+                                        style={{ color: light }}
                                     >
                                         {tool.name}
                                     </p>
@@ -91,15 +90,12 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
                 </Card>
 
                 {portfolio.projects.map((project, index) => (
-                    <Link
-                        href={`/${portfolio.url}/project/${project.title}`}
-                        key={index}
-                    >
+                    <Link href={`/${portfolio.url}/project/${project.title}`} key={index}>
                         <Card
                             className={`shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer ${
                                 index == 3 && "col-span-2 row-span-2"
                             }`}
-                            style={{backgroundColor: light, color: primary}}
+                            style={{ backgroundColor: light, color: primary }}
                         >
                             <div className="flex flex-col h-full justify-between">
                                 {project.projectsImages && project.projectsImages.length !== 0 ? (
@@ -117,14 +113,11 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
                                 <div className="p-4">
                                     <h3
                                         className="text-2xl first-letter:uppercase font-bold mb-4"
-                                        style={{color: secondary}}
+                                        style={{ color: secondary }}
                                     >
                                         {project.title}
                                     </h3>
-                                    <p
-                                        className="text-sm mb-4 line-clamp-2"
-                                        style={{color: secondary}}
-                                    >
+                                    <p className="text-sm mb-4 line-clamp-2" style={{ color: secondary }}>
                                         {project.description}
                                     </p>
                                 </div>
@@ -133,6 +126,13 @@ function BantoFlow({portfolio}: { portfolio: Portfolio }) {
                     </Link>
                 ))}
             </div>
+
+            <PortfolioCommentsSection
+                
+                portfolioUrl={portfolio.url}
+                commentMessage={portfolio.commentMessage}
+                titleColor={secondary}
+            />
         </div>
     );
 }

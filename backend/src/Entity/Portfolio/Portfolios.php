@@ -53,6 +53,10 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $bio = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('getPortfolio')]
+    private ?string $commentMessage = null;
+
     #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups('getPortfolio')]
     private ?array $config = null;
@@ -167,6 +171,18 @@ class Portfolios
     public function setBio(?string $bio): static
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function getCommentMessage(): ?string
+    {
+        return $this->commentMessage;
+    }
+
+    public function setCommentMessage(?string $commentMessage): static
+    {
+        $this->commentMessage = $commentMessage;
 
         return $this;
     }

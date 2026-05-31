@@ -209,6 +209,16 @@ export default function Edit() {
             value={portfolio?.bio}
             isRequired
           />
+          <Textarea
+            label="Message d'incitation aux commentaires"
+            placeholder="Encouragez les visiteurs à laisser un retour..."
+            data-testid="dashboard-edit-comment-message-input"
+            onChange={(e) =>
+              setPortfolio({ ...portfolio, commentMessage: e.target.value })
+            }
+            minRows={3}
+            value={portfolio?.commentMessage ?? ""}
+          />
           <URLInput
             onChange={(value) => setPortfolio({ ...portfolio, url: value })}
             value={portfolio?.url}
