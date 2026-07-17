@@ -1,4 +1,4 @@
-FROM node:20
+FROM oven/bun:1
 
 RUN apt-get update && apt-get install -y iputils-ping curl
 
@@ -11,18 +11,28 @@ ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 ENV API_CLIENT_URL=${API_CLIENT_URL}
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY api ./api
+# =====================
+# API
+# =====================
+
+COPY api/package.json api/bun.lock* ./api/
 
 WORKDIR /workspace/api
-RUN npm install
+RUN bun install
 
-COPY website/package*.json /workspace/website/
+COPY api ./
+
+# =====================
+# WEBSITE
+# =====================
+
+COPY website/package.json website/bun.lock* ../website/
 
 WORKDIR /workspace/website
-RUN npm install
+RUN bun install
 
 COPY website ./
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["bun", "run", "dev"]
