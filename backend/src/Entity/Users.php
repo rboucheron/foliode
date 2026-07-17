@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Portfolio\Portfolios;
-use APP\Entity\UserRoles;
 use App\Entity\Portfolio\Projects;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\Collection;
@@ -40,9 +39,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $admin_password = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $github_token = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -66,7 +62,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $avatar_url = null;
 
     #[ORM\Column(type: 'json')]
-    private $roles = [UserRoles::USER];
+    private $roles = [];
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?int $email_verification_code = null;
@@ -93,18 +89,6 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function getGithubToken(): ?string
     {
         return $this->github_token;
-    }
-
-    public function getAdminPassword(): ?string
-    {
-        return $this->admin_password;
-    }
-
-    public function setAdminPassword(?string $admin_password): self
-    {
-        return $this->admin_password;
-        $this->admin_password = $admin_password;
-        return $this;
     }
 
     public function setGithubToken(?string $github_token): self
