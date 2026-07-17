@@ -33,3 +33,4 @@ config/jwt/
 ###< lexik/jwt-authentication-bundle ###
 
 composer.lock
+node_modules/
