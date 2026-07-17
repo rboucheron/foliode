@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <main class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 px-6 py-16">
+        <div class="mx-auto flex max-w-4xl flex-col gap-8 rounded-3xl border border-white/10 bg-white/10 p-10 shadow-2xl backdrop-blur">
+            <div class="space-y-4">
+                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Symfony + Twig + Tailwind</p>
+                <h1 class="text-4xl font-bold sm:text-5xl">Bienvenue sur votre backend Symfony</h1>
+                <p class="max-w-2xl text-lg text-slate-300">
+                    Tailwind est maintenant installé avec Bun et prêt à être utilisé dans les templates Twig.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-4">
+                <a href="https://symfony.com/doc/current/templates.html" class="rounded-full bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300">
+                    Voir la doc Twig
+                </a>
+                <a href="https://tailwindcss.com/docs/installation" class="rounded-full border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10">
+                    Docs Tailwind
+                </a>
+            </div>
+        </div>
+    </main>
+{% endblock %}
