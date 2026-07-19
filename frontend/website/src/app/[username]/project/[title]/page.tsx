@@ -5,7 +5,7 @@ import EmeraldProjectPage from "@/components/template/emerald/ProjectPage";
 import PrestigeNoirProjectPage from "@/components/template/PrestigeNoir/ProjectPage";
 
 import { Portfolio } from "@/interfaces/Portfolio";
-import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
+import { getPublicPortfolioByUrl } from "@rboucheron/api";
 
 const fallbackColors = {
   primary: "#111827",

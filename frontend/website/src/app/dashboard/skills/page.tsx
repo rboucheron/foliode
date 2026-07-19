@@ -10,7 +10,7 @@ import { formatImage }                        from "@/utils/formatImage";
 import { Tools }                              from "@/interfaces/Tools";
 import { RxCross2 }                           from "react-icons/rx";
 import { Skill }                              from "@/interfaces/Skill";
-import { createTool, deleteTool, getCurrentPortfolio } from "api/src/client";
+import { createTool, deleteTool, getCurrentPortfolio } from "@rboucheron/api";
 
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);

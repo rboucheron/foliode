@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardTitle from "@/components/DashboardTitle";
-import { hidePortfolioComment, getDashboardPortfolioComments } from "api/src/client";
+import { hidePortfolioComment, getDashboardPortfolioComments } from "@rboucheron/api";
 import type { PortfolioComment } from "@/interfaces/PortfolioComment";
 import { Button, Card, CardBody } from "@heroui/react";
 import { useEffect, useState } from "react";

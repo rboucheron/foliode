@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { FiSun } from "react-icons/fi";
 import { IoMdMoon } from "react-icons/io";
 
-export function ThemeSwitcher({ isOpen = false }) {
+export function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -19,7 +19,7 @@ export function ThemeSwitcher({ isOpen = false }) {
 
   return (
     <div onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className="dayMode flex items-center cursor-pointer group">
-      <span 
+      <span
         className="flex items-center px-3 cursor-pointer duration-300 group-hover:text-primary-200"
       >
         {theme == 'light' ? (
@@ -28,7 +28,6 @@ export function ThemeSwitcher({ isOpen = false }) {
           <IoMdMoon className="dayMode text-lg text-background duration-300 group-hover:text-primary-200" />
         )}
       </span>
-      {isOpen && <span className="hidden lg:block duration-300 group-hover:text-primary-200"> {theme === 'light' ? 'Mode jour' : 'Mode nuit'}</span>}
     </div>
   );
 }

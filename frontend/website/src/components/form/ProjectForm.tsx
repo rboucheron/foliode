@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { Project } from '@/interfaces/Project';
 import { useProjects } from '@/utils/store';
-import { createProject as createProjectAPI } from "api/src/client/project";
+import { createProject as createProjectAPI } from "@rboucheron/api";
 
 function ProjectForm() {
   const { projects, setProjects } = useProjects();

@@ -8,7 +8,7 @@ import { useUserStore } from "@/store/user.store";
 import {
   createPublicPortfolioComment,
   getPublicPortfolioComments,
-} from "api/src/client";
+} from "@rboucheron/api";
 import type { PortfolioComment } from "@/interfaces/PortfolioComment";
 
 type PortfolioCommentsSectionProps = {

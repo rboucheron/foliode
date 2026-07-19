@@ -2,7 +2,7 @@ import {create} from "zustand";
 import {User} from "@/interfaces/User";
 import {getCookie} from "@/utils/cookiesHelpers";
 import {jwtDecode} from "jwt-decode";
-import { updateUserAvatar, updateUserProfile } from "api/src/client/user";
+import { updateUserAvatar, updateUserProfile } from "@rboucheron/api";
 
 
 interface UserState {

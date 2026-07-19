@@ -21,7 +21,7 @@ import { templatesStyles } from "@/data/templates/styles";
 import {
   draftPortfolio as draftPortfolioApi,
   publishPortfolio as publishPortfolioApi,
-} from "api/src/client/portfolio";
+} from "@rboucheron/api";
 
 export default function Edit() {
   const { portfolio, setPortfolio, fetchPortfolio, updatePortfolio } =

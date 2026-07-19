@@ -14,7 +14,7 @@ import axios from "axios";
 
 import { CircularProgress } from "@heroui/progress";
 import PasswordInput from "@/components/UI/PasswordInput";
-import { signInUser } from "api/src/client/auth";
+import { signInUser } from "@rboucheron/api";
 
 export default function LoginPage() {
   const router = useRouter();

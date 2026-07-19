@@ -3,7 +3,7 @@ import EmeraldFlow from "@/components/template/EmeraldFlow";
 import PrestigeNoir from "@/components/template/PrestigeNoir";
 
 import { Portfolio } from "@/interfaces/Portfolio";
-import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
+import { getPublicPortfolioByUrl } from "@rboucheron/api";
 import { notFound } from "next/navigation";
 
 const fallbackColors = {

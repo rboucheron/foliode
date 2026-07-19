@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { Project } from '@/interfaces/Project';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { ProjectUpdateProps } from '@/interfaces/Project';
-import { updateProject as updateProjectAPI } from "api/src/client/project";
+import { updateProject as updateProjectAPI } from "@rboucheron/api";
 
 export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
   const [project, setProject] = useState<Project>(initialProject);

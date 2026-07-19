@@ -1,5 +1,5 @@
 import { HeroUIProvider } from "@heroui/react";
-import { SidebarProvider } from "@/contexts/SidebarContext"
+import { SidebarProvider } from "@rboucheron/ui";
 import { ThemeProvider } from "next-themes";
 
 

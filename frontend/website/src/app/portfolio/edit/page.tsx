@@ -9,7 +9,7 @@ import React, { useState, useRef } from "react";
 import { Button, Card, Progress } from "@heroui/react";
 import { useMultiStep } from "@/utils/store";
 import { useRouter } from "next/navigation";
-import { createPortfolio, createProjects, createTools } from "api/src/client";
+import { createPortfolio, createProjects, createTools } from "@rboucheron/api";
 
 import ModelViewer from "@/components/model/modelviewer";
 

@@ -16,7 +16,7 @@ import {
 
 import React, { useEffect} from "react";
 import ProjectUpdate       from "../form/ProjectUpdate";
-import { deleteProject, getPortfolioProjects } from "api/src/client/project";
+import { deleteProject, getPortfolioProjects } from "@rboucheron/api";
 
 function Projects() {
   const { projects, setProjects } = useProjects();
