@@ -1,16 +1,16 @@
 "use client";
 
-import DashboardTitle from "@/components/DashboardTitle";
-import FileInput      from "@/components/UI/FileInput";
-import Buttons        from "@/components/UI/button";
+import { DashboardTitle, FileInput, FoliodeButton } from "@rboucheron/ui";
+import { UserAvatar } from "@/components/UserAvatar";
 
 import { useEffect, useState }                from "react";
-import { Input, Image }                       from "@heroui/react";
+import { Input }                              from "@heroui/react";
+import Image                                  from "next/image";
 import { formatImage }                        from "@/utils/formatImage";
 import { Tools }                              from "@/interfaces/Tools";
 import { RxCross2 }                           from "react-icons/rx";
 import { Skill }                              from "@/interfaces/Skill";
-import { createTool, deleteTool, getCurrentPortfolio } from "api/src/client";
+import { createTool, deleteTool, getCurrentPortfolio } from "@rboucheron/api";
 
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -54,7 +54,7 @@ export default function SkillsPage() {
 
   return (
     <>
-      <DashboardTitle title="Mes compétences" />
+      <DashboardTitle title="Mes compétences" avatar={<UserAvatar size={40} />} />
       <div className="flex-1 p-6">
         <div className="mt-1 w-full">
           <div className="grid grid-cols-3 mt-10 gap-5">
@@ -108,7 +108,7 @@ export default function SkillsPage() {
                   files={formData.image ? [formData.image] : []}
                   isRequired
                 />
-                <Buttons
+                <FoliodeButton
                   text="Ajouter un Skills"
                   style="form"
                   className="bg-primary w-auto"

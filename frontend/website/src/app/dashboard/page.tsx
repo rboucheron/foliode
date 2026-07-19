@@ -1,6 +1,7 @@
 'use client';
 
-import DashboardTitle from '@/components/DashboardTitle';
+import { DashboardTitle } from '@rboucheron/ui';
+import { UserAvatar } from '@/components/UserAvatar';
 import {useUserStore} from "@/store/user.store";
 import {useEffect} from 'react';
 
@@ -9,7 +10,7 @@ import {Colors as ColorsInterface} from '@/interfaces/Colors';
 import {Promotion} from '@/interfaces/Promotion';
 
 import {usePortfolioStore} from '@/store/portfolio.store';
-import {Card, CardBody, Link} from '@heroui/react';
+import {Card, CardContent, Link} from '@heroui/react';
 
 import {
     FaGithub,
@@ -35,14 +36,14 @@ export default function Dashboard() {
 
     return (
         <>
-            <DashboardTitle title="Tableau de bord"/>
+            <DashboardTitle title="Tableau de bord" avatar={<UserAvatar size={40} />}/>
 
             <div className="h-screen w-full p-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     <div className="sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1 flex flex-col gap-4">
                         <Card
                             className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                            <CardBody className="flex flex-row items-center gap-5 p-4">
+                            <CardContent className="flex flex-row items-center gap-5 p-4">
                                 <FaGithub className="text-2xl"/>
                                 {user?.github_login ?
                                     <span className="dayMode">Connecté en tant que <Link
@@ -56,12 +57,12 @@ export default function Dashboard() {
                                         </Link>
                                     </>
                                 }
-                            </CardBody>
+                            </CardContent>
                         </Card>
 
                         <Card
                             className="w-full overflow-hidden shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                            <CardBody className="flex flex-row items-center gap-5 p-4">
+                            <CardContent className="flex flex-row items-center gap-5 p-4">
                                 <FaDribbble className="text-2xl"/>
                                 {user?.dribbble_login ?
                                     <span className="dayMode">Connecté en tant que <Link
@@ -75,13 +76,13 @@ export default function Dashboard() {
                                         </Link>
                                     </>
                                 }
-                            </CardBody>
+                            </CardContent>
                         </Card>
                     </div>
 
                     <Card
                         className="sm:col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-2xl font-bold">{portfolio?.title || "Votre portfolio"}</h2>
                                 <Link href="/dashboard/edit" className="">
@@ -94,12 +95,12 @@ export default function Dashboard() {
                                 <p className="">Template: {portfolio?.template || "Non défini"}</p>
                                 <p className="">URL: {portfolio?.url ? `/${portfolio.url}` : "Non définie"}</p>
                             </div>
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="sm:col-span-2 md:col-span-3 lg:col-span-1 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex items-center gap-3 mb-3">
                                 <FaGraduationCap className="text-2xl"/>
                                 <h2 className="text-xl font-bold">Formation</h2>
@@ -115,12 +116,12 @@ export default function Dashboard() {
                             ) : (
                                 <p className="text-gray-500 dark:text-gray-400">Aucune formation associée</p>
                             )}
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-bold">Compétences</h2>
                                 <Link href="/dashboard/skills"
@@ -141,12 +142,12 @@ export default function Dashboard() {
                             ) : (
                                 <p className="text-gray-500 dark:text-gray-400">Aucune compétence définie</p>
                             )}
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-bold">Projets récents</h2>
                                 <Link href="/dashboard/projects"
@@ -171,12 +172,12 @@ export default function Dashboard() {
                             ) : (
                                 <p className="text-gray-500 dark:text-gray-400">Aucun projet</p>
                             )}
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-bold">Couleurs du portfolio</h2>
                                 <Link href="/dashboard/edit"
@@ -200,12 +201,12 @@ export default function Dashboard() {
                             ) : (
                                 <p className="text-gray-500 dark:text-gray-400">Aucune couleur définie</p>
                             )}
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-bold">Typographie</h2>
                                 <Link href="/dashboard/edit"
@@ -228,12 +229,12 @@ export default function Dashboard() {
                                     <p>Exemple de texte standard.</p>
                                 </div>
                             </div>
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-bold">Commentaires</h2>
                                 <Link href="/dashboard/comments"
@@ -245,12 +246,12 @@ export default function Dashboard() {
                             <p className="text-gray-600 dark:text-gray-300">
                                 Consultez les commentaires reçus, masquez ceux qui ne respectent pas les règles et gardez l'historique.
                             </p>
-                        </CardBody>
+                        </CardContent>
                     </Card>
 
                     <Card
                         className="col-span-full shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-                        <CardBody>
+                        <CardContent>
                             <div className="flex items-center gap-3 mb-4">
                                 <CiDatabase className="text-2xl"/>
                                 <h2 className="text-xl font-bold">Analytiques du Portfolio</h2>
@@ -275,7 +276,7 @@ export default function Dashboard() {
                                     <p className="text-sm text-gray-500 dark:text-gray-400">Temps Moyen</p>
                                 </div>
                             </div>
-                        </CardBody>
+                        </CardContent>
                     </Card>
                 </div>
             </div>

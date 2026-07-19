@@ -1,7 +1,4 @@
-import { HeroUIProvider } from "@heroui/react";
-import { SidebarProvider } from "@/contexts/SidebarContext"
-import { ThemeProvider } from "next-themes";
-
+import { Providers } from "./providers";
 
 import "./globals.css";
 
@@ -13,22 +10,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
        <body suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          value={{
-            light: "dayMode",
-            dark: "nightMode"
-          }}
-        >
-          <HeroUIProvider>
-            <SidebarProvider>
-              {children}
-            </SidebarProvider>
-          </HeroUIProvider>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

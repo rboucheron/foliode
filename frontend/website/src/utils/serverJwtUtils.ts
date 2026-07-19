@@ -1,4 +1,4 @@
-import { User } from "@/interfaces/User";
+import type { User } from "@/interfaces/User";
 import { jwtDecode } from "jwt-decode";
 import { NextRequest } from "next/server";
 

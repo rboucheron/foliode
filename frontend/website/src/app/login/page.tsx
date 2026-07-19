@@ -1,6 +1,5 @@
 "use client";
 
-import Buttons from "@/components/UI/button";
 import GithubAuth from "@/components/GitHub/GithubAuth";
 import DribbbleAuth from "@/components/Dribbble/DribbbleAuth";
 import Link from "next/link";
@@ -12,9 +11,8 @@ import { useRouter } from "next/navigation";
 import { getCookie } from "@/utils/cookiesHelpers";
 import axios from "axios";
 
-import { CircularProgress } from "@heroui/progress";
-import PasswordInput from "@/components/UI/PasswordInput";
-import { signInUser } from "api/src/client/auth";
+import { FoliodeButton, HerouiProgressCircle, HerouiPasswordInput } from "@rboucheron/ui";
+import { signInUser } from "@rboucheron/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -126,7 +124,7 @@ export default function LoginPage() {
               classNames={styles}
               onClear={() => setData({ ...data, email: "" })}
             />
-            <PasswordInput
+            <HerouiPasswordInput
               label="Mot de passe"
               value={data.password}
               name="password"
@@ -165,14 +163,14 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            <Buttons
+            <FoliodeButton
               style="form"
               type="submit"
               isDisabled={isLoading}
               testId="login-submit"
               text={
                 isLoading ? (
-                  <CircularProgress aria-label="Chargement..." size="sm" />
+                  <HerouiProgressCircle label="Chargement..." size="sm" />
                 ) : (
                   "Se connecter"
                 )

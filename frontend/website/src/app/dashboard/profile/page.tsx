@@ -1,7 +1,7 @@
 "use client";
 
-import DashboardTitle from "@/components/DashboardTitle";
-import Buttons from "@/components/UI/button";
+import { DashboardTitle, FoliodeButton } from "@rboucheron/ui";
+import { UserAvatar } from "@/components/UserAvatar";
 
 import { AvatarInput } from "@/components/AvatarInput";
 import { signInGitHub } from "@/actions";
@@ -14,7 +14,7 @@ import { useUserStore } from "@/store/user.store";
 import { LuExternalLink } from "react-icons/lu";
 import { FaDribbble, FaGithub } from "react-icons/fa";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
-import BlueInput from "@/components/UI/BlueInput";
+import { HerouiBlueInput } from "@rboucheron/ui";
 
 
 export default function Profile() {
@@ -34,7 +34,7 @@ export default function Profile() {
         <>
             {user !== null && (
                 <>
-                    <DashboardTitle title="Profil" />
+                    <DashboardTitle title="Profil" avatar={<UserAvatar size={40} />} />
                     <div className="flex flex-col w-full xl:flex-row gap-3">
                         <section
                             className="bg-[#f5f5f5] dark:bg-[#191919] text-foreground flex flex-col items-center p-5 rounded-xl xl:h-[calc(100vh-50px-1.75rem)]">
@@ -53,15 +53,15 @@ export default function Profile() {
                             <h3 className="font-bold text-large xl:text-2xl">Votre compte</h3>
                             <div className="flex flex-col w-full gap-5 xl:flex-row xl:w-9/12 xl:gap-10">
                                 <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full xl:gap-8 xl:w-9/12">
-                                    <BlueInput value={user.lastname} label="nom" placeholder="Votre Nom"
+                                    <HerouiBlueInput value={user.lastname} label="nom" placeholder="Votre Nom"
                                         onChange={value => setUser({ ...user, lastname: value.target.value })} />
-                                    <BlueInput value={user.firstname} label="prénom" placeholder="Votre prénom"
+                                    <HerouiBlueInput value={user.firstname} label="prénom" placeholder="Votre prénom"
                                         onChange={value => setUser({ ...user, firstname: value.target.value })} />
-                                    <BlueInput value={user.email} label="Email" placeholder="Votre email"
+                                    <HerouiBlueInput value={user.email} label="Email" placeholder="Votre email"
                                         onChange={value => setUser({ ...user, email: value.target.value })} />
 
                                     <div className="w-full xl:w-3/12">
-                                        <Buttons text="Modifier" style="form" type="submit" />
+                                        <FoliodeButton text="Modifier" style="form" type="submit" />
                                     </div>
                                 </form>
 

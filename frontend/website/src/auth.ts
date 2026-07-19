@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Dribbble from "next-auth/providers/dribbble"
-import { authenticateDribbbleUser, authenticateGitHubUser } from "api/src/client/auth"
+import { authenticateDribbbleUser, authenticateGitHubUser } from "@rboucheron/api"
 
 import { cookies } from "next/headers"
 

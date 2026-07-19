@@ -6,7 +6,7 @@ import {
     getCurrentPortfolio,
     getPortfolioStatistics,
     updatePortfolio as updatePortfolioApi,
-} from "api/src/client/portfolio";
+} from "@rboucheron/api";
 
 
 interface PortfolioState {

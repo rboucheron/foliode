@@ -1,4 +1,5 @@
 const nextConfig = {
+  transpilePackages: ["@rboucheron/ui", "@rboucheron/api"],
   images: {
     remotePatterns: [
       {

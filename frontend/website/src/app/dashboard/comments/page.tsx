@@ -1,9 +1,10 @@
 "use client";
 
-import DashboardTitle from "@/components/DashboardTitle";
-import { hidePortfolioComment, getDashboardPortfolioComments } from "api/src/client";
+import { DashboardTitle } from "@rboucheron/ui";
+import { UserAvatar } from "@/components/UserAvatar";
+import { hidePortfolioComment, getDashboardPortfolioComments } from "@rboucheron/api";
 import type { PortfolioComment } from "@/interfaces/PortfolioComment";
-import { Button, Card, CardBody } from "@heroui/react";
+import { Button, Card, CardContent } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 export default function DashboardCommentsPage() {
@@ -37,17 +38,17 @@ export default function DashboardCommentsPage() {
 
   return (
     <>
-      <DashboardTitle title="Commentaires du portfolio" />
+      <DashboardTitle title="Commentaires du portfolio" avatar={<UserAvatar size={40} />} />
 
       <div className="p-4 space-y-6">
         <Card>
-          <CardBody>
+          <CardContent>
             <div className="grid gap-2 md:grid-cols-3 text-sm">
               <div>Commentaires visibles: {visibleComments.length}</div>
               <div>Commentaires masqués: {hiddenComments.length}</div>
               <div>Total: {comments.length}</div>
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
 
         {isLoading ? (
@@ -61,7 +62,7 @@ export default function DashboardCommentsPage() {
               ) : (
                 visibleComments.map((comment) => (
                   <Card key={comment.id} className="border border-gray-200 dark:border-[#2C2D33]">
-                    <CardBody className="space-y-3">
+                    <CardContent className="space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div>
                           <div className="font-semibold">
@@ -76,7 +77,7 @@ export default function DashboardCommentsPage() {
                         </Button>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-300">{comment.message}</p>
-                    </CardBody>
+                    </CardContent>
                   </Card>
                 ))
               )}
@@ -89,7 +90,7 @@ export default function DashboardCommentsPage() {
               ) : (
                 hiddenComments.map((comment) => (
                   <Card key={comment.id} className="border border-dashed border-gray-300 dark:border-[#2C2D33] opacity-80">
-                    <CardBody className="space-y-2">
+                    <CardContent className="space-y-2">
                       <div className="font-semibold">
                         {comment.authorFirstname} {comment.authorLastname}
                       </div>
@@ -97,7 +98,7 @@ export default function DashboardCommentsPage() {
                       <div className="text-xs text-gray-500">
                         Masqué le {comment.hiddenAt ? new Date(comment.hiddenAt).toLocaleString("fr-FR") : "n/a"}
                       </div>
-                    </CardBody>
+                    </CardContent>
                   </Card>
                 ))
               )}

@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Card, CardBody, Image, Input, Textarea } from "@heroui/react";
+import { Button, Card, CardContent, Input, TextArea } from "@heroui/react";
+import Image from "next/image";
 import { generateAvatar } from "@/utils/generateAvatar";
 import { formatImage } from "@/utils/formatImage";
 import { useUserStore } from "@/store/user.store";
 import {
   createPublicPortfolioComment,
   getPublicPortfolioComments,
-} from "api/src/client";
+} from "@rboucheron/api";
 import type { PortfolioComment } from "@/interfaces/PortfolioComment";
 
 type PortfolioCommentsSectionProps = {
@@ -138,7 +139,7 @@ const PortfolioCommentsSection = ({
         </div>
 
         <Card className="shadow-lg border border-gray-200 dark:border-[#2C2D33]">
-          <CardBody className="space-y-4">
+          <CardContent className="space-y-4">
             {errorMessage ? (
               <div className="rounded-lg bg-red-50 text-red-700 px-4 py-3 text-sm">
                 {errorMessage}
@@ -171,7 +172,7 @@ const PortfolioCommentsSection = ({
               </div>
             )}
 
-            <Textarea
+            <TextArea
               label="Votre commentaire"
               minRows={4}
               value={message}
@@ -189,7 +190,7 @@ const PortfolioCommentsSection = ({
                 Publier le commentaire
               </Button>
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <div className="space-y-4">
@@ -210,7 +211,7 @@ const PortfolioCommentsSection = ({
                   key={comment.id}
                   className="border border-gray-200 dark:border-[#2C2D33] shadow-sm"
                 >
-                  <CardBody className="flex gap-4 items-start">
+                  <CardContent className="flex gap-4 items-start">
                     <Image
                       src={
                         comment.authorAvatarUrl
@@ -235,7 +236,7 @@ const PortfolioCommentsSection = ({
                         {comment.message}
                       </p>
                     </div>
-                  </CardBody>
+                  </CardContent>
                 </Card>
               );
             })

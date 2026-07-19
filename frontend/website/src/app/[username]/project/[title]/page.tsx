@@ -1,11 +1,13 @@
 import React from "react";
 
-import BantoProjectPage from "@/components/template/banto/ProjectPage";
-import EmeraldProjectPage from "@/components/template/emerald/ProjectPage";
-import PrestigeNoirProjectPage from "@/components/template/PrestigeNoir/ProjectPage";
+import {
+  BantoProjectPage,
+  EmeraldProjectPage,
+  PrestigeNoirProjectPage,
+} from "@rboucheron/ui";
 
-import { Portfolio } from "@/interfaces/Portfolio";
-import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
+import { Portfolio } from "@rboucheron/types";
+import { getPublicPortfolioByUrl } from "@rboucheron/api";
 
 const fallbackColors = {
   primary: "#111827",
