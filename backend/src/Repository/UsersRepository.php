@@ -16,6 +16,44 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
+    public function countUsers(): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countAdmins(): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('JSON_CONTAINS(u.roles, :role) = 1')
+            ->setParameter('role', json_encode('ROLE_ADMIN'))
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findAllUsersInformations(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->select([
+                'u.id',
+                'u.firstname',
+                'u.lastname',
+                'u.email',
+                'u.roles',
+                'u.is_email_verified',
+                'u.avatar_url',
+                'u.github_login',
+                'u.dribbble_login',
+            ])
+            ->orderBy('u.lastname', 'ASC')
+            ->addOrderBy('u.firstname', 'ASC')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 
     //    /**
     //     * @return Users[] Returns an array of Users objects
