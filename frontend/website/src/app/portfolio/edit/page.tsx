@@ -3,12 +3,12 @@
 import { FirstStepForm, SecondStepForm, ThirdStepForm, FourStepForm, Stepper } from "@rboucheron/ui";
 import { templatesStyles } from '@/data/templates/styles';
 import { templates } from '@/data/templates/templates';
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMultiStep } from "@/utils/store";
 import { useRouter } from "next/navigation";
 import { createPortfolio, createProjects, createTools } from "@rboucheron/api";
 import ModelViewer from "@/components/model/modelviewer";
-
+import Image from "next/image";
 
 export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -101,17 +101,28 @@ export default function MultiStepForm() {
               },
             }} />
           },
-          { title: "Personnalisation", children: <FourStepForm 
-            portfolio={portfolio} 
-            setPortfolio={setPortfolio} 
-            templates={templates} 
-            styles={templatesStyles}
-            labels={{
-              templateSelect: "Choisissez votre template",
-              colorsSelect: "Choisissez votre palette de couleurs",
-              colorSelect: "Personnalisez vos couleurs",
-            }}  
-          /> },
+          {
+            title: "Personnalisation", children: <FourStepForm
+              portfolio={portfolio}
+              setPortfolio={setPortfolio}
+              templates={templates}
+              styles={templatesStyles}
+              labels={{
+                templateSelect: "Choisissez votre template",
+                colorsSelect: "Choisissez votre palette de couleurs",
+                colorSelect: "Personnalisez vos couleurs",
+                templatePreview: (preview: string, name: string, width: number, height: number) => (
+                  < Image
+                    src={preview}
+                    alt={name}
+                    width={width}
+                    height={height}
+                    className="h-[140px] w-full object-cover"
+                  />
+                ),
+              }}
+            />
+          },
         ]}
         withFormProgress={true}
         buttons={{

@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { Form } from "@heroui/react";
 
 interface FoliodeFormHeaderProps {
   withoutLogo: boolean;
+  logo?: React.ReactNode;
   title: string;
   subtitle?: string;
 }
@@ -46,18 +46,12 @@ export const FoliodeForm = ({ header, formAlternative, ariaLabel, testId, onSubm
   );    
 }
 
-export const FoliodeFormHeader = ({ withoutLogo, title, subtitle }: FoliodeFormHeaderProps) => {
+export const FoliodeFormHeader = ({ withoutLogo, logo, title, subtitle }: FoliodeFormHeaderProps) => {
   return (
     <div className="flex flex-col items-center justify-center gap-3 text-center">
       {!withoutLogo && (
         <div className="p-3 bg-primary/10 rounded-full border border-primary/20 hover:scale-105 transition-transform duration-300">
-          <Image
-            src="/foliode-icon.svg"
-            alt="Logo Foliode"
-            width={48}
-            height={48}
-            priority
-          />
+          {logo}
         </div>
       )}
       <div className="flex flex-col items-center justify-center gap-1">

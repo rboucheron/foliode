@@ -1,8 +1,5 @@
 export { HerouiInput, HerouiPasswordInput } from "./heroui/input";
-export { HerouiBlueInput } from "./heroui/blueinput";
 export { HerouiAccordion } from "./heroui/accordion"
-export { Avatar } from "./foliode/avatar"
-export { AvatarUpload } from "./foliode/avatarupload"
 export { HerouiButton } from "./heroui/button"
 export { HerouiModal } from "./heroui/modal"
 export { ColorPicker } from "./foliode/colorpicker"

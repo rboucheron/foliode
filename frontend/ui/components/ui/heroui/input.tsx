@@ -18,12 +18,22 @@ export interface HerouiInputProps
   testId?: string;
   variant?: "primary" | "secondary";
   className?: string;
+  primaryInput?: boolean;
 }
 
 export interface HerouiPasswordInputProps
   extends Omit<HerouiInputProps, "placeholder" | "type" | "isClearable" | "onClear"> {
   name: string;
 }
+
+const styles = {
+  inputWrapper: [
+    "border-primary",
+    "data-[hover=true]:border-primary-100",
+    "group-data-[focus=true]:border-primary",
+  ],
+  clearButton: "text-primary",
+};
 
 export const HerouiInput: React.FC<HerouiInputProps> = ({
   value,
@@ -40,6 +50,7 @@ export const HerouiInput: React.FC<HerouiInputProps> = ({
   id,
   autoComplete,
   className = "",
+  primaryInput = false,
   ...restProps
 }) => {
   const handleClear = () => {
@@ -73,7 +84,7 @@ export const HerouiInput: React.FC<HerouiInputProps> = ({
           onChange={onChange}
           autoComplete={autoComplete}
           disabled={isDisabled}
-          className={`w-full ${showClearButton ? "pr-10" : ""}`}
+          className={`w-full ${showClearButton ? "pr-10" : ""} ${primaryInput ? styles : ""}`}
           {...restProps}
         />
 
@@ -106,6 +117,7 @@ export const HerouiPasswordInput: React.FC<HerouiPasswordInputProps> = ({
   isRequired = false,
   isDisabled = false,
   testId,
+  primaryInput = false,
   className = "",
   ...restProps
 }) => {
@@ -130,7 +142,7 @@ export const HerouiPasswordInput: React.FC<HerouiPasswordInputProps> = ({
           onChange={onChange}
           autoComplete={autoComplete}
           disabled={isDisabled}
-          className="w-full pr-10"
+          className={`w-full pr-10 ${primaryInput ? styles : ""}`}
           {...restProps}
         />
         <button

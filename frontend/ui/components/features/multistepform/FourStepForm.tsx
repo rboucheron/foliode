@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Card } from "@heroui/react";
 import { Template, Colors, MsPortfolio } from "@rboucheron/types";
-import Image from "next/image";
 
 import { ColorPicker } from "../../ui/foliode/colorpicker";
 import { HerouiButton as Button } from "../../ui/heroui/button";
@@ -22,6 +21,7 @@ type FourStepFormLabels = {
   templateSelect: string;
   colorsSelect: string;
   colorSelect: string;
+  templatePreview: (preview: string, name: string, width: number, height: number) => React.ReactNode;
 };
 
 interface FourStepFormProps {
@@ -114,13 +114,7 @@ export const FourStepForm = ({
             data-testid={`portfolio-template-${template.id}`}
           >
             <div className="overflow-hidden">
-              <Image
-                src={template.preview}
-                alt={template.name}
-                width={500}
-                height={140}
-                className="h-[140px] w-full object-cover"
-              />
+              {labels.templatePreview(template.preview, template.name, 500, 140)}
             </div>
 
             <div className="flex items-center justify-between p-4 text-sm">

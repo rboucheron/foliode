@@ -1,18 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import GithubAuth from "@/components/GitHub/GithubAuth";
-import { 
-  FoliodeForm, 
-  FoliodeFormHeader, 
-  FoliodeFormAlternative, 
-  PasswordStrengthChecker, 
-  HerouiButton, 
-  HerouiProgressCircle,
-  HerouiInput 
+import {
+  FoliodeForm as Form,
+  FoliodeFormHeader as Header,
+  FoliodeFormAlternative as Alternative,
+  HerouiButton as Button,
+  HerouiProgressCircle as ProgressCircle,
+  PasswordStrengthChecker as Password,
+  HerouiInput as Input,
 } from "@rboucheron/ui";
 import { extractToken } from "@/utils/extractToken";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -110,9 +110,18 @@ export default function RegisterPage() {
 
   return (
 
-    < FoliodeForm
+    < Form
       header={
-        <FoliodeFormHeader
+        <Header
+          logo={
+            <Image
+              src="/foliode-icon.svg"
+              alt="Logo Foliode"
+              width={48}
+              height={48}
+              priority
+            />
+          }
           withoutLogo={true}
           title="Inscrivez-vous sur Foliode !"
           subtitle="Rejoignez-nous et commencez à valoriser vos projets"
@@ -122,12 +131,12 @@ export default function RegisterPage() {
       testId="signup-form"
       onSubmit={handleSubmit}
       formAlternative={
-        <FoliodeFormAlternative>
+        <Alternative>
           < GithubAuth />
-        </FoliodeFormAlternative>
+        </Alternative>
       }
     >
-      <HerouiInput
+      <Input
         isRequired
         isClearable
         value={data.email}
@@ -141,7 +150,7 @@ export default function RegisterPage() {
         onChange={handleInputChange}
         onClear={() => setData({ ...data, email: "" })}
       />
-      <HerouiInput
+      <Input
         isRequired
         isClearable
         value={data.firstname}
@@ -155,7 +164,7 @@ export default function RegisterPage() {
         onChange={handleInputChange}
         onClear={() => setData({ ...data, firstname: "" })}
       />
-      <HerouiInput
+      <Input
         isRequired
         isClearable
         value={data.lastname}
@@ -169,7 +178,7 @@ export default function RegisterPage() {
         onChange={handleInputChange}
         onClear={() => setData({ ...data, lastname: "" })}
       />
-      <PasswordStrengthChecker
+      <Password
         onChange={(value) =>
           setData({
             ...data,
@@ -220,19 +229,19 @@ export default function RegisterPage() {
         </span>
       </div>
 
-      <HerouiButton
+      <Button
         type="submit"
         isDisabled={isLoading}
         testId="signup-submit"
         text={
           isLoading ? (
-            <HerouiProgressCircle aria-label="Chargement..." size="sm" />
+            <ProgressCircle aria-label="Chargement..." size="sm" />
           ) : (
             "S'inscrire"
           )
         }
       />
 
-    </FoliodeForm>
+    </Form>
   );
 }
