@@ -2,7 +2,16 @@ import { ReactNode } from "react";
 import { Portfolio } from "@rboucheron/types";
 import { Card } from "@heroui/react";
 
-function BantoFlow({ portfolio, commentsSection }: { portfolio: Portfolio; commentsSection?: ReactNode }) {
+interface BantoFlowProps {
+    portfolio: Portfolio;
+    commentsSection?: ReactNode;
+    Image: (src: string, alt: string, className: string, width: number, height: number) => ReactNode;
+    Link: (href: string, className: string, children: ReactNode) => ReactNode;
+    formatImage: (src: string) => string;
+    generateAvatar: (size: number, seed: string) => string;
+}
+
+function BantoFlow({ portfolio, commentsSection, Image, Link, formatImage, generateAvatar }: BantoFlowProps) {
     const { primary, secondary, light } = portfolio.config.colors;
     const avatar = portfolio.users.avatar_url;
 
@@ -35,13 +44,13 @@ function BantoFlow({ portfolio, commentsSection }: { portfolio: Portfolio; comme
                     <div className="p-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                             <div className="w-full flex justify-center">
-                                <Image
-                                    src={avatar ? formatImage(avatar) : generateAvatar(250, portfolio.users.email)}
-                                    alt={portfolio.title}
-                                    width={250}
-                                    height={250}
-                                    className="rounded-lg object-cover"
-                                />
+                                {Image(
+                                    avatar ? formatImage(avatar) : generateAvatar(250, portfolio.users.email),
+                                    portfolio.title,
+                                    "rounded-lg object-cover",
+                                    250,
+                                    250
+                                )}
                             </div>
                             <p
                                 className="text-lg col-span-2 leading-relaxed p-4"
@@ -67,13 +76,7 @@ function BantoFlow({ portfolio, commentsSection }: { portfolio: Portfolio; comme
                                     key={index}
                                     className="flex flex-col items-center space-y-2 p-3"
                                 >
-                                    <Image
-                                        width={40}
-                                        height={40}
-                                        alt=""
-                                        src={formatImage(tool.picto)}
-                                        className="rounded-sm"
-                                    />
+                                    {Image(formatImage(tool.picto), "", "rounded-sm", 40, 40)}
                                     <p
                                         className="text-sm font-semibold text-center"
                                         style={{ color: light }}
@@ -87,39 +90,41 @@ function BantoFlow({ portfolio, commentsSection }: { portfolio: Portfolio; comme
                 </Card>
 
                 {portfolio.projects.map((project, index) => (
-                    <Link href={`/${portfolio.url}/project/${project.title}`} key={index}>
-                        <Card
-                            className={`shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer ${index == 3 && "col-span-2 row-span-2"
-                                }`}
-                            style={{ backgroundColor: light, color: primary }}
-                        >
-                            <div className="flex flex-col h-full justify-between">
-                                {project.projectsImages && project.projectsImages.length !== 0 ? (
-                                    <Image
-                                        src={formatImage(project.projectsImages[0].img_src)}
-                                        alt=""
-                                        width={1000}
-                                        height={250}
-                                        className="object-cover rounded-none w-full h-28"
-                                    />
-                                ) : (
-                                    ""
-                                )}
+                    <div key={index}>
+                        {Link(
+                            `/${portfolio.url}/project/${project.title}`,
+                            "",
+                            <Card
+                                className={`shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer ${index == 3 && "col-span-2 row-span-2"
+                                    }`}
+                                style={{ backgroundColor: light, color: primary }}
+                            >
+                                <div className="flex flex-col h-full justify-between">
+                                    {project.projectsImages && project.projectsImages.length !== 0
+                                        ? Image(
+                                            formatImage(project.projectsImages[0].img_src),
+                                            "",
+                                            "object-cover rounded-none w-full h-28",
+                                            1000,
+                                            250
+                                        )
+                                        : ""}
 
-                                <div className="p-4">
-                                    <h3
-                                        className="text-2xl first-letter:uppercase font-bold mb-4"
-                                        style={{ color: secondary }}
-                                    >
-                                        {project.title}
-                                    </h3>
-                                    <p className="text-sm mb-4 line-clamp-2" style={{ color: secondary }}>
-                                        {project.description}
-                                    </p>
+                                    <div className="p-4">
+                                        <h3
+                                            className="text-2xl first-letter:uppercase font-bold mb-4"
+                                            style={{ color: secondary }}
+                                        >
+                                            {project.title}
+                                        </h3>
+                                        <p className="text-sm mb-4 line-clamp-2" style={{ color: secondary }}>
+                                            {project.description}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </Card>
-                    </Link>
+                            </Card>
+                        )}
+                    </div>
                 ))}
             </div>
 

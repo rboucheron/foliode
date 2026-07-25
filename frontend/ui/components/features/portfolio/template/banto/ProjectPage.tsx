@@ -1,8 +1,13 @@
+import { ReactNode } from "react";
 import { Card } from "@heroui/react";
 import { ProjectPageProps } from "@rboucheron/types";
 
+type ProjectPageInjectedProps = ProjectPageProps & {
+  Image: (src: string, alt: string, className: string, width: number, height: number) => ReactNode;
+  formatImage: (src: string) => string;
+};
 
-export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
+export default function ProjectPage({ portfolio, project, Image, formatImage }: ProjectPageInjectedProps) {
   const { primary, secondary, light } =
     portfolio.config.colors;
 
@@ -40,14 +45,15 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             {project.projectsImages && project.projectsImages.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {project.projectsImages.map((image, index) => (
-                  <Image
-                    key={index}
-                    src={formatImage(image.img_src)}
-                    alt={`Project image ${index + 1}`}
-                    width={500}
-                    height={300}
-                    className="rounded-lg object-cover w-full h-64"
-                  />
+                  <div key={index}>
+                    {Image(
+                      formatImage(image.img_src),
+                      `Project image ${index + 1}`,
+                      "rounded-lg object-cover w-full h-64",
+                      500,
+                      300
+                    )}
+                  </div>
                 ))}
               </div>
             )}

@@ -1,12 +1,12 @@
 import React from "react";
-import Image, { type StaticImageData } from "next/image";
 import { Link, Button } from "@heroui/react";
 
 interface BgLandingPageProps {
-  dashboardImageSrc: StaticImageData | string;
+  dashboardImageSrc: string;
+  Image: (src: string, alt: string, className: string, width: number, height: number) => React.ReactNode;
 }
 
-export const BgLandingPage = ({ dashboardImageSrc }: BgLandingPageProps) => {
+export const BgLandingPage = ({ dashboardImageSrc, Image }: BgLandingPageProps) => {
   return (
     <>
       <section className="relative h-[700px] " id="accueil">
@@ -69,18 +69,13 @@ export const BgLandingPage = ({ dashboardImageSrc }: BgLandingPageProps) => {
         <div className="hidden sm:block absolute rounded-[50%] blur-[90px] z-[4] left-1/2 right-1/2 -translate-x-[90%] -translate-y-1/2 bg-[#2B4557] w-[200px] h-[180px] sm:w-[240px] sm:h-[200px] md:w-[272px] md:h-[220px] opacity-50"></div>
       </section>
       <div>
-        <Image
-          src={dashboardImageSrc}
-          alt="Dashboard"
-          width={1640}
-          height={300}
-          priority
-          className="dayMode -mt-52 lg:mt-0 w-10/12 z-40 text-center mx-auto relative -m-10 rounded-3xl  border-8  lg:border-[26px] border-[#2B4557]"
-          sizes="(max-width: 640px) 100vw,
-         (max-width: 768px) 80vw,
-         (max-width: 1024px) 70vw,
-         60vw"
-        />
+        {Image(
+          dashboardImageSrc,
+          "Dashboard",
+          "dayMode -mt-52 lg:mt-0 w-10/12 z-40 text-center mx-auto relative -m-10 rounded-3xl  border-8  lg:border-[26px] border-[#2B4557]",
+          1640,
+          300
+        )}
       </div>
     </>
   );

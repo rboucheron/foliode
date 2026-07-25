@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@heroui/react";
-import Link from "next/link";
 import { ReactNode } from "react";
 
 interface FoliodeButtonProps {
@@ -15,6 +14,7 @@ interface FoliodeButtonProps {
   isDisabled?: boolean;
   subDescription?: string;
   testId?: string;
+  Link?: (href: string, className: string, children: ReactNode) => ReactNode;
 }
 
 export const FoliodeButton = ({
@@ -28,6 +28,7 @@ export const FoliodeButton = ({
   isDisabled = false,
   subDescription,
   testId,
+  Link,
 }: FoliodeButtonProps) => {
   const ButtonContent = (
     <div className="flex flex-col w-full items-center">
@@ -55,8 +56,8 @@ export const FoliodeButton = ({
     </div>
   );
 
-  if (href) {
-    return <Link href={href}>{ButtonContent}</Link>;
+  if (href && Link) {
+    return <>{Link(href, "", ButtonContent)}</>;
   }
 
   return ButtonContent;
