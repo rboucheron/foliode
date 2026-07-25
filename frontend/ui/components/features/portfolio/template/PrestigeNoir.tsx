@@ -1,8 +1,5 @@
 import { ReactNode } from "react";
 import { Portfolio } from "@rboucheron/types";
-import Image from "next/image";
-import Link from "next/link";
-import { formatImage, generateAvatar } from "../../../../lib/utils";
 
 const PrestigeNoir = ({ portfolio, commentsSection }: { portfolio: Portfolio; commentsSection?: ReactNode }) => {
     const { primary, secondary, success, info, light } =

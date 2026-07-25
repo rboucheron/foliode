@@ -1,7 +1,6 @@
-import { Card }             from "@heroui/react";
-import Image                from "next/image";
+import { Card } from "@heroui/react";
 import { ProjectPageProps } from "@rboucheron/types";
-import { formatImage }      from "../../../../../lib/utils";
+
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
   const { primary, secondary, light } =

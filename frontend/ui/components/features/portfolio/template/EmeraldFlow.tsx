@@ -1,8 +1,5 @@
 import { ReactNode } from "react";
 import { Portfolio } from "@rboucheron/types";
-import Image from "next/image";
-import Link from "next/link";
-import { formatImage, generateAvatar } from "../../../../lib/utils";
 
 const EmeraldFlow = ({ portfolio, commentsSection }: { portfolio: Portfolio; commentsSection?: ReactNode }) => {
   const { primary, secondary, warning, success, info, light } = portfolio.config.colors;

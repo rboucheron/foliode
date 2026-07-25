@@ -38,7 +38,7 @@ export const NavPortfolio: React.FC<NavPortfolioProps> = ({ className, style, ju
 
         <div className={`hidden sm:flex gap-4 grow ${justifyClass}`}>
           {PORTFOLIO_NAV_LINKS.map((link) => (
-            <Link key={link.href} color="foreground" href={link.href}>
+            <Link key={link.href} href={link.href}>
               {link.label}
             </Link>
           ))}
@@ -51,9 +51,7 @@ export const NavPortfolio: React.FC<NavPortfolioProps> = ({ className, style, ju
             <Link
               key={link.href}
               className="w-full"
-              color="foreground"
               href={link.href}
-              size="lg"
               onPress={() => setIsMenuOpen(false)}
             >
               {link.label}

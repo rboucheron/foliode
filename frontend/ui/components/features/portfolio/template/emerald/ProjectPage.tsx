@@ -1,7 +1,4 @@
-import Image from "next/image";
 import { ProjectPageProps } from "@rboucheron/types";
-import Link from "next/link";
-import { formatImage } from "../../../../../lib/utils";
 
 export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
   const { primary, secondary, warning, success, info, light } =
