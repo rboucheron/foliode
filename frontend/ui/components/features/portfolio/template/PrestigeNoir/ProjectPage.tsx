@@ -1,7 +1,13 @@
-
+import { ReactNode } from "react";
 import { ProjectPageProps } from "@rboucheron/types";
 
-export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
+type ProjectPageInjectedProps = ProjectPageProps & {
+  Image: (src: string, alt: string, className: string, width: number, height: number) => ReactNode;
+  Link: (href: string, className: string, children: ReactNode) => ReactNode;
+  formatImage: (src: string) => string;
+};
+
+export default function ProjectPage({ portfolio, project, Image, Link, formatImage }: ProjectPageInjectedProps) {
   const { primary, secondary, warning, info, light } =
     portfolio.config.colors;
 
@@ -58,13 +64,13 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
                     boxShadow: `0 8px 32px ${primary}11`
                   }}
                 >
-                  <Image
-                    src={formatImage(image.img_src)}
-                    alt={`Project image ${index + 1}`}
-                    width={500}
-                    height={300}
-                    className="w-full h-64 object-cover transition-transform duration-700 "
-                  />
+                  {Image(
+                    formatImage(image.img_src),
+                    `Project image ${index + 1}`,
+                    "w-full h-64 object-cover transition-transform duration-700 ",
+                    500,
+                    300
+                  )}
                 </div>
               ))}
             </div>
@@ -94,21 +100,26 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
             </div>
           )}
           <div className="mt-16 text-center">
-            <Link
-              href={`/${portfolio.url}`}
-              className="inline-block px-10 py-4 rounded-full transition-all duration-500 hover:scale-105 relative overflow-hidden group"
+            <span
+              className="inline-block"
               style={{
                 backgroundColor: primary,
                 borderColor: info,
                 color: secondary,
               }}
             >
-              <span className="relative z-10 group-hover:text-[var(--color-primary)] transition-colors duration-500" style={{ "--color-primary": primary } as any}>Retour au portfolio</span>
-              <div
-                className="absolute inset-0 w-0 group-hover:w-full transition-all duration-500"
-                style={{ background: secondary }}
-              />
-            </Link>
+              {Link(
+                `/${portfolio.url}`,
+                "inline-block px-10 py-4 rounded-full transition-all duration-500 hover:scale-105 relative overflow-hidden group",
+                <>
+                  <span className="relative z-10 group-hover:text-[var(--color-primary)] transition-colors duration-500" style={{ "--color-primary": primary } as any}>Retour au portfolio</span>
+                  <div
+                    className="absolute inset-0 w-0 group-hover:w-full transition-all duration-500"
+                    style={{ background: secondary }}
+                  />
+                </>
+              )}
+            </span>
           </div>
         </div>
       </section>

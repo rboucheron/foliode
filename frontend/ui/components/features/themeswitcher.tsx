@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { UseThemeProps } from "next-themes";
 import { FiSun } from "react-icons/fi";
 import { IoMdMoon } from "react-icons/io";
 
+interface ThemeContext {
+  theme?: string;
+  setTheme: (theme: string) => void;
+}
+
 interface themeSwitcherProps {
-  useTheme: () => UseThemeProps;
+  useTheme: () => ThemeContext;
 }
 
 export const ThemeSwitcher = ({ useTheme }: themeSwitcherProps) => {

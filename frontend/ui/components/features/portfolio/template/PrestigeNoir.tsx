@@ -1,7 +1,16 @@
 import { ReactNode } from "react";
 import { Portfolio } from "@rboucheron/types";
 
-const PrestigeNoir = ({ portfolio, commentsSection }: { portfolio: Portfolio; commentsSection?: ReactNode }) => {
+interface PrestigeNoirProps {
+    portfolio: Portfolio;
+    commentsSection?: ReactNode;
+    Image: (src: string, alt: string, className: string, width: number, height: number) => ReactNode;
+    Link: (href: string, className: string, children: ReactNode) => ReactNode;
+    formatImage: (src: string) => string;
+    generateAvatar: (size: number, seed: string) => string;
+}
+
+const PrestigeNoir = ({ portfolio, commentsSection, Image, Link, formatImage, generateAvatar }: PrestigeNoirProps) => {
     const { primary, secondary, success, info, light } =
         portfolio.config.colors;
     const avatar = portfolio.users.avatar_url;
@@ -100,22 +109,25 @@ const PrestigeNoir = ({ portfolio, commentsSection }: { portfolio: Portfolio; co
                                         <p className="mt-4" style={{ color: secondary }}>
                                             {project.description}
                                         </p>
-                                        <Link
-                                            href={`/${portfolio.url}/project/${project.title}`}
-                                            className="mt-4 inline-block px-6 py-2 hover:bg-opacity-90"
+                                        <span
+                                            className="mt-4 inline-block"
                                             style={{ backgroundColor: primary, color: secondary }}
                                         >
-                                            Voir le projet
-                                        </Link>
+                                            {Link(
+                                                `/${portfolio.url}/project/${project.title}`,
+                                                "mt-4 inline-block px-6 py-2 hover:bg-opacity-90",
+                                                "Voir le projet"
+                                            )}
+                                        </span>
                                         {project.projectsImages &&
                                             <div className="mt-4 aspect-video rounded-xl overflow-hidden shadow-md">
-                                                <Image
-                                                    src={formatImage(project.projectsImages[0].img_src)}
-                                                    alt={project.title}
-                                                    width={1000}
-                                                    height={500}
-                                                    className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300"
-                                                />
+                                                {Image(
+                                                    formatImage(project.projectsImages[0].img_src),
+                                                    project.title,
+                                                    "object-cover w-full h-full transform hover:scale-105 transition-transform duration-300",
+                                                    1000,
+                                                    500
+                                                )}
                                             </div>
                                         }
                                     </div>
@@ -142,12 +154,7 @@ const PrestigeNoir = ({ portfolio, commentsSection }: { portfolio: Portfolio; co
                             style={{ backgroundColor: secondary }}
                         >
                             <div>
-                                <Image
-                                    src={formatImage(tool.picto)}
-                                    width={40}
-                                    height={40}
-                                    alt="Figma logo"
-                                />
+                                {Image(formatImage(tool.picto), "Figma logo", "", 40, 40)}
                             </div>
                             <div>
                                 <h3

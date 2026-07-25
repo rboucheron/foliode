@@ -1,7 +1,16 @@
 import { ReactNode } from "react";
 import { Portfolio } from "@rboucheron/types";
 
-const EmeraldFlow = ({ portfolio, commentsSection }: { portfolio: Portfolio; commentsSection?: ReactNode }) => {
+interface EmeraldFlowProps {
+  portfolio: Portfolio;
+  commentsSection?: ReactNode;
+  Image: (src: string, alt: string, className: string, width: number, height: number) => ReactNode;
+  Link: (href: string, className: string, children: ReactNode) => ReactNode;
+  formatImage: (src: string) => string;
+  generateAvatar: (size: number, seed: string) => string;
+}
+
+const EmeraldFlow = ({ portfolio, commentsSection, Image, Link, formatImage, generateAvatar }: EmeraldFlowProps) => {
   const { primary, secondary, warning, success, info, light } = portfolio.config.colors;
   const avatar = portfolio.users.avatar_url;
 
@@ -53,13 +62,13 @@ const EmeraldFlow = ({ portfolio, commentsSection }: { portfolio: Portfolio; com
           </div>
           <div className="w-full md:w-1/2 flex justify-center">
             <div className="relative w-64 h-64 rounded-full overflow-hidden ">
-              <Image
-                src={avatar ? formatImage(avatar) : generateAvatar(256, portfolio.users.email)}
-                alt={`avatar of ${portfolio.users.firstname}`}
-                width={256}
-                height={256}
-                className="object-cover"
-              />
+              {Image(
+                avatar ? formatImage(avatar) : generateAvatar(256, portfolio.users.email),
+                `avatar of ${portfolio.users.firstname}`,
+                "object-cover",
+                256,
+                256
+              )}
             </div>
           </div>
         </div>
@@ -94,24 +103,27 @@ const EmeraldFlow = ({ portfolio, commentsSection }: { portfolio: Portfolio; com
                   >
                     {project.description}
                   </p>
-                  <Link
-                    href={`/${portfolio.url}/project/${project.title}`}
-                    className="inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent absolute bottom-3 left-3"
+                  <span
+                    className="inline-block absolute bottom-3 left-3"
                     style={{ backgroundColor: info, color: secondary }}
                   >
-                    Voir le projet
-                  </Link>
+                    {Link(
+                      `/${portfolio.url}/project/${project.title}`,
+                      "inline-block bg-portfolio-green-accent text-portfolio-green-text-primary py-3 px-8 rounded-xl font-semibold text-lg transition-colors duration-300 hover:bg-portfolio-green-text-secondary hover:text-portfolio-green-accent",
+                      "Voir le projet"
+                    )}
+                  </span>
                 </div>
                 {project.projectsImages &&
                   <div className="w-full md:w-1/2">
                     <div className="aspect-video rounded-xl overflow-hidden shadow-md">
-                      <Image
-                        src={formatImage(project.projectsImages[0].img_src)}
-                        alt={project.title}
-                        width={1000}
-                        height={500}
-                        className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300"
-                      />
+                      {Image(
+                        formatImage(project.projectsImages[0].img_src),
+                        project.title,
+                        "object-cover w-full h-full transform hover:scale-105 transition-transform duration-300",
+                        1000,
+                        500
+                      )}
                     </div>
                   </div>
                 }
@@ -144,12 +156,7 @@ const EmeraldFlow = ({ portfolio, commentsSection }: { portfolio: Portfolio; com
                   className="p-3 rounded-lg bg-white shadow-inner"
                   style={{ backgroundColor: secondary }}
                 >
-                  <Image
-                    src={formatImage(tool.picto)}
-                    width={40}
-                    height={40}
-                    alt="Figma logo"
-                  />
+                  {Image(formatImage(tool.picto), "Figma logo", "", 40, 40)}
                 </div>
                 <div>
                   <h3

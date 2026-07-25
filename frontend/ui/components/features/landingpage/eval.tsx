@@ -1,17 +1,21 @@
 import { Card, CardHeader, CardContent } from "@heroui/react";
-import Image from "next/image";
+import React from "react";
 
-export function Eval() {
+interface EvalProps {
+  Image: (src: string, alt: string, className: string, width: number, height: number) => React.ReactNode;
+}
+
+export function Eval({ Image }: EvalProps) {
   return (
     <div>
       <div className="px-8 mt-36">
-        <Image
-          className=" dayMode z-40 text-center mx-auto  rounded-3xl  border-[26px] border-[#2B4557] "
-          alt="NextUI hero Image"
-          src="/Prof Dashboard.png"
-          width={1200}
-          height={794}
-        />
+        {Image(
+          "/Prof Dashboard.png",
+          "NextUI hero Image",
+          "dayMode z-40 text-center mx-auto rounded-3xl border-[26px] border-[#2B4557]",
+          1200,
+          794
+        )}
       </div>
 
       <div className="flex flex-col md:flex-row justify-center px-8  ">

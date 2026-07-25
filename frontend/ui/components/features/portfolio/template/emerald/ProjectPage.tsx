@@ -1,6 +1,13 @@
+import { ReactNode } from "react";
 import { ProjectPageProps } from "@rboucheron/types";
 
-export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
+type ProjectPageInjectedProps = ProjectPageProps & {
+  Image: (src: string, alt: string, className: string, width: number, height: number) => ReactNode;
+  Link: (href: string, className: string, children: ReactNode) => ReactNode;
+  formatImage: (src: string) => string;
+};
+
+export default function ProjectPage({ portfolio, project, Image, Link, formatImage }: ProjectPageInjectedProps) {
   const { primary, secondary, warning, success, info, light } =
     portfolio.config.colors;
 
@@ -41,14 +48,15 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
               {project.projectsImages && project.projectsImages.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   {project.projectsImages.map((image, index) => (
-                    <Image
-                      key={index}
-                      src={formatImage(image.img_src)}
-                      alt={`Project image ${index + 1}`}
-                      width={500}
-                      height={300}
-                      className="rounded-lg object-cover w-full h-64"
-                    />
+                    <div key={index}>
+                      {Image(
+                        formatImage(image.img_src),
+                        `Project image ${index + 1}`,
+                        "rounded-lg object-cover w-full h-64",
+                        500,
+                        300
+                      )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -95,16 +103,19 @@ export default function ProjectPage({ portfolio, project }: ProjectPageProps) {
           )}
 
           <div className="mt-12 text-center">
-            <Link
-              href={`/${portfolio.url}`}
-              className="inline-block px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-semibold"
+            <span
+              className="inline-block"
               style={{
                 backgroundColor: success,
                 color: light,
               }}
             >
-              Retour au portfolio
-            </Link>
+              {Link(
+                `/${portfolio.url}`,
+                "inline-block px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg font-semibold",
+                "Retour au portfolio"
+              )}
+            </span>
           </div>
         </div>
       </section>
