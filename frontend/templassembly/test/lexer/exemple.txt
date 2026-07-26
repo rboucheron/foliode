@@ -1,0 +1,9 @@
+div
+    h1
+        class
+            "text-xl text-red-200"
+        "juste un titre"
+    p
+        class
+            "text-sm text-black"
+        "Je suis un text"
