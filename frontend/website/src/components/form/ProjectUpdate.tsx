@@ -1,18 +1,15 @@
 'use client';
 
-import FileInput from '@/components/UI/FileInput';
-import Buttons from '@/components/UI/button';
-import LinkAdder from '../UI/LinkAdder';
+import { FileInput, FoliodeButton, LinkAdder } from '@rboucheron/ui';
 import {
   Input,
-  Textarea,
+  TextArea,
   Card
 } from '@heroui/react';
 import { useState } from 'react';
-import { Project } from '@/interfaces/Project';
+import { Project, ProjectUpdateProps } from '@rboucheron/types';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { ProjectUpdateProps } from '@/interfaces/Project';
-import { updateProject as updateProjectAPI } from "api/src/client/project";
+import { updateProject as updateProjectAPI } from "@rboucheron/api";
 
 export default function ProjectUpdate({ project: initialProject, onFinish }: ProjectUpdateProps) {
   const [project, setProject] = useState<Project>(initialProject);
@@ -72,7 +69,7 @@ export default function ProjectUpdate({ project: initialProject, onFinish }: Pro
           value={project.projectsLinks}
         />
 
-        <Textarea
+        <TextArea
           label="Description"
           value={project.description}
           onChange={(e) =>
@@ -105,13 +102,13 @@ export default function ProjectUpdate({ project: initialProject, onFinish }: Pro
           isRequired={false}
         />
 
-        <Buttons
+        <FoliodeButton
           text="Modifier le projet"
           className="bg-primary w-full text-sm"
           style="form"
           type="submit"
         />
-        <Buttons
+        <FoliodeButton
           text="Annuler la modification"
           className="bg-red-600 border-red-800 w-full text-sm"
           style="form"

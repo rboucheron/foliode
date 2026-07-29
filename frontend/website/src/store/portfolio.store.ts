@@ -1,12 +1,11 @@
 import {create} from "zustand";
-import {Portfolio} from "@/interfaces/Portfolio";
-import {PortfolioStat} from "@/interfaces/PortfolioStat";
+import {Portfolio, PortfolioStat} from "@rboucheron/types";
 import {
     createPortfolio,
     getCurrentPortfolio,
     getPortfolioStatistics,
     updatePortfolio as updatePortfolioApi,
-} from "api/src/client/portfolio";
+} from "@rboucheron/api";
 
 
 interface PortfolioState {

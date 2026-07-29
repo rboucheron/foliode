@@ -1,13 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-import { heroui } from "@heroui/react";
-
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "../ui/components/**/*.{js,ts,jsx,tsx}",
+    "../ui/lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -49,49 +48,5 @@ module.exports = {
       },
     },  
   },
-  darkMode: ["class", ".nightMode"],
-  plugins: [heroui({
-
-    themes:{
-    
-        "dayMode": {
-          colors: {
-          background: "#ffffff",
-          foreground: "#191919",
-          primary: {
-              DEFAULT: '#3E3F92',
-              100: '#4E529E',
-              200: '#5F65A9',
-              300: '#7177B5',
-              400: '#838AC0',
-              500: '#979DCB',
-              600: '#ABB0D5',
-              700: '#BFC4E0',
-              800: '#D4D7EA',
-              900: '#E9EBF5',
-          },
-      }},
-      "nightMode": {
-        colors: {
-          background: "#0C0C0C",
-          foreground: "#ECEDEE",
-          primary: {
-              DEFAULT: '#3E3F92',
-              100: '#4E529E',
-              200: '#5F65A9',
-              300: '#7177B5',
-              400: '#838AC0',
-              500: '#979DCB',
-              600: '#ABB0D5',
-              700: '#BFC4E0',
-              800: '#D4D7EA',
-              900: '#E9EBF5',
-          },
-        }
-      }
-      }
-    }
-    
-  ),
-],
+  darkMode: ["class"],
 }

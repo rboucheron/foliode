@@ -1,40 +1,25 @@
 "use client";
 
-import FirstStepForm from "@/components/form/multistepform/FirstStepForm";
-import SecondStepForm from "@/components/form/multistepform/SecondStepForm";
-import ThirdStepForm from "@/components/form/multistepform/ThirdStepForm";
-import FourStepForm from "@/components/form/multistepform/FourStepForm";
-
-import React, { useState, useRef } from "react";
-import { Button, Card, Progress } from "@heroui/react";
+import { FirstStepForm, SecondStepForm, ThirdStepForm, FourStepForm, Stepper } from "@rboucheron/ui";
+import { templatesStyles } from '@/data/templates/styles';
+import { templates } from '@/data/templates/templates';
+import { useState } from "react";
 import { useMultiStep } from "@/utils/store";
 import { useRouter } from "next/navigation";
-import { createPortfolio, createProjects, createTools } from "api/src/client";
-
+import { createPortfolio, createProjects, createTools } from "@rboucheron/api";
 import ModelViewer from "@/components/model/modelviewer";
-
+import Image from "next/image";
 
 export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(0);
-  const totalSteps = 3;
-  const progress = (currentStep / totalSteps) * 100;
-  const { portfolio, tools, projects } = useMultiStep();
+  const { portfolio, setPortfolio, tools, setTools, projects, setProject } = useMultiStep();
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleNext = (event: React.FormEvent) => {
-    event.preventDefault();
-    setCurrentStep(currentStep + 1);
-  };
-
-  const handlePrevious = () => {
-    setCurrentStep(currentStep - 1);
-  };
 
   const postData = async () => {
     try {
       await createPortfolio(portfolio);
-  
+
       if (tools.length !== 0) {
         const normalizedTools = tools.filter(
           (tool): tool is { name: string; image: File } => Boolean(tool.image)
@@ -44,7 +29,7 @@ export default function MultiStepForm() {
           await createTools({ tools: normalizedTools });
         }
       }
-  
+
       if (projects.length !== 0) {
         const normalizedProjects = projects.map((project) => ({
           title: project.title,
@@ -55,103 +40,109 @@ export default function MultiStepForm() {
 
         await createProjects({ projects: normalizedProjects });
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
-    router.push("/dashboard"); 
+    router.push("/dashboard");
   };
 
   return (
     <div className="max-w-2xl py-8 px-2 mx-auto">
-      <form ref={formRef} onSubmit={(e) => handleNext(e)}>
-        <Card className="p-6">
-          <h2 className="text-xl font-bold mb-4">
-            Étape {currentStep + 1}: {getStepTitle(currentStep)}
-          </h2>
-
-          <div className="flex items-center justify-between mb-6 relative">
-            {[1, 2, 3, 4].map((step) => (
-              <div key={step} className="flex items-center z-10">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    step <= currentStep
-                      ? "dayMode bg-primary text-white"
-                      : "bg-gray-500"
-                  }`}
-                >
-                  {step}
-                </div>
-              </div>
-            ))}
-            <Progress
-              value={progress}
-              className="dayMode absolute top-1/2 left-0 -translate-y-1/2 w-full h-1"
-              aria-labelledby="progress-header"
+      <Stepper
+        steps={[
+          {
+            title: "Informations Personnelles", children: <FirstStepForm portfolio={portfolio} setPortfolio={setPortfolio} inputs={{
+              title: {
+                label: "Nom du portfolio",
+                placeholder: "Entrez le nom de votre portfolio",
+                testId: "portfolio-title-input",
+              },
+              subTitle: {
+                label: "Sous-titre",
+                placeholder: "Entrez un sous-titre",
+                testId: "portfolio-subtitle-input",
+              },
+              textarea: {
+                label: "Biographie / Description",
+                placeholder: "Parlez un peu de vous...",
+                testId: "portfolio-bio-textarea",
+              },
+            }} />
+          },
+          {
+            title: "Compétences", children: <SecondStepForm tools={tools} setTools={(tools) => setTools(tools)} inputs={{
+              tool: {
+                label: 'compétence',
+                placeholder: 'Entrez le nom de la compétence',
+              },
+              deleteButton: {
+                label: 'Supprimer la compétence',
+              },
+              addButton: {
+                label: 'Ajouter une compétence',
+              },
+            }} />
+          },
+          {
+            title: "Projets", children: <ThirdStepForm projects={projects} setProjects={(projects) => setProject(projects)} inputs={{
+              title: {
+                label: "Titre du projet",
+              },
+              description: {
+                label: "Description",
+              },
+              imagesLabel: "Images du projet",
+              imagesHint: "Format recommandé : PNG ou JPG, max 2MB",
+              deleteButton: {
+                label: "Supprimer le projet",
+              },
+              addButton: {
+                label: "Ajouter un projet",
+              },
+            }} />
+          },
+          {
+            title: "Personnalisation", children: <FourStepForm
+              portfolio={portfolio}
+              setPortfolio={setPortfolio}
+              templates={templates}
+              styles={templatesStyles}
+              labels={{
+                templateSelect: "Choisissez votre template",
+                colorsSelect: "Choisissez votre palette de couleurs",
+                colorSelect: "Personnalisez vos couleurs",
+                templatePreview: (preview: string, name: string, width: number, height: number) => (
+                  < Image
+                    src={preview}
+                    alt={name}
+                    width={width}
+                    height={height}
+                    className="h-[140px] w-full object-cover"
+                  />
+                ),
+              }}
             />
-          </div>
-
-          <div>
-            {currentStep === 0 && <FirstStepForm />}
-
-            {currentStep === 1 && <SecondStepForm />}
-
-            {currentStep === 2 && <ThirdStepForm />}
-
-            {currentStep === 3 && <FourStepForm />}
-
-            <div className="flex justify-between mt-6">
-              {currentStep > 0 ? (
-                <Button
-                  onPress={handlePrevious}
-                  disabled={currentStep === 0}
-                  data-testid="portfolio-edit-prev-step"
-                >
-                  Précédent
-                </Button>
-              ) : (<div></div>)
-              }
-              {currentStep < totalSteps ? (
-                <Button
-                  onPress={() => formRef.current?.requestSubmit()}
-                  data-testid="portfolio-edit-next-step"
-                  className="dayMode bg-primary text-white"
-                >
-                  Suivant
-                </Button>
-              ) : (
-                <Button
-                  onPress={postData}
-                  data-testid="portfolio-edit-publish"
-                  className="dayMode bg-primary text-white"
-                  isDisabled={portfolio.config.colors ? false : true}
-                >
-                  Publier
-                </Button>
-              )}
-            </div>
-          </div>
-        </Card>
-      </form>
+          },
+        ]}
+        withFormProgress={true}
+        buttons={{
+          previous: {
+            label: 'Précédent',
+          },
+          next: {
+            label: 'Suivant',
+          },
+          end: {
+            label: 'Publier',
+          }
+        }}
+        onStepChange={(step) => setCurrentStep(step)}
+        onStepperEnd={postData}
+      />
       <div id="canvas-container">
         <ModelViewer step={currentStep} />
-      </div> 
+      </div>
     </div>
   );
-}
-
-function getStepTitle(step: number): string {
-  switch (step) {
-    case 0:
-      return "Informations Personnelles";
-    case 1:
-      return "Compétences";
-    case 2:
-      return "Projets";
-    case 3:
-      return "Personnalisation";
-
-    default:
-      return "";
-  }
 }
 

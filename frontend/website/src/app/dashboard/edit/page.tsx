@@ -1,7 +1,7 @@
 "use client";
 
-import DashboardTitle from "@/components/DashboardTitle";
-import ColorPicker from "@/components/UI/ColorPicker";
+import { ColorPicker, DashboardTitle } from "@rboucheron/ui";
+import { UserAvatar } from "@/components/UserAvatar";
 import { usePortfolioStore } from "@/store/portfolio.store";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -9,19 +9,19 @@ import { useRouter } from "next/navigation";
 import {
   Button,
   Card,
-  CardBody,
+  CardContent,
   CardFooter,
-  Image,
   Input,
-  Textarea,
+  TextArea,
 } from "@heroui/react";
-import { URLInput } from "@/components/UI/URLInput";
+import Image from "next/image";
+import { URLInput } from "@rboucheron/ui";
 import { templates } from "@/data/templates/templates";
 import { templatesStyles } from "@/data/templates/styles";
 import {
   draftPortfolio as draftPortfolioApi,
   publishPortfolio as publishPortfolioApi,
-} from "api/src/client/portfolio";
+} from "@rboucheron/api";
 
 export default function Edit() {
   const { portfolio, setPortfolio, fetchPortfolio, updatePortfolio } =
@@ -153,7 +153,7 @@ export default function Edit() {
 
   return (
     <>
-      <DashboardTitle title="Modifier votre portfolio" />
+      <DashboardTitle title="Modifier votre portfolio" avatar={<UserAvatar size={40} />} />
 
       <div className="p-4 grid grid-cols-3 gap-6">
         <div className="col-span-1 space-y-4">
@@ -198,7 +198,7 @@ export default function Edit() {
             isRequired
             classNames={inputStyles}
           />
-          <Textarea
+          <TextArea
             label="Présentation"
             placeholder="Présentez-vous en quelques lignes..."
             data-testid="dashboard-edit-bio-input"
@@ -209,7 +209,7 @@ export default function Edit() {
             value={portfolio?.bio}
             isRequired
           />
-          <Textarea
+          <TextArea
             label="Message d'incitation aux commentaires"
             placeholder="Encouragez les visiteurs à laisser un retour..."
             data-testid="dashboard-edit-comment-message-input"
@@ -222,6 +222,9 @@ export default function Edit() {
           <URLInput
             onChange={(value) => setPortfolio({ ...portfolio, url: value })}
             value={portfolio?.url}
+            placeholder="Ex: votre-site"
+            description="Utilisez uniquement des lettres, chiffres, - et _"
+            urlExemple=".foliode.com"
             testId="dashboard-edit-url-input"
           />
 
@@ -240,16 +243,15 @@ export default function Edit() {
                       : ""
                   }
                 >
-                  <CardBody className="overflow-visible p-0">
+                  <CardContent className="overflow-visible p-0">
                     <Image
                       alt={template.name}
-                      className="w-full object-cover h-[120px]"
-                      radius="lg"
-                      shadow="sm"
+                      className="w-full object-cover h-[120px] rounded-lg shadow-sm"
                       src={template.preview}
-                      width="100%"
+                      width={400}
+                      height={120}
                     />
-                  </CardBody>
+                  </CardContent>
                   <CardFooter className="text-small justify-between">
                     <b>{template.name}</b>
                   </CardFooter>

@@ -1,19 +1,17 @@
 'use client';
 
-import FileInput from '@/components/UI/FileInput';
-import Buttons from '@/components/UI/button';
-import LinkAdder from '../UI/LinkAdder';
+import { FileInput, FoliodeButton, LinkAdder } from '@rboucheron/ui';
 
 import {
   Input,
-  Textarea,
+  TextArea,
   Card
 } from '@heroui/react';
 
 import { useState } from 'react';
-import { Project } from '@/interfaces/Project';
+import { Project } from '@rboucheron/types';
 import { useProjects } from '@/utils/store';
-import { createProject as createProjectAPI } from "api/src/client/project";
+import { createProject as createProjectAPI } from "@rboucheron/api";
 
 function ProjectForm() {
   const { projects, setProjects } = useProjects();
@@ -81,7 +79,7 @@ function ProjectForm() {
           }
         />
 
-        <Textarea
+        <TextArea
           label="Description"
           value={project.description}
           onChange={(e) =>
@@ -97,7 +95,7 @@ function ProjectForm() {
           isRequired
         />
 
-        <Buttons
+        <FoliodeButton
           text="Créer un projet"
           className="bg-primary w-full text-sm"
           style="form"

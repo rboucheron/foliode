@@ -1,14 +1,17 @@
 "use client";
 
-import {HeroUIProvider} from "@heroui/react"
-import {ThemeProvider as NextThemesProvider} from "next-themes";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { SidebarProvider } from "@rboucheron/ui";
 
-export function Providers({children}: { children: React.ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <HeroUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
-        {children}
-      </NextThemesProvider>
-    </HeroUIProvider>
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <SidebarProvider>{children}</SidebarProvider>
+    </NextThemesProvider>
   )
 }

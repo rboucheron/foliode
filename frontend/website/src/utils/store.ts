@@ -1,9 +1,6 @@
 "use client";
 import { create } from "zustand";
-import { User } from "../interfaces/User";
-import { MsPortfolio} from "../interfaces/MultiStep";
-import { Project, receivedProject } from "@/interfaces/Project";
-import { Tools } from "@/interfaces/Tools";
+import { User, MsPortfolio, Project, receivedProject, Tools } from "@rboucheron/types";
 
 interface UserState {
   user: User | null;

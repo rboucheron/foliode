@@ -1,9 +1,8 @@
-import BantoFlow from "@/components/template/BantoFlow";
-import EmeraldFlow from "@/components/template/EmeraldFlow";
-import PrestigeNoir from "@/components/template/PrestigeNoir";
+import { BantoFlow, EmeraldFlow, PrestigeNoir } from "@rboucheron/ui";
+import { PortfolioCommentsSection } from "@/features/comment";
 
-import { Portfolio } from "@/interfaces/Portfolio";
-import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
+import { Portfolio } from "@rboucheron/types";
+import { getPublicPortfolioByUrl } from "@rboucheron/api";
 import { notFound } from "next/navigation";
 
 const fallbackColors = {
@@ -40,11 +39,42 @@ async function PortfolioPage({
 
     switch (template) {
       case "template-1":
-        return <BantoFlow portfolio={portfolio} />;
+        return (
+          <BantoFlow
+            portfolio={portfolio}
+            commentsSection={
+              <PortfolioCommentsSection
+                portfolioUrl={portfolio.url}
+                commentMessage={portfolio.commentMessage}
+                titleColor={portfolio.config.colors.secondary}
+              />
+            }
+          />
+        );
       case "template-2":
-        return <EmeraldFlow portfolio={portfolio} />;
+        return (
+          <EmeraldFlow
+            portfolio={portfolio}
+            commentsSection={
+              <PortfolioCommentsSection
+                portfolioUrl={portfolio.url}
+                commentMessage={portfolio.commentMessage}
+              />
+            }
+          />
+        );
       case "template-3":
-        return <PrestigeNoir portfolio={portfolio} />;
+        return (
+          <PrestigeNoir
+            portfolio={portfolio}
+            commentsSection={
+              <PortfolioCommentsSection
+                portfolioUrl={portfolio.url}
+                commentMessage={portfolio.commentMessage}
+              />
+            }
+          />
+        );
       default:
         notFound();
     }
