@@ -1,4 +1,4 @@
-import { DashboardCommentsScreen } from "@/features/comment";
+import { DashboardCommentsScreen } from "@/comment";
 
 export default function DashboardCommentsPage() {
   return <DashboardCommentsScreen />;

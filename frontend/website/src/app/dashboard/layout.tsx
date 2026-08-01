@@ -1,6 +1,6 @@
 "use client";
 
-import FoliodeSidebar from "@/components/Sidebar";
+import { FoliodeSidebar } from "@/shared/shell";
 import { useSidebar } from "@rboucheron/ui"
 
 export default function DashboardLayout({

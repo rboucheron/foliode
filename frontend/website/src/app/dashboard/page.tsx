@@ -1,15 +1,15 @@
 "use client";
 
 import { DashboardTitle } from "@rboucheron/ui";
-import { UserAvatar } from "@/components/UserAvatar";
-import { useUserStore } from "@/store/user.store";
+import { UserAvatar } from "@/user/ui/UserAvatar";
+import { useUser } from "@/user/store/useUser";
 import { useEffect } from "react";
 
 import { signInGitHub, signInDribbble } from "@/auth";
 import { Colors as ColorsInterface, Promotion } from "@rboucheron/types";
 
-import { usePortfolioStore } from "@/store/portfolio.store";
-import { Card, CardContent, Link } from "@heroui/react";
+import { usePortfolio } from "@/portfolio/store/usePortfolio";
+import Link from "next/link";
 
 import {
   FaGithub,
@@ -18,19 +18,20 @@ import {
   FaPencilAlt,
 } from "react-icons/fa";
 import { CiDatabase } from "react-icons/ci";
-import PortfolioCharts from "@/components/PortfolioCharts";
+import PortfolioCharts from "@/portfolio/ui/components/PortfolioCharts";
 
 export default function Dashboard() {
-  const { user, fetchFromJwt } = useUserStore();
-  const { fetchPortfolio, portfolio } = usePortfolioStore();
-  const projects = portfolio?.projects || [];
+  const { user, fetchFromJwt } = useUser();
+  const { fetchPortfolio, portfolio } = usePortfolio();
+  const projects = (portfolio?.projects || []) as Array<{ title: string; description: string }>;
   const portfolioColors = portfolio?.config.colors;
   const portfolioPromotion = portfolio?.users.promotion as Promotion;
+  const portfolioTools = (portfolio?.tools || []) as Array<{ name: string; picto: string }>;
 
   useEffect(() => {
     fetchFromJwt();
     fetchPortfolio();
-  }, []);
+  }, [fetchFromJwt, fetchPortfolio]);
 
   return (
     <>
@@ -42,71 +43,65 @@ export default function Dashboard() {
       <div className="h-screen w-full p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           <div className="sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1 flex flex-col gap-4">
-            <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-              <CardContent className="flex flex-row items-center gap-5 p-4">
+            <section className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+              <div className="flex flex-row items-center gap-5 p-4">
                 <FaGithub className="text-2xl" />
                 {user?.github_login ? (
                   <span className="dayMode">
                     Connecté en tant que{" "}
-                    <Link
+                    <a
                       href={`https://github.com/${user.github_login}`}
-                      underline="hover"
-                      isExternal
-                      className="cursor-pointer"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cursor-pointer underline"
                     >
                       {user?.github_login}
-                    </Link>
+                    </a>
                   </span>
                 ) : (
                   <>
-                    <Link
-                      onPress={() => signInGitHub()}
-                      isExternal
-                      showAnchorIcon
-                      underline="hover"
-                      className="text-foreground cursor-pointer"
+                    <button
+                      onClick={() => signInGitHub()}
+                      className="text-foreground cursor-pointer underline"
                     >
                       Connectez-vous avec GitHub
-                    </Link>
+                    </button>
                   </>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </section>
 
-            <Card className="w-full overflow-hidden shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-              <CardContent className="flex flex-row items-center gap-5 p-4">
+            <section className="w-full overflow-hidden shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+              <div className="flex flex-row items-center gap-5 p-4">
                 <FaDribbble className="text-2xl" />
                 {user?.dribbble_login ? (
                   <span className="dayMode">
                     Connecté en tant que{" "}
-                    <Link
+                    <a
                       href={`https://dribbble.com/${user.dribbble_login}`}
-                      underline="hover"
-                      isExternal
-                      className="cursor-pointer"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cursor-pointer underline"
                     >
                       {user?.dribbble_login}
-                    </Link>
+                    </a>
                   </span>
                 ) : (
                   <>
-                    <Link
-                      onPress={() => signInDribbble()}
-                      isExternal
-                      showAnchorIcon
-                      underline="hover"
-                      className="text-foreground cursor-pointer"
+                    <button
+                      onClick={() => signInDribbble()}
+                      className="text-foreground cursor-pointer underline"
                     >
                       Connectez-vous avec Dribbble
-                    </Link>
+                    </button>
                   </>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </section>
           </div>
 
-          <Card className="sm:col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">
                   {portfolio?.title || "Votre portfolio"}
@@ -124,11 +119,11 @@ export default function Dashboard() {
                   URL: {portfolio?.url ? `/${portfolio.url}` : "Non définie"}
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="sm:col-span-2 md:col-span-3 lg:col-span-1 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-2 md:col-span-3 lg:col-span-1 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex items-center gap-3 mb-3">
                 <FaGraduationCap className="text-2xl" />
                 <h2 className="text-xl font-bold">Formation</h2>
@@ -149,11 +144,11 @@ export default function Dashboard() {
                   Aucune formation associée
                 </p>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Compétences</h2>
                 <Link
@@ -163,9 +158,9 @@ export default function Dashboard() {
                   <FaPencilAlt className="dayMode text-primary duration-200 hover:text-primary-200 hover:scale-110" />
                 </Link>
               </div>
-              {portfolio?.tools && portfolio.tools.length > 0 ? (
+              {portfolioTools.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
-                  {portfolio.tools.map((tool, index) => (
+                  {portfolioTools.map((tool, index) => (
                     <div
                       key={index}
                       className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm"
@@ -179,11 +174,11 @@ export default function Dashboard() {
                   Aucune compétence définie
                 </p>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Projets récents</h2>
                 <Link
@@ -215,11 +210,11 @@ export default function Dashboard() {
               ) : (
                 <p className="text-gray-500 dark:text-gray-400">Aucun projet</p>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Couleurs du portfolio</h2>
                 <Link
@@ -249,11 +244,11 @@ export default function Dashboard() {
                   Aucune couleur définie
                 </p>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Typographie</h2>
                 <Link
@@ -283,11 +278,11 @@ export default function Dashboard() {
                   <p>Exemple de texte standard.</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-2 shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Commentaires</h2>
                 <Link
@@ -301,11 +296,11 @@ export default function Dashboard() {
                 Consultez les commentaires reçus, masquez ceux qui ne respectent
                 pas les règles et gardez l'historique.
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
 
-          <Card className="col-span-full shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33]">
-            <CardContent>
+          <section className="col-span-full shadow-lg hover:shadow-xl duration-300 border-2 border-gray-200 dark:border-[#2C2D33] rounded-xl">
+            <div>
               <div className="flex items-center gap-3 mb-4">
                 <CiDatabase className="text-2xl" />
                 <h2 className="text-xl font-bold">Analytiques du Portfolio</h2>
@@ -333,8 +328,8 @@ export default function Dashboard() {
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         </div>
       </div>
     </>

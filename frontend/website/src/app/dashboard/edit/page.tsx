@@ -1,19 +1,15 @@
 "use client";
 
 import { ColorPicker, DashboardTitle } from "@rboucheron/ui";
-import { UserAvatar } from "@/components/UserAvatar";
-import { usePortfolioStore } from "@/store/portfolio.store";
+import { UserAvatar } from "@/user/ui/UserAvatar";
+import { usePortfolio } from "@/portfolio/store/usePortfolio";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  Input,
-  TextArea,
-} from "@heroui/react";
+  HerouiButton as Button,
+  HerouiInput as Input,
+} from "@rboucheron/ui";
 import Image from "next/image";
 import { URLInput } from "@rboucheron/ui";
 import { templates } from "@/data/templates/templates";
@@ -25,7 +21,7 @@ import {
 
 export default function Edit() {
   const { portfolio, setPortfolio, fetchPortfolio, updatePortfolio } =
-    usePortfolioStore();
+    usePortfolio();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isTogglingStatus, setIsTogglingStatus] = useState(false);
@@ -186,7 +182,7 @@ export default function Edit() {
               setPortfolio({ ...portfolio, title: e.target.value })
             }
             isRequired
-            classNames={inputStyles}
+            className="w-full"
           />
           <Input
             label="Soutitre du portfolio"
@@ -196,29 +192,35 @@ export default function Edit() {
               setPortfolio({ ...portfolio, subtitle: e.target.value })
             }
             isRequired
-            classNames={inputStyles}
+            className="w-full"
           />
-          <TextArea
-            label="Présentation"
-            placeholder="Présentez-vous en quelques lignes..."
-            data-testid="dashboard-edit-bio-input"
-            onChange={(e) =>
-              setPortfolio({ ...portfolio, bio: e.target.value })
-            }
-            minRows={3}
-            value={portfolio?.bio}
-            isRequired
-          />
-          <TextArea
-            label="Message d'incitation aux commentaires"
-            placeholder="Encouragez les visiteurs à laisser un retour..."
-            data-testid="dashboard-edit-comment-message-input"
-            onChange={(e) =>
-              setPortfolio({ ...portfolio, commentMessage: e.target.value })
-            }
-            minRows={3}
-            value={portfolio?.commentMessage ?? ""}
-          />
+          <label className="flex flex-col gap-2 text-sm">
+            <span>Présentation</span>
+            <textarea
+              placeholder="Présentez-vous en quelques lignes..."
+              data-testid="dashboard-edit-bio-input"
+              onChange={(e) =>
+                setPortfolio({ ...portfolio, bio: e.target.value })
+              }
+              minLength={3}
+              value={portfolio?.bio}
+              required
+              className="min-h-28 rounded-lg border border-gray-500 bg-transparent px-3 py-2 outline-none focus:border-primary"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm">
+            <span>Message d'incitation aux commentaires</span>
+            <textarea
+              placeholder="Encouragez les visiteurs à laisser un retour..."
+              data-testid="dashboard-edit-comment-message-input"
+              onChange={(e) =>
+                setPortfolio({ ...portfolio, commentMessage: e.target.value })
+              }
+              minLength={3}
+              value={portfolio?.commentMessage ?? ""}
+              className="min-h-28 rounded-lg border border-gray-500 bg-transparent px-3 py-2 outline-none focus:border-primary"
+            />
+          </label>
           <URLInput
             onChange={(value) => setPortfolio({ ...portfolio, url: value })}
             value={portfolio?.url}
@@ -232,18 +234,12 @@ export default function Edit() {
             <h3 className="text-lg font-semibold">Template</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {templates.map((template) => (
-                <Card
+                <section
                   key={template.id}
-                  isPressable
-                  shadow="sm"
-                  onPress={() => handleTemplateChange(template.id)}
-                  className={
-                    portfolio?.template === template.id
-                      ? "ring-2 ring-primary"
-                      : ""
-                  }
+                  onClick={() => handleTemplateChange(template.id)}
+                  className={`cursor-pointer rounded-xl border border-gray-200 bg-white p-0 shadow-sm dark:border-gray-800 dark:bg-[#191919] ${portfolio?.template === template.id ? "ring-2 ring-primary" : ""}`}
                 >
-                  <CardContent className="overflow-visible p-0">
+                  <div className="overflow-visible p-0">
                     <Image
                       alt={template.name}
                       className="w-full object-cover h-[120px] rounded-lg shadow-sm"
@@ -251,11 +247,11 @@ export default function Edit() {
                       width={400}
                       height={120}
                     />
-                  </CardContent>
-                  <CardFooter className="text-small justify-between">
+                  </div>
+                  <div className="text-small justify-between px-3 py-3">
                     <b>{template.name}</b>
-                  </CardFooter>
-                </Card>
+                  </div>
+                </section>
               ))}
             </div>
           </div>
@@ -266,19 +262,10 @@ export default function Edit() {
               {templatesStyles.map((style) => (
                 <Button
                   key={style.name}
-                  variant={
-                    currentColors.primary === style.primary
-                      ? "solid"
-                      : "bordered"
-                  }
-                  color={
-                    currentColors.primary === style.primary
-                      ? "primary"
-                      : "default"
-                  }
+                    variant={currentColors.primary === style.primary ? "primary" : "secondary"}
                   onPress={() => handleStyleChange(style)}
+                  text={style.name}
                 >
-                  {style.name}
                 </Button>
               ))}
             </div>
@@ -299,11 +286,11 @@ export default function Edit() {
 
           <div className="flex justify-end">
             <Button
+              text="Modifier"
               onPress={() => updatePortfolio()}
               data-testid="dashboard-edit-save-button"
               className="dayMode bg-primary text-white"
             >
-              Modifier
             </Button>
           </div>
         </div>
@@ -351,13 +338,12 @@ export const PortfolioStatusCard: React.FC<{
         </Link>
         <Button
           size="sm"
-          color={isPublished ? "default" : "primary"}
-          variant={isPublished ? "bordered" : "solid"}
+          variant={isPublished ? "secondary" : "primary"}
           onPress={onToggleVisibility}
-          isLoading={isTogglingStatus}
+          isDisabled={isTogglingStatus}
           data-testid="dashboard-edit-visibility-toggle"
+          text={isPublished ? "Passer en brouillon" : "Passer en public"}
         >
-          {isPublished ? "Passer en brouillon" : "Passer en public"}
         </Button>
       </div>
     </div>

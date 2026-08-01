@@ -1,7 +1,7 @@
-import ProjectForm    from "@/components/form/ProjectForm";
+import ProjectForm from "@/project/ui/forms/ProjectForm";
 import { DashboardTitle } from "@rboucheron/ui";
-import { UserAvatar } from "@/components/UserAvatar";
-import Projects       from "@/components/UI/Projects";
+import { UserAvatar } from "@/user/ui/UserAvatar";
+import Projects from "@/project/ui/components/Projects";
 
 export default function ProjectsPage() {
   return (

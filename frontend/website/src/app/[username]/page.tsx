@@ -1,9 +1,13 @@
 import { BantoFlow, EmeraldFlow, PrestigeNoir } from "@rboucheron/ui";
-import { PortfolioCommentsSection } from "@/features/comment";
+import { PortfolioCommentsSection } from "@/comment";
 
 import { Portfolio } from "@rboucheron/types";
 import { getPublicPortfolioByUrl } from "@rboucheron/api";
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { formatImage } from "@/utils/formatImage";
+import { generateDicebearAvatar } from "@/user/application/dicebearCreate";
 
 const fallbackColors = {
   primary: "#111827",
@@ -42,6 +46,16 @@ async function PortfolioPage({
         return (
           <BantoFlow
             portfolio={portfolio}
+            Image={(src, alt, className, width, height) => (
+              <Image src={src} alt={alt} className={className} width={width} height={height} />
+            )}
+            Link={(href, className, children) => (
+              <Link href={href} className={className}>
+                {children}
+              </Link>
+            )}
+            formatImage={formatImage}
+            generateAvatar={(size, seed) => generateDicebearAvatar(seed, size)}
             commentsSection={
               <PortfolioCommentsSection
                 portfolioUrl={portfolio.url}
@@ -55,6 +69,16 @@ async function PortfolioPage({
         return (
           <EmeraldFlow
             portfolio={portfolio}
+            Image={(src, alt, className, width, height) => (
+              <Image src={src} alt={alt} className={className} width={width} height={height} />
+            )}
+            Link={(href, className, children) => (
+              <Link href={href} className={className}>
+                {children}
+              </Link>
+            )}
+            formatImage={formatImage}
+            generateAvatar={(size, seed) => generateDicebearAvatar(seed, size)}
             commentsSection={
               <PortfolioCommentsSection
                 portfolioUrl={portfolio.url}
@@ -67,6 +91,16 @@ async function PortfolioPage({
         return (
           <PrestigeNoir
             portfolio={portfolio}
+            Image={(src, alt, className, width, height) => (
+              <Image src={src} alt={alt} className={className} width={width} height={height} />
+            )}
+            Link={(href, className, children) => (
+              <Link href={href} className={className}>
+                {children}
+              </Link>
+            )}
+            formatImage={formatImage}
+            generateAvatar={(size, seed) => generateDicebearAvatar(seed, size)}
             commentsSection={
               <PortfolioCommentsSection
                 portfolioUrl={portfolio.url}

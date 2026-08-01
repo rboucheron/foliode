@@ -5,22 +5,22 @@ import {
   FoliodeButton,
   HerouiInput as Input,
 } from "@rboucheron/ui";
-import { UserAvatar } from "@/components/UserAvatar";
-import { AvatarInput } from "@/components/AvatarInput";
+import { UserAvatar } from "@/user/ui/UserAvatar";
+import { AvatarInput } from "@/user/ui/AvatarInput";
 import { signInGitHub, signInDribbble } from "@/auth";
-import { Link } from "@heroui/react";
+import Link from "next/link";
 import { useEffect } from "react";
-import { useUserStore } from "@/store/user.store";
+import { useUser } from "@/user/store/useUser";
 import { LuExternalLink } from "react-icons/lu";
 import { FaDribbble, FaGithub } from "react-icons/fa";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 
 export default function Profile() {
-  const { user, setUser, fetchFromJwt, updateUser } = useUserStore();
+  const { user, setUser, fetchFromJwt, updateUser } = useUser();
 
   useEffect(() => {
     fetchFromJwt();
-  }, []);
+  }, [fetchFromJwt]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

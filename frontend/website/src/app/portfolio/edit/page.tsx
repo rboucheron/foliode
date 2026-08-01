@@ -4,10 +4,10 @@ import { FirstStepForm, SecondStepForm, ThirdStepForm, FourStepForm, Stepper } f
 import { templatesStyles } from '@/data/templates/styles';
 import { templates } from '@/data/templates/templates';
 import { useState } from "react";
-import { useMultiStep } from "@/utils/store";
+import { useMultiStep } from "@/onboarding/store/useMultiStep";
 import { useRouter } from "next/navigation";
 import { createPortfolio, createProjects, createTools } from "@rboucheron/api";
-import ModelViewer from "@/components/model/modelviewer";
+import { ModelViewer } from "@/shared/media";
 import Image from "next/image";
 
 export default function MultiStepForm() {
