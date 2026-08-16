@@ -7,7 +7,7 @@ import {
 } from "@rboucheron/ui";
 import { UserAvatar } from "@/user/ui/UserAvatar";
 import { AvatarInput } from "@/user/ui/AvatarInput";
-import { signInGitHub, signInDribbble } from "@/auth";
+import { signInGitHub, signInDribbble } from "@/auth/application/social-auth.actions";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useUser } from "@/user/store/useUser";

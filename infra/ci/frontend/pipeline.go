@@ -41,3 +41,14 @@ func Release(ctx context.Context) []pipeline.Step {
 		},
 	}
 }
+
+func Install(ctx context.Context) []pipeline.Step {
+	return []pipeline.Step{
+		{
+			Name: "install frontend dependencies...",
+			Run: func(_ context.Context) error {
+				return pipeline.Run(ctx, "./frontend", "bun", "install")
+			},
+		},
+	}
+}

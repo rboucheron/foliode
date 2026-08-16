@@ -25,6 +25,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@rboucheron/ui": [
+        "./src/shims/rboucheron-ui"
+      ],
+      "@heroui/react": [
+        "./src/shims/heroui-react"
       ]
     }
   },

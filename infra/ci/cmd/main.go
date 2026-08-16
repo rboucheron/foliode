@@ -16,9 +16,12 @@ func main() {
 	defer cancel()
 
 	switch os.Args[1] {
+
 	case "frontend:release":
-		frontendPipeline := frontend.Release(ctx)
-		pipeline.Execute(ctx, frontendPipeline)
+		pipeline.Execute(ctx, frontend.Release(ctx))
+
+	case "frontend:install":
+		pipeline.Execute(ctx, frontend.Install(ctx))
 
 	default:
 		fmt.Printf("Commande inconnue : %s\n", os.Args[1])

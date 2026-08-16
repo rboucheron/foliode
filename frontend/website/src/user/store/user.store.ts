@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { User } from "@rboucheron/types";
 import { updateUserAvatar, updateUserProfile } from "@rboucheron/api";
-import { getClientSession, setClientSessionCookie } from "@/auth";
+import { getClientSession, setClientSessionCookie } from "@/auth/application/session.client";
 
 interface UserState {
   user: User | null;

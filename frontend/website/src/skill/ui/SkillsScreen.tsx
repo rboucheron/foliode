@@ -24,7 +24,7 @@ export default function SkillsScreen() {
     await addSkill(formData);
     setFormData({ name: "", image: null });
   };
-
+     
   return (
     <>
       <DashboardTitle title="Mes compétences" avatar={<UserAvatar size={40} />} />

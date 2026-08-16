@@ -5,7 +5,7 @@ import { UserAvatar } from "@/user/ui/UserAvatar";
 import { useUser } from "@/user/store/useUser";
 import { useEffect } from "react";
 
-import { signInGitHub, signInDribbble } from "@/auth";
+import { signInGitHub, signInDribbble } from "@/auth/application/social-auth.actions";
 import { Colors as ColorsInterface, Promotion } from "@rboucheron/types";
 
 import { usePortfolio } from "@/portfolio/store/usePortfolio";

@@ -11,7 +11,7 @@ import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
 import { Sidebar, ThemeSwitcher } from "@rboucheron/ui";
 
-import { clearClientSessionCookie } from "@/auth";
+import { clearClientSessionCookie } from "@/auth/application/session.client";
 import { useTheme } from "next-themes";
 
 export default function FoliodeSidebar() {

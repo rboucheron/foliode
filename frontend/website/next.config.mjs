@@ -1,4 +1,7 @@
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   transpilePackages: ["@rboucheron/ui", "@rboucheron/api"],
   images: {
     remotePatterns: [

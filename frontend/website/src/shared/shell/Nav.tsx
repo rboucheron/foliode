@@ -9,7 +9,7 @@ import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { HerouiButton as Button, ThemeSwitcher } from "@rboucheron/ui";
 
 import { links } from "@/data/nav/links";
-import { clearClientSessionCookie } from "@/auth";
+import { clearClientSessionCookie } from "@/auth/application/session.client";
 import { UserAvatar } from "@/user/ui/UserAvatar";
 import { useUser } from "@/user/store/useUser";
 import { useTheme } from "next-themes";

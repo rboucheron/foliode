@@ -1,7 +1,7 @@
-import { authGuard, authGuardMatcher } from "@/auth";
+import { authGuard } from "@/auth/application/guard";
 
 export const proxy = authGuard;
 
 export const config = {
-  matcher: authGuardMatcher,
+  matcher: ["/dashboard/:path*", "/portfolio/edit"],
 };
