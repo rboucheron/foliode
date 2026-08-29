@@ -1,6 +1,6 @@
-import ModelViewer from "@/components/model/model-404/modelviewer";
+import { ModelViewer404 as ModelViewer } from "@/shared/media";
 import Image from "next/image";
-import { Button, Link } from "@heroui/react";
+import Link from "next/link";
 
 export default function Error_404() {
   return (
@@ -25,15 +25,12 @@ export default function Error_404() {
             temporairement indisponible.
           </p>
           <div className="flex justify-left">
-            <Button
-              className="text-20   mt-4"
-              as={Link}
+            <Link
               href="/"
-              variant="solid"
-              color="primary"
+              className="text-20 mt-4 inline-flex items-center rounded-lg bg-primary px-4 py-2 font-medium text-white transition-opacity hover:opacity-90"
             >
               Revenir sur la page Foliode
-            </Button>
+            </Link>
           </div>
         </div>
       </div>

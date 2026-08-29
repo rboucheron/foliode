@@ -1,4 +1,4 @@
-import { Template } from "@/interfaces/Template";
+import { Template } from "@rboucheron/types";
 
 export const templates: Template[] = [
     {

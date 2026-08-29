@@ -1,11 +1,14 @@
-import React from "react";
+import {
+  BantoProjectPage,
+  EmeraldProjectPage,
+  PrestigeNoirProjectPage,
+} from "@rboucheron/ui";
 
-import BantoProjectPage from "@/components/template/banto/ProjectPage";
-import EmeraldProjectPage from "@/components/template/emerald/ProjectPage";
-import PrestigeNoirProjectPage from "@/components/template/PrestigeNoir/ProjectPage";
-
-import { Portfolio } from "@/interfaces/Portfolio";
-import { getPublicPortfolioByUrl } from "api/src/client/portfolio";
+import { Portfolio } from "@rboucheron/types";
+import { getPublicPortfolioByUrl } from "@rboucheron/api";
+import Image from "next/image";
+import Link from "next/link";
+import { formatImage } from "@/utils/formatImage";
 
 const fallbackColors = {
   primary: "#111827",
@@ -46,11 +49,48 @@ async function Page({
 
   switch (portfolio.template) {
     case "template-1":
-      return <BantoProjectPage project={project} portfolio={portfolio} />;
+      return (
+        <BantoProjectPage
+          project={project}
+          portfolio={portfolio}
+          Image={(src, alt, className, width, height) => (
+            <Image src={src} alt={alt} className={className} width={width} height={height} />
+          )}
+          formatImage={formatImage}
+        />
+      );
     case "template-2":
-      return <EmeraldProjectPage project={project} portfolio={portfolio} />;
+      return (
+        <EmeraldProjectPage
+          project={project}
+          portfolio={portfolio}
+          Image={(src, alt, className, width, height) => (
+            <Image src={src} alt={alt} className={className} width={width} height={height} />
+          )}
+          Link={(href, className, children) => (
+            <Link href={href} className={className}>
+              {children}
+            </Link>
+          )}
+          formatImage={formatImage}
+        />
+      );
     case "template-3":
-      return <PrestigeNoirProjectPage project={project} portfolio={portfolio} />;
+      return (
+        <PrestigeNoirProjectPage
+          project={project}
+          portfolio={portfolio}
+          Image={(src, alt, className, width, height) => (
+            <Image src={src} alt={alt} className={className} width={width} height={height} />
+          )}
+          Link={(href, className, children) => (
+            <Link href={href} className={className}>
+              {children}
+            </Link>
+          )}
+          formatImage={formatImage}
+        />
+      );
     default:
       return <div>Template non supporté</div>;
   }
