@@ -1,17 +1,17 @@
-import type { Colors } from "./portfolio"
+import type { Colors } from "./portfolio";
 
 export interface Template {
-  id: string
-  name: string
-  preview: string
-  color: Colors
+  id: string;
+  name: string;
+  preview: string;
+  color: Colors;
 }
 
 export const TEMPLATE_IDS = {
   bento: "template-1",
   emerald: "template-2",
   prestige: "template-3",
-} as const
+} as const;
 
 export const templates: Template[] = [
   {
@@ -53,11 +53,12 @@ export const templates: Template[] = [
       light: "#334B35",
     },
   },
-]
+];
 
 export interface TemplateStyle extends Colors {
-  name: string
+  name: string;
 }
 
-/** Palettes proposées, indépendamment du template choisi. */
-export const templatesStyles: TemplateStyle[] = templates.map(({ name, color }) => ({ name, ...color }))
+export const templatesStyles: TemplateStyle[] = templates.map(
+  ({ name, color }) => ({ name, ...color }),
+);

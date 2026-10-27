@@ -1,22 +1,33 @@
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
 interface AuthLayoutProps {
-  title: string
-  subtitle: string
-  children: React.ReactNode
-  footer: React.ReactNode
+  title: string;
+  subtitle: string;
+  children: React.ReactNode;
+  footer: React.ReactNode;
 }
 
-/** Carte centrée commune aux pages de connexion et d'inscription. */
-export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
+export function AuthLayout({
+  title,
+  subtitle,
+  children,
+  footer,
+}: AuthLayoutProps) {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-linear-to-tr from-muted via-background to-muted/50 p-4 transition-colors duration-300 sm:p-6">
       <div className="flex w-full max-w-md flex-col items-center gap-6 rounded-2xl border bg-card/80 p-6 shadow-xl backdrop-blur-md sm:p-8">
         <div className="flex flex-col items-center justify-center gap-3 text-center">
           <div className="rounded-full border border-primary/20 bg-primary/10 p-3 transition-transform duration-300 hover:scale-105">
-            <img src="/foliode-icon.svg" alt="Logo Foliode" width={48} height={48} />
+            <img
+              src="/foliode-icon.svg"
+              alt="Logo Foliode"
+              width={48}
+              height={48}
+            />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            {title}
+          </h1>
           <p className="text-sm text-muted-foreground">{subtitle}</p>
         </div>
 
@@ -33,10 +44,16 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
         {footer}
       </div>
     </div>
-  )
+  );
 }
 
-export function AuthError({ id, children }: { id: string; children: React.ReactNode }) {
+export function AuthError({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) {
   return (
     <p
       role="alert"
@@ -46,5 +63,5 @@ export function AuthError({ id, children }: { id: string; children: React.ReactN
     >
       {children}
     </p>
-  )
+  );
 }

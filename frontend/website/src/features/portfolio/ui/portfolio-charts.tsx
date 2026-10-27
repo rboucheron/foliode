@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { Line } from "react-chartjs-2"
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -9,36 +9,44 @@ import {
   PointElement,
   Title,
   Tooltip,
-} from "chart.js"
-import type { ChartData, ChartOptions } from "chart.js"
-import { useTheme } from "@/components/theme/theme-provider"
-import { usePortfolioStore } from "../application/portfolio.store"
+} from "chart.js";
+import type { ChartData, ChartOptions } from "chart.js";
+import { useTheme } from "@/components/theme/theme-provider";
+import { usePortfolioStore } from "../application/portfolio.store";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
-const DEFAULT_PRIMARY = "#3E3F92"
+const DEFAULT_PRIMARY = "#3E3F92";
 
-/** Lit la couleur primaire du thème courant (variable CSS `--primary`). */
 const usePrimaryColor = (): string => {
-  const { resolvedTheme } = useTheme()
-  const [color, setColor] = useState(DEFAULT_PRIMARY)
+  const { resolvedTheme } = useTheme();
+  const [color, setColor] = useState(DEFAULT_PRIMARY);
 
   useEffect(() => {
-    const value = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim()
-    setColor(value || DEFAULT_PRIMARY)
-  }, [resolvedTheme])
+    const value = getComputedStyle(document.documentElement)
+      .getPropertyValue("--primary")
+      .trim();
+    setColor(value || DEFAULT_PRIMARY);
+  }, [resolvedTheme]);
 
-  return color
-}
+  return color;
+};
 
-/** Ajoute une transparence à une couleur hexadécimale (#RRGGBB → #RRGGBBAA). */
 const withAlpha = (color: string, alphaHex: string): string =>
-  /^#[0-9a-f]{6}$/i.test(color) ? `${color}${alphaHex}` : color
+  /^#[0-9a-f]{6}$/i.test(color) ? `${color}${alphaHex}` : color;
 
 const formatDate = (date: string): string => {
-  const dateObj = new Date(date)
-  return `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`
-}
+  const dateObj = new Date(date);
+  return `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
+};
 
 const options: ChartOptions<"line"> = {
   responsive: true,
@@ -46,19 +54,25 @@ const options: ChartOptions<"line"> = {
     legend: { position: "top" },
     title: { display: true, text: "vues du portfolio" },
   },
-}
+};
 
 export function PortfolioCharts() {
-  const portfolioStats = usePortfolioStore((state) => state.portfolioStats)
-  const fetchPortfolioStats = usePortfolioStore((state) => state.fetchPortfolioStats)
-  const primary = usePrimaryColor()
+  const portfolioStats = usePortfolioStore((state) => state.portfolioStats);
+  const fetchPortfolioStats = usePortfolioStore(
+    (state) => state.fetchPortfolioStats,
+  );
+  const primary = usePrimaryColor();
 
   useEffect(() => {
-    void fetchPortfolioStats()
-  }, [fetchPortfolioStats])
+    void fetchPortfolioStats();
+  }, [fetchPortfolioStats]);
 
   if (portfolioStats.length === 0) {
-    return <span className="text-sm">Suivez les vues et l'engagement de votre portfolio !</span>
+    return (
+      <span className="text-sm">
+        Suivez les vues et l'engagement de votre portfolio !
+      </span>
+    );
   }
 
   const data: ChartData<"line"> = {
@@ -72,11 +86,11 @@ export function PortfolioCharts() {
         borderWidth: 2,
       },
     ],
-  }
+  };
 
   return (
     <div className="m-auto w-full md:w-3/4">
       <Line data={data} options={options} />
     </div>
-  )
+  );
 }

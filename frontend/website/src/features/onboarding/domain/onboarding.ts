@@ -1,15 +1,14 @@
-import type { Colors } from "@/features/portfolio/domain/portfolio"
+import type { Colors } from "@/features/portfolio/domain/portfolio";
 
-/** Portfolio saisi pendant le formulaire multi-étapes de création. */
 export interface PortfolioDraft {
-  title: string
-  url: string
-  subtitle: string
-  bio: string
-  template: string
+  title: string;
+  url: string;
+  subtitle: string;
+  bio: string;
+  template: string;
   config: {
-    colors: Colors | null
-  }
+    colors: Colors | null;
+  };
 }
 
 export const emptyPortfolioDraft = (): PortfolioDraft => ({
@@ -19,4 +18,4 @@ export const emptyPortfolioDraft = (): PortfolioDraft => ({
   bio: "",
   config: { colors: null },
   template: "",
-})
+});

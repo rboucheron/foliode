@@ -1,17 +1,20 @@
-import { LinkAdder } from "@/components/shared/link-adder"
-import { Field, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import type { ProjectDraft } from "../domain/project"
+import { LinkAdder } from "@/components/shared/link-adder";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import type { ProjectDraft } from "../domain/project";
 
 interface ProjectFieldsProps {
-  idPrefix: string
-  project: ProjectDraft
-  onChange: (project: Partial<ProjectDraft>) => void
+  idPrefix: string;
+  project: ProjectDraft;
+  onChange: (project: Partial<ProjectDraft>) => void;
 }
 
-/** Champs communs aux formulaires de création et de modification de projet. */
-export function ProjectFields({ idPrefix, project, onChange }: ProjectFieldsProps) {
+export function ProjectFields({
+  idPrefix,
+  project,
+  onChange,
+}: ProjectFieldsProps) {
   return (
     <>
       <Field>
@@ -26,7 +29,10 @@ export function ProjectFields({ idPrefix, project, onChange }: ProjectFieldsProp
         />
       </Field>
 
-      <LinkAdder value={project.projectsLinks} onChange={(projectsLinks) => onChange({ projectsLinks })} />
+      <LinkAdder
+        value={project.projectsLinks}
+        onChange={(projectsLinks) => onChange({ projectsLinks })}
+      />
 
       <Field>
         <FieldLabel htmlFor={`${idPrefix}-description`}>
@@ -40,5 +46,5 @@ export function ProjectFields({ idPrefix, project, onChange }: ProjectFieldsProp
         />
       </Field>
     </>
-  )
+  );
 }

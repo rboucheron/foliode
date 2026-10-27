@@ -1,7 +1,10 @@
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "./app-sidebar"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { AppSidebar } from "./app-sidebar";
 
-/** Coquille du tableau de bord : sidebar repliable (icônes) + zone de contenu. */
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
@@ -10,8 +13,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <header className="flex h-12 shrink-0 items-center px-2">
           <SidebarTrigger aria-label="Afficher / masquer le menu" />
         </header>
-        <div className="flex flex-1 flex-col p-2 pt-0 md:p-4 md:pt-0">{children}</div>
+        <div className="flex flex-1 flex-col p-2 pt-0 md:p-4 md:pt-0">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

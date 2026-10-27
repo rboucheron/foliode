@@ -1,17 +1,22 @@
-import { Suspense } from "react"
-import { Canvas } from "@react-three/fiber"
-import { useAnimations, useGLTF } from "@react-three/drei"
+import { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useAnimations, useGLTF } from "@react-three/drei";
 
-const ROCKET_MODEL_PATH = "/model/fusee.gltf"
+const ROCKET_MODEL_PATH = "/model/fusee.gltf";
 
 function RocketModel({ modelPath }: { modelPath: string }) {
-  const { scene, animations } = useGLTF(modelPath)
-  useAnimations(animations, scene)
+  const { scene, animations } = useGLTF(modelPath);
+  useAnimations(animations, scene);
 
-  return <primitive object={scene} position={[0, 2, 0]} rotation={[0, Math.PI / -7, -0.5]} />
+  return (
+    <primitive
+      object={scene}
+      position={[0, 2, 0]}
+      rotation={[0, Math.PI / -7, -0.5]}
+    />
+  );
 }
 
-/** Fusée 3D de la page 404 — client uniquement (à rendre dans `<ClientOnly>`). */
 export function RocketModelViewer() {
   return (
     <div className="-z-10 mt-12 hidden md:block">
@@ -28,5 +33,5 @@ export function RocketModelViewer() {
         </Suspense>
       </Canvas>
     </div>
-  )
+  );
 }

@@ -1,64 +1,68 @@
-import { useState } from "react"
-import { Link } from "@tanstack/react-router"
-import { Button } from "@/components/ui/button"
-import { Spinner } from "@/components/ui/spinner"
-import { getApiErrorMessage } from "@/lib/http"
-import { signInUser } from "../application/auth.api"
-import { saveAuthToken } from "../application/session"
-import { AuthError, AuthLayout } from "./auth-layout"
-import { DribbbleAuthButton, GithubAuthButton } from "./oauth-buttons"
-import { PasswordInput } from "./password-input"
-import { TextField } from "./text-field"
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { getApiErrorMessage } from "@/lib/http";
+import { signInUser } from "../application/auth.api";
+import { saveAuthToken } from "../application/session";
+import { AuthError, AuthLayout } from "./auth-layout";
+import { DribbbleAuthButton, GithubAuthButton } from "./oauth-buttons";
+import { PasswordInput } from "./password-input";
+import { TextField } from "./text-field";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  oauth_failed: "La connexion avec ce fournisseur a échoué. Veuillez réessayer.",
+  oauth_failed:
+    "La connexion avec ce fournisseur a échoué. Veuillez réessayer.",
   oauth_unavailable: "Ce mode de connexion est momentanément indisponible.",
-}
+};
 
-const DEFAULT_ERROR = "Une erreur est survenue pendant la connexion."
+const DEFAULT_ERROR = "Une erreur est survenue pendant la connexion.";
 
-/** N'accepte que les chemins internes pour éviter les redirections ouvertes. */
 const resolveRedirect = (redirect?: string): string =>
-  redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard"
+  redirect && redirect.startsWith("/") && !redirect.startsWith("//")
+    ? redirect
+    : "/dashboard";
 
 interface LoginPageProps {
-  redirect?: string
-  error?: string
+  redirect?: string;
+  error?: string;
 }
 
 export function LoginPage({ redirect, error: searchError }: LoginPageProps) {
-  const [error, setError] = useState(() => (searchError ? (OAUTH_ERRORS[searchError] ?? "") : ""))
-  const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState({ email: "", password: "" })
+  const [error, setError] = useState(() =>
+    searchError ? (OAUTH_ERRORS[searchError] ?? "") : "",
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState({ email: "", password: "" });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = event.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setError("")
-    setIsLoading(true)
+    event.preventDefault();
+    setError("");
+    setIsLoading(true);
 
     try {
-      const response = await signInUser(data)
+      const response = await signInUser(data);
 
       if ("error" in response) {
-        setError(response.error)
-        setData({ email: "", password: "" })
-        return
+        setError(response.error);
+        setData({ email: "", password: "" });
+        return;
       }
 
-      saveAuthToken(response.token)
+      saveAuthToken(response.token);
       // Rechargement complet : la garde de route relit le cookie fraîchement posé.
-      window.location.assign(resolveRedirect(redirect))
+      window.location.assign(resolveRedirect(redirect));
     } catch (err) {
-      setError(getApiErrorMessage(err, DEFAULT_ERROR))
+      setError(getApiErrorMessage(err, DEFAULT_ERROR));
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <AuthLayout
@@ -104,7 +108,10 @@ export function LoginPage({ redirect, error: searchError }: LoginPageProps) {
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">
             Pas de compte ?{" "}
-            <Link to="/signup" className="font-semibold text-primary hover:underline">
+            <Link
+              to="/signup"
+              className="font-semibold text-primary hover:underline"
+            >
               S'inscrire
             </Link>
           </span>
@@ -113,10 +120,16 @@ export function LoginPage({ redirect, error: searchError }: LoginPageProps) {
           </Link>
         </div>
 
-        <Button type="submit" size="lg" disabled={isLoading} data-testid="login-submit" className="w-full">
+        <Button
+          type="submit"
+          size="lg"
+          disabled={isLoading}
+          data-testid="login-submit"
+          className="w-full"
+        >
           {isLoading ? <Spinner aria-label="Chargement..." /> : "Se connecter"}
         </Button>
       </form>
     </AuthLayout>
-  )
+  );
 }

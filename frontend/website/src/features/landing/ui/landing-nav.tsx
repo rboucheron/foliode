@@ -1,38 +1,37 @@
-import { useEffect, useState } from "react"
-import { Link, useNavigate } from "@tanstack/react-router"
-import { MenuIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { MenuIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { ThemeSwitcher } from "@/components/theme/theme-switcher"
-import { UserAvatar, clearAuthToken, useUserStore } from "@/features/user"
-import { navLinks } from "../domain/nav-links"
+} from "@/components/ui/sheet";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { UserAvatar, clearAuthToken, useUserStore } from "@/features/user";
+import { navLinks } from "../domain/nav-links";
 
 const pillButtonClass =
-  "h-auto rounded-[32px] border-2 border-white/4 bg-transparent p-3 text-foreground shadow-[inset_0px_2px_0px_0px_rgba(141,169,162,0.33),inset_0px_-2px_0px_0px_rgba(141,169,162,0.33)] hover:bg-muted"
+  "h-auto rounded-[32px] border-2 border-white/4 bg-transparent p-3 text-foreground shadow-[inset_0px_2px_0px_0px_rgba(141,169,162,0.33),inset_0px_-2px_0px_0px_rgba(141,169,162,0.33)] hover:bg-muted";
 
 export function LandingNav() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const navigate = useNavigate()
-  const user = useUserStore((state) => state.user)
-  const fetchFromJwt = useUserStore((state) => state.fetchFromJwt)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
+  const fetchFromJwt = useUserStore((state) => state.fetchFromJwt);
 
-  // Lecture du JWT côté client uniquement (SSR-safe).
   useEffect(() => {
-    fetchFromJwt()
-  }, [fetchFromJwt])
+    fetchFromJwt();
+  }, [fetchFromJwt]);
 
   const handleSignOut = () => {
-    clearAuthToken()
-    useUserStore.setState({ user: null })
-    setIsMenuOpen(false)
-    void navigate({ to: "/" })
-  }
+    clearAuthToken();
+    useUserStore.setState({ user: null });
+    setIsMenuOpen(false);
+    void navigate({ to: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background">
@@ -56,14 +55,22 @@ export function LandingNav() {
               <ul className="flex flex-col gap-4 px-4 text-lg">
                 {navLinks.map((link) => (
                   <li key={link.href}>
-                    <a className="block w-full" href={link.href} onClick={() => setIsMenuOpen(false)}>
+                    <a
+                      className="block w-full"
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
                       {link.name}
                     </a>
                   </li>
                 ))}
                 {user ? (
                   <li>
-                    <button type="button" className="w-full text-left text-destructive" onClick={handleSignOut}>
+                    <button
+                      type="button"
+                      className="w-full text-left text-destructive"
+                      onClick={handleSignOut}
+                    >
                       Déconnexion
                     </button>
                   </li>
@@ -85,7 +92,12 @@ export function LandingNav() {
             </SheetContent>
           </Sheet>
           <Link to="/" className="flex items-center gap-2">
-            <img src="/foliode-icon.svg" alt="logo foliode" width={25} height={25} />
+            <img
+              src="/foliode-icon.svg"
+              alt="logo foliode"
+              width={25}
+              height={25}
+            />
             <span className="text-26 font-normal">Foliode</span>
           </Link>
         </div>
@@ -103,7 +115,11 @@ export function LandingNav() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              <Button type="button" onClick={handleSignOut} className={pillButtonClass}>
+              <Button
+                type="button"
+                onClick={handleSignOut}
+                className={pillButtonClass}
+              >
                 Déconnexion
               </Button>
               <div className="hidden lg:flex">
@@ -112,7 +128,10 @@ export function LandingNav() {
             </>
           ) : (
             <>
-              <Button asChild className={`hidden lg:inline-flex ${pillButtonClass}`}>
+              <Button
+                asChild
+                className={`hidden lg:inline-flex ${pillButtonClass}`}
+              >
                 <Link to="/login">Connexion</Link>
               </Button>
               <Link className="text-20" to="/signup">
@@ -124,5 +143,5 @@ export function LandingNav() {
         </div>
       </nav>
     </header>
-  )
+  );
 }
