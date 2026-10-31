@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
+import { LanguagesIcon } from "lucide-react"
 import { DashboardTitle } from "@/components/layout/dashboard-title"
 import { URLInput } from "@/components/shared/url-input"
 import { Button } from "@/components/ui/button"
@@ -128,6 +129,22 @@ export function PortfolioSettingsPage() {
                   {t("dashboard.settings.preview")}
                 </Link>
               </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-3">
+              <div className="flex items-center gap-2 font-medium">
+                <LanguagesIcon className="size-4" /> {t("localization.editCard.title")}
+              </div>
+              <p className="text-sm text-muted-foreground">{t("localization.editCard.description")}</p>
+              <p className="text-sm">
+                {portfolio.languages && portfolio.languages.length > 0
+                  ? t("localization.editCard.count", { count: portfolio.languages.length })
+                  : t("localization.editCard.none")}
+              </p>
+              <Button asChild variant="secondary" className="w-full" data-testid="dashboard-edit-translations-button">
+                <Link to="/dashboard/edit/translations">{t("localization.editCard.button")}</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>

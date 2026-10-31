@@ -13,6 +13,7 @@ import type frProjects from "../locales/fr/projects.json"
 import type frSkills from "../locales/fr/skills.json"
 import type frForms from "../locales/fr/forms.json"
 import type frPortfolio from "../locales/fr/portfolio.json"
+import type frLocalization from "../locales/fr/localization.json"
 
 type SourceMessages = {
   common: typeof frCommon
@@ -25,6 +26,7 @@ type SourceMessages = {
   skills: typeof frSkills
   forms: typeof frForms
   portfolio: typeof frPortfolio
+  localization: typeof frLocalization
 }
 
 type Paths<T> = {
