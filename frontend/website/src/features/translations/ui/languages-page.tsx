@@ -1,18 +1,36 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { toast } from "sonner"
-import { ArrowLeftIcon, ArrowRightIcon, FileCodeIcon, FilePlusIcon, Loader2Icon, PlusIcon } from "lucide-react"
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  FileCodeIcon,
+  FileMinusIcon,
+  FilePlusIcon,
+  Loader2Icon,
+  PlusIcon,
+  Trash2Icon,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { ThemeSwitcher } from "@/components/theme/theme-switcher"
 import { DEFAULT_LOCALE, LOCALES, LOCALE_DEFINITIONS, NAMESPACES, isLocale } from "@/i18n/config"
-import { addLocale } from "../application/languages.functions"
+import type { Locale } from "@/i18n/config"
+import { addLocale, removeLocale } from "../application/languages.functions"
 import { buildCatalog, computeStats } from "../domain/catalog"
 import type { FlatFiles } from "../domain/catalog"
-import { suggestLocaleDetails, validateNewLocale } from "../domain/languages"
+import { suggestLocaleDetails, validateLocaleRemoval, validateNewLocale } from "../domain/languages"
 
 const PENDING_REDIRECT_KEY = "foliode-dev-new-locale"
 
@@ -41,6 +59,7 @@ export function LanguagesPage({ files }: { files: FlatFiles }) {
   const [isTagEdited, setIsTagEdited] = useState(false)
   const [isNameEdited, setIsNameEdited] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [localeToRemove, setLocaleToRemove] = useState<Locale | null>(null)
 
   useEffect(() => {
     const pending = readPendingLocale()
@@ -126,6 +145,17 @@ export function LanguagesPage({ files }: { files: FlatFiles }) {
                         Traduire <ArrowRightIcon />
                       </Link>
                     </Button>
+                    {definition.code !== DEFAULT_LOCALE && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8 text-destructive hover:text-destructive"
+                        aria-label={`Supprimer ${definition.nativeName}`}
+                        onClick={() => setLocaleToRemove(definition.code)}
+                      >
+                        <Trash2Icon />
+                      </Button>
+                    )}
                   </div>
                   <Progress value={percent} className="mt-2" />
                   <p className="mt-1 text-xs text-muted-foreground">
@@ -220,6 +250,126 @@ export function LanguagesPage({ files }: { files: FlatFiles }) {
           </form>
         </section>
       </main>
+
+      <RemoveLocaleDialog
+        locale={localeToRemove}
+        translatedCount={stats.find((stat) => stat.locale === localeToRemove)?.translated ?? 0}
+        onClose={() => setLocaleToRemove(null)}
+      />
     </div>
+  )
+}
+
+function RemoveLocaleDialog({
+  locale,
+  translatedCount,
+  onClose,
+}: {
+  locale: Locale | null
+  translatedCount: number
+  onClose: () => void
+}) {
+  const [confirmation, setConfirmation] = useState("")
+  const [isRemoving, setIsRemoving] = useState(false)
+
+  useEffect(() => {
+    setConfirmation("")
+    setIsRemoving(false)
+  }, [locale])
+
+  if (!locale) return null
+
+  const definition = LOCALE_DEFINITIONS.find((d) => d.code === locale)
+  const blocker = validateLocaleRemoval(locale, LOCALES, DEFAULT_LOCALE)
+  const canRemove = blocker === null && confirmation.trim() === locale && !isRemoving
+
+  const removedFiles = [
+    ...NAMESPACES.map((ns) => ({ path: `src/locales/${locale}/${ns}.json`, deleted: true })),
+    { path: `src/routes/${locale}.tsx`, deleted: true },
+    { path: "src/i18n/config.ts", deleted: false },
+  ]
+
+  const remove = async () => {
+    if (!canRemove) return
+    setIsRemoving(true)
+    try {
+      await removeLocale({ data: { code: locale, confirmation: confirmation.trim() } })
+      toast.success(`Langue « ${definition?.nativeName ?? locale} » supprimée.`)
+      window.setTimeout(() => window.location.assign("/dev/languages"), 1200)
+    } catch (removeError) {
+      setIsRemoving(false)
+      toast.error(removeError instanceof Error ? removeError.message : "Impossible de supprimer la langue.")
+    }
+  }
+
+  return (
+    <Dialog open onOpenChange={(open) => !open && !isRemoving && onClose()}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>
+            Supprimer {definition?.nativeName ?? locale} ({locale}) ?
+          </DialogTitle>
+          <DialogDescription>
+            {translatedCount} traduction(s) seront perdues. Les fichiers restent récupérables avec git tant que la
+            suppression n'est pas commitée.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={(event) => {
+            event.preventDefault()
+            void remove()
+          }}
+        >
+          <div className="rounded-md bg-muted/60 p-3 text-sm">
+            <p className="mb-2 font-medium">Fichiers modifiés</p>
+            <ul className="flex flex-col gap-1 font-mono text-xs">
+              {removedFiles.map((file) => (
+                <li key={file.path} className="flex items-center gap-2">
+                  {file.deleted ? (
+                    <FileMinusIcon className="size-3.5 text-destructive" />
+                  ) : (
+                    <FileCodeIcon className="size-3.5" />
+                  )}
+                  {file.path}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Les visiteurs qui avaient choisi cette langue repasseront automatiquement sur la langue de leur
+              navigateur ou le français. L'URL <code>/{locale}</code> redeviendra disponible.
+            </p>
+          </div>
+
+          {blocker ? (
+            <p className="text-sm text-destructive">{blocker}</p>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="remove-confirmation">
+                Tapez <code className="font-bold">{locale}</code> pour confirmer
+              </Label>
+              <Input
+                id="remove-confirmation"
+                value={confirmation}
+                onChange={(event) => setConfirmation(event.target.value)}
+                autoComplete="off"
+                autoFocus
+              />
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isRemoving}>
+              Annuler
+            </Button>
+            <Button type="submit" variant="destructive" disabled={!canRemove}>
+              {isRemoving ? <Loader2Icon className="animate-spin" /> : <Trash2Icon />}
+              {isRemoving ? "Suppression..." : "Supprimer la langue"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   )
 }

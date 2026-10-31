@@ -1,4 +1,4 @@
-export { addLocale } from "./application/languages.functions"
+export { addLocale, removeLocale } from "./application/languages.functions"
 export { loadTranslationFiles, saveTranslationFiles } from "./application/translations.functions"
 export { LanguagesPage } from "./ui/languages-page"
 export { TranslationsEditorPage } from "./ui/translations-editor-page"

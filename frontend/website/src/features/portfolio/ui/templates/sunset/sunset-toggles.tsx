@@ -38,17 +38,15 @@ export function ToggleLang() {
   )
 }
 
+const FLAGS: Partial<Record<string, () => React.JSX.Element>> = {
+  fr: FrenchFlag,
+  en: EnglishFlag,
+  zh: ChineseFlag,
+}
+
 function Flag({ locale }: { locale: Locale }) {
-  switch (locale) {
-    case "en":
-      return <EnglishFlag />
-    case "zh":
-      return <ChineseFlag />
-    case "fr":
-      return <FrenchFlag />
-    default:
-      return <CodeBadge locale={locale} />
-  }
+  const LocaleFlag = FLAGS[locale]
+  return LocaleFlag ? <LocaleFlag /> : <CodeBadge locale={locale} />
 }
 
 function CodeBadge({ locale }: { locale: Locale }) {

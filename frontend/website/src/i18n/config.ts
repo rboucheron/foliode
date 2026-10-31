@@ -38,7 +38,10 @@ export const LOCALE_NATIVE_NAMES = Object.fromEntries(
 export const isLocale = (value: unknown): value is Locale =>
   typeof value === "string" && (LOCALES as ReadonlyArray<string>).includes(value)
 
-export const matchAcceptLanguage = (header: string | null | undefined): Locale | null => {
+export const pickAcceptLanguage = <T extends string>(
+  header: string | null | undefined,
+  supported: ReadonlyArray<T>,
+): T | null => {
   if (!header) return null
   const candidates = header
     .split(",")
@@ -51,13 +54,16 @@ export const matchAcceptLanguage = (header: string | null | undefined): Locale |
     .sort((a, b) => b.q - a.q)
 
   for (const { tag } of candidates) {
-    const base = tag.split("-")[0]
-    if (isLocale(base)) return base
+    const base = supported.find((code) => code === tag.split("-")[0])
+    if (base) return base
   }
   return null
 }
 
-export const localeFromPathname = (pathname: string): Locale | null => {
-  const first = pathname.split("/")[1]
-  return isLocale(first) ? first : null
-}
+export const matchAcceptLanguage = (header: string | null | undefined): Locale | null =>
+  pickAcceptLanguage(header, LOCALES)
+
+export const pickLocaleFromPath = <T extends string>(pathname: string, supported: ReadonlyArray<T>): T | null =>
+  supported.find((code) => code === pathname.split("/")[1]) ?? null
+
+export const localeFromPathname = (pathname: string): Locale | null => pickLocaleFromPath(pathname, LOCALES)
