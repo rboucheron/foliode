@@ -1,7 +1,6 @@
 export const LOCALE_DEFINITIONS = [
   { code: "fr", tag: "fr-FR", nativeName: "Français" },
   { code: "en", tag: "en-US", nativeName: "English" },
-  { code: "zh", tag: "zh-CN", nativeName: "中文" },
 ] as const
 
 export type Locale = (typeof LOCALE_DEFINITIONS)[number]["code"]

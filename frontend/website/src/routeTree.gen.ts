@@ -15,7 +15,6 @@ import { Route as EnRouteImport } from './routes/en'
 import { Route as FrRouteImport } from './routes/fr'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as ZhRouteImport } from './routes/zh'
 import { Route as UsernameIndexRouteImport } from './routes/$username/index'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as DevLanguagesRouteImport } from './routes/dev/languages'
@@ -60,11 +59,6 @@ const LoginRoute = LoginRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ZhRoute = ZhRouteImport.update({
-  id: '/zh',
-  path: '/zh',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UsernameIndexRoute = UsernameIndexRouteImport.update({
@@ -154,7 +148,6 @@ export interface FileRoutesByFullPath {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/zh': typeof ZhRoute
   '/dashboard': typeof AuthedDashboardRouteWithChildren
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
@@ -178,7 +171,6 @@ export interface FileRoutesByTo {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/zh': typeof ZhRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
   '/$username': typeof UsernameIndexRoute
@@ -203,7 +195,6 @@ export interface FileRoutesById {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/zh': typeof ZhRoute
   '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
@@ -229,7 +220,6 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
-    | '/zh'
     | '/dashboard'
     | '/dev/languages'
     | '/dev/translations'
@@ -253,7 +243,6 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
-    | '/zh'
     | '/dev/languages'
     | '/dev/translations'
     | '/$username'
@@ -277,7 +266,6 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
-    | '/zh'
     | '/_authed/dashboard'
     | '/dev/languages'
     | '/dev/translations'
@@ -303,7 +291,6 @@ export interface RootRouteChildren {
   FrRoute: typeof FrRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  ZhRoute: typeof ZhRoute
   DevLanguagesRoute: typeof DevLanguagesRoute
   DevTranslationsRoute: typeof DevTranslationsRoute
   UsernameIndexRoute: typeof UsernameIndexRoute
@@ -354,13 +341,6 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/zh': {
-      id: '/zh'
-      path: '/zh'
-      fullPath: '/zh'
-      preLoaderRoute: typeof ZhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$username/': {
@@ -524,7 +504,6 @@ const rootRouteChildren: RootRouteChildren = {
   FrRoute: FrRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  ZhRoute: ZhRoute,
   DevLanguagesRoute: DevLanguagesRoute,
   DevTranslationsRoute: DevTranslationsRoute,
   UsernameIndexRoute: UsernameIndexRoute,
