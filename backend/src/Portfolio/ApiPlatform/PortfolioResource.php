@@ -30,5 +30,8 @@ class PortfolioResource
     public ?string $author = null;
     public array $projects = [];
     public array $tools = [];
+    public ?array $sourceLanguage = null;
+    public array $languages = [];
+    public array $translations = [];
 
 }
