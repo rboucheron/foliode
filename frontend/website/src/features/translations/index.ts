@@ -1,2 +1,6 @@
+export { addLocale } from "./application/languages.functions"
 export { loadTranslationFiles, saveTranslationFiles } from "./application/translations.functions"
+export { LanguagesPage } from "./ui/languages-page"
 export { TranslationsEditorPage } from "./ui/translations-editor-page"
+export { STATUS_FILTERS } from "./ui/translations-editor-page"
+export type { EditorSearch } from "./ui/translations-editor-page"

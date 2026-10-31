@@ -44,9 +44,19 @@ function Flag({ locale }: { locale: Locale }) {
       return <EnglishFlag />
     case "zh":
       return <ChineseFlag />
-    default:
+    case "fr":
       return <FrenchFlag />
+    default:
+      return <CodeBadge locale={locale} />
   }
+}
+
+function CodeBadge({ locale }: { locale: Locale }) {
+  return (
+    <span className="grid size-[22px] place-items-center rounded-full bg-[#ff6d0a] text-[9px] font-bold text-white uppercase">
+      {locale}
+    </span>
+  )
 }
 
 function EnglishFlag() {

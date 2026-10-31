@@ -5,12 +5,7 @@ import { flattenMessages, unflattenMessages } from "@/i18n/translate"
 import type { Messages } from "@/i18n/translate"
 import { findKeyConflicts, buildCatalog, isValidKeyPath } from "../domain/catalog"
 import type { FlatFiles } from "../domain/catalog"
-
-const assertDevelopment = (): void => {
-  if (!import.meta.env.DEV || process.env.NODE_ENV === "production") {
-    throw new Error("L'éditeur de traductions est désactivé en production.")
-  }
-}
+import { assertDevelopment } from "./dev-guard"
 
 const localesDir = async (): Promise<string> => {
   const path = await import("node:path")
