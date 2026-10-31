@@ -1,0 +1,9 @@
+{
+  "language": {
+    "description": "Choisissez la langue de l'interface. Elle est mémorisée sur cet appareil.",
+    "label": "Langue de l'interface",
+    "saved": "Langue mise à jour.",
+    "title": "Langue"
+  },
+  "title": "Configuration"
+}

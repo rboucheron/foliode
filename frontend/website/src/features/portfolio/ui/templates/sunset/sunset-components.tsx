@@ -4,6 +4,7 @@ import { Maximize2 } from "lucide-react"
 import type { Skill } from "@/features/skill/domain/skill"
 import { formatImage } from "@/lib/format-image"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/i18n"
 
 export function SectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="mb-4 w-full text-center text-3xl text-[#ff6d0a]">{children}</h2>
@@ -80,6 +81,7 @@ const getRevealDelay = (index: number, total: number): number => {
 }
 
 export function Skills({ tools }: { tools: Skill[] }) {
+  const t = useTranslation()
   const [visibleCount, setVisibleCount] = useState(0)
   const [isInView, setIsInView] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -127,7 +129,7 @@ export function Skills({ tools }: { tools: Skill[] }) {
                     <div className="relative mx-auto mb-2 h-12 w-12 transition-transform duration-300 group-hover:scale-110">
                       <img
                         src={formatImage(tool.picto)}
-                        alt={`Logo ${tool.name}`}
+                        alt={t("portfolio.sunset.toolLogoAlt", { name: tool.name })}
                         loading="lazy"
                         className="absolute inset-0 h-full w-full object-contain filter transition-all duration-300 group-hover:brightness-110"
                       />

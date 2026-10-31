@@ -1,0 +1,17 @@
+{
+  "card": {
+    "delete": "Delete {{name}}",
+    "iconAlt": "{{name}} icon"
+  },
+  "form": {
+    "createError": "Failed to add the skill",
+    "nameLabel": "Skill",
+    "namePlaceholder": "e.g. Web development",
+    "requiredFields": "All fields are required",
+    "submit": "Add skill"
+  },
+  "page": {
+    "deleteError": "Failed to delete the skill",
+    "title": "My skills"
+  }
+}

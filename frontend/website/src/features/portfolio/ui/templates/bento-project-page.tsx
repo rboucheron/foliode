@@ -1,7 +1,9 @@
 import { formatImage } from "@/lib/format-image"
 import type { ProjectPageProps } from "./types"
+import { useTranslation } from "@/i18n"
 
 export function BentoProjectPage({ portfolio, project }: ProjectPageProps) {
+  const t = useTranslation()
   const { primary, secondary, light } = portfolio.config.colors
 
   return (
@@ -32,7 +34,7 @@ export function BentoProjectPage({ portfolio, project }: ProjectPageProps) {
                   <img
                     key={image.id ?? index}
                     src={formatImage(image.img_src)}
-                    alt={`Project image ${index + 1}`}
+                    alt={t("portfolio.template.projectImageAlt", { index: index + 1 })}
                     width={500}
                     height={300}
                     loading="lazy"

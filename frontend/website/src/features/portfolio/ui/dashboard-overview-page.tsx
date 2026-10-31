@@ -6,6 +6,7 @@ import type { IconType } from "react-icons"
 import { DashboardTitle } from "@/components/layout/dashboard-title"
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/i18n"
 import { startOAuthSignIn, useUserStore } from "@/features/user"
 import type { OAuthProvider } from "@/features/user"
 import type { ColorKey } from "../domain/portfolio"
@@ -22,6 +23,7 @@ function CardHeading({ title, icon, editTo, large = false }: {
   editTo?: EditPath
   large?: boolean
 }) {
+  const t = useTranslation()
   return (
     <div className="mb-4 flex items-center justify-between gap-3">
       <div className="flex items-center gap-3">
@@ -29,7 +31,7 @@ function CardHeading({ title, icon, editTo, large = false }: {
         <h2 className={cn("font-bold", large ? "text-2xl" : "text-xl")}>{title}</h2>
       </div>
       {editTo && (
-        <Link to={editTo} aria-label={`Modifier : ${title}`} className="text-primary transition-transform duration-200 hover:scale-110 hover:text-primary/80">
+        <Link to={editTo} aria-label={t("dashboard.overview.editAria", { title })} className="text-primary transition-transform duration-200 hover:scale-110 hover:text-primary/80">
           <PencilIcon className="size-4" />
         </Link>
       )}
@@ -44,13 +46,14 @@ function OAuthCard({ provider, label, icon: Icon, login, profileUrl }: {
   login: string | null | undefined
   profileUrl: string
 }) {
+  const t = useTranslation()
   return (
     <Card className={cardClassName}>
       <CardContent className="flex flex-row items-center gap-5">
         <Icon className="shrink-0 text-2xl" />
         {login ? (
           <span>
-            Connecté en tant que{" "}
+            {t("dashboard.overview.oauth.connectedAs")}{" "}
             <a href={profileUrl} target="_blank" rel="noreferrer" className="hover:underline">
               {login}
             </a>
@@ -61,7 +64,7 @@ function OAuthCard({ provider, label, icon: Icon, login, profileUrl }: {
             onClick={() => startOAuthSignIn(provider)}
             className="inline-flex cursor-pointer items-center gap-1 text-left hover:underline"
           >
-            Connectez-vous avec {label}
+            {t("dashboard.overview.oauth.signInWith", { provider: label })}
             <ExternalLinkIcon className="size-4 shrink-0" />
           </button>
         )}
@@ -75,6 +78,7 @@ const EmptyText = ({ children }: { children: React.ReactNode }) => (
 )
 
 export function DashboardOverviewPage() {
+  const t = useTranslation()
   const user = useUserStore((state) => state.user)
   const fetchFromJwt = useUserStore((state) => state.fetchFromJwt)
   const portfolio = usePortfolioStore((state) => state.portfolio)
@@ -92,7 +96,7 @@ export function DashboardOverviewPage() {
 
   return (
     <>
-      <DashboardTitle title="Tableau de bord" />
+      <DashboardTitle title={t("dashboard.overview.title")} />
 
       <div className="w-full py-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -115,36 +119,44 @@ export function DashboardOverviewPage() {
 
           <Card className={cn(cardClassName, "md:col-span-2")}>
             <CardContent>
-              <CardHeading title={portfolio?.title || "Votre portfolio"} editTo="/dashboard/edit" large />
+              <CardHeading title={portfolio?.title || t("dashboard.overview.portfolio.fallbackTitle")} editTo="/dashboard/edit" large />
               <div className="flex flex-col gap-2">
-                <p>Nombre de projets: {projects.length}</p>
-                <p>Template: {portfolio?.template || "Non défini"}</p>
-                <p>URL: {portfolio?.url ? `/${portfolio.url}` : "Non définie"}</p>
+                <p>{t("dashboard.overview.portfolio.projectCount", { count: projects.length })}</p>
+                <p>
+                  {t("dashboard.overview.portfolio.template", {
+                    template: portfolio?.template || t("dashboard.overview.portfolio.notDefined"),
+                  })}
+                </p>
+                <p>
+                  {t("dashboard.overview.portfolio.url", {
+                    url: portfolio?.url ? `/${portfolio.url}` : t("dashboard.overview.portfolio.urlNotDefined"),
+                  })}
+                </p>
               </div>
             </CardContent>
           </Card>
 
           <Card className={cn(cardClassName, "sm:col-span-2 md:col-span-3 lg:col-span-1 xl:col-span-2")}>
             <CardContent>
-              <CardHeading title="Formation" icon={<GraduationCapIcon className="size-6" />} />
+              <CardHeading title={t("dashboard.overview.education.title")} icon={<GraduationCapIcon className="size-6" />} />
               {promotion ? (
                 <div className="space-y-2">
                   <p>
-                    <span className="font-semibold">Type:</span> {promotion.formation.type}
+                    <span className="font-semibold">{t("dashboard.overview.education.type")}</span> {promotion.formation.type}
                   </p>
                   <p>
-                    <span className="font-semibold">Formation:</span> {promotion.formation.name}
+                    <span className="font-semibold">{t("dashboard.overview.education.name")}</span> {promotion.formation.name}
                   </p>
                 </div>
               ) : (
-                <EmptyText>Aucune formation associée</EmptyText>
+                <EmptyText>{t("dashboard.overview.education.empty")}</EmptyText>
               )}
             </CardContent>
           </Card>
 
           <Card className={cn(cardClassName, "sm:col-span-2 md:col-span-3 lg:col-span-2")}>
             <CardContent>
-              <CardHeading title="Compétences" editTo="/dashboard/skills" />
+              <CardHeading title={t("dashboard.overview.skills.title")} editTo="/dashboard/skills" />
               {skills.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill) => (
@@ -154,14 +166,14 @@ export function DashboardOverviewPage() {
                   ))}
                 </div>
               ) : (
-                <EmptyText>Aucune compétence définie</EmptyText>
+                <EmptyText>{t("dashboard.overview.skills.empty")}</EmptyText>
               )}
             </CardContent>
           </Card>
 
           <Card className={cn(cardClassName, "sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3")}>
             <CardContent>
-              <CardHeading title="Projets récents" editTo="/dashboard/projects" />
+              <CardHeading title={t("dashboard.overview.projects.title")} editTo="/dashboard/projects" />
               {projects.length > 0 ? (
                 <div className="space-y-3">
                   {projects.slice(0, 3).map((project) => (
@@ -171,18 +183,18 @@ export function DashboardOverviewPage() {
                     </div>
                   ))}
                   {projects.length > 3 && (
-                    <p className="text-sm text-muted-foreground">+ {projects.length - 3} autres projets</p>
+                    <p className="text-sm text-muted-foreground">{t("dashboard.overview.projects.more", { count: projects.length - 3 })}</p>
                   )}
                 </div>
               ) : (
-                <EmptyText>Aucun projet</EmptyText>
+                <EmptyText>{t("dashboard.overview.projects.empty")}</EmptyText>
               )}
             </CardContent>
           </Card>
 
           <Card className={cn(cardClassName, "sm:col-span-2 md:col-span-3 lg:col-span-2")}>
             <CardContent>
-              <CardHeading title="Couleurs du portfolio" editTo="/dashboard/edit" />
+              <CardHeading title={t("dashboard.overview.colors.title")} editTo="/dashboard/edit" />
               {portfolioColors ? (
                 <div className="grid grid-cols-2 gap-3">
                   {(Object.keys(portfolioColors) as ColorKey[]).map((colorKey) => (
@@ -191,31 +203,31 @@ export function DashboardOverviewPage() {
                         className="size-6 rounded-full border"
                         style={{ backgroundColor: portfolioColors[colorKey] }}
                       />
-                      <span className="capitalize">{colorKey}</span>
+                      <span>{t(`dashboard.colors.${colorKey}`)}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <EmptyText>Aucune couleur définie</EmptyText>
+                <EmptyText>{t("dashboard.overview.colors.empty")}</EmptyText>
               )}
             </CardContent>
           </Card>
 
           <Card className={cn(cardClassName, "sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3")}>
             <CardContent>
-              <CardHeading title="Typographie" editTo="/dashboard/edit" />
+              <CardHeading title={t("dashboard.overview.typography.title")} editTo="/dashboard/edit" />
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-sm text-muted-foreground">Titre (H1)</h3>
-                  <p className="text-2xl font-bold">Exemple de titre</p>
+                  <h3 className="text-sm text-muted-foreground">{t("dashboard.overview.typography.heading")}</h3>
+                  <p className="text-2xl font-bold">{t("dashboard.overview.typography.headingSample")}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm text-muted-foreground">Sous-titre (H2)</h3>
-                  <p className="text-xl font-semibold">Exemple de sous-titre</p>
+                  <h3 className="text-sm text-muted-foreground">{t("dashboard.overview.typography.subheading")}</h3>
+                  <p className="text-xl font-semibold">{t("dashboard.overview.typography.subheadingSample")}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm text-muted-foreground">Texte</h3>
-                  <p>Exemple de texte standard.</p>
+                  <h3 className="text-sm text-muted-foreground">{t("dashboard.overview.typography.body")}</h3>
+                  <p>{t("dashboard.overview.typography.bodySample")}</p>
                 </div>
               </div>
             </CardContent>
@@ -223,22 +235,25 @@ export function DashboardOverviewPage() {
 
           <Card className={cn(cardClassName, "sm:col-span-2 md:col-span-3 lg:col-span-2")}>
             <CardContent>
-              <CardHeading title="Commentaires" editTo="/dashboard/comments" />
+              <CardHeading title={t("dashboard.overview.comments.title")} editTo="/dashboard/comments" />
               <p className="text-muted-foreground">
-                Consultez les commentaires reçus, masquez ceux qui ne respectent pas les règles et gardez
-                l'historique.
+                {t("dashboard.overview.comments.description")}
               </p>
             </CardContent>
           </Card>
 
           <Card className={cn(cardClassName, "col-span-full")}>
             <CardContent>
-              <CardHeading title="Analytiques du Portfolio" icon={<DatabaseIcon className="size-6" />} />
+              <CardHeading title={t("dashboard.overview.analytics.title")} icon={<DatabaseIcon className="size-6" />} />
               <div className="flex items-center justify-center rounded-lg bg-muted p-4">
                 <PortfolioCharts />
               </div>
               <div className="mt-4 grid grid-cols-3 gap-4">
-                {["Vues Totales", "Cette Semaine", "Temps Moyen"].map((label) => (
+                {[
+                  t("dashboard.overview.analytics.totalViews"),
+                  t("dashboard.overview.analytics.thisWeek"),
+                  t("dashboard.overview.analytics.averageTime"),
+                ].map((label) => (
                   <div key={label} className="text-center">
                     <p className="text-2xl font-bold">--</p>
                     <p className="text-sm text-muted-foreground">{label}</p>

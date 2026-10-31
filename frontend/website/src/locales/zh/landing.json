@@ -1,0 +1,103 @@
+{
+  "advantages": {
+    "customPortfolio": {
+      "content": "我们的平台让您创建体现个性与技能的独特作品集。自定义颜色和布局，并按您的方式整理项目。",
+      "subtitle": "灵活的创作选项",
+      "title": "轻松创建个性化作品集"
+    },
+    "hosting": {
+      "content": "每个作品集都托管在独立的子域名上（名.姓.foliode.com），并配备高级安全防护，保护您的数据。",
+      "subtitle": "可靠又便捷的解决方案",
+      "title": "免费且安全的托管"
+    },
+    "intro": "Foliode 是专为 BUT 学生和教师设计的工具。轻松创建符合您技能和学习目标的在线作品集。",
+    "teachers": {
+      "content": "通过直观的界面创建班级、跟踪学生进度并轻松进行评分。",
+      "subtitle": "为教师量身打造的工具",
+      "title": "面向教师的教学跟踪"
+    },
+    "templates": {
+      "content": "浏览丰富多样的专业精美模板，找到最能展示您项目和技能的风格。",
+      "subtitle": "满足您需求的设计",
+      "title": "多款现代模板任您选择"
+    },
+    "title": "我们的优势"
+  },
+  "brand": {
+    "logoAlt": "Foliode 标志"
+  },
+  "evaluation": {
+    "aligned": {
+      "description": "根据 BUT 课程的关键学习成果调整您的评估标准。",
+      "title": "契合您的教学目标"
+    },
+    "centralized": {
+      "description": "通过直观的界面打分、留下评语，并跟踪每位学生的进度。",
+      "title": "集中评估作品集"
+    },
+    "classes": {
+      "description": "轻松将学生分班，一键查看他们的作品集。",
+      "title": "轻松创建班级"
+    },
+    "imageAlt": "教师仪表盘"
+  },
+  "features": {
+    "butOriented": {
+      "description": "一款专门为满足 BUT 学生和教师需求而设计的工具。",
+      "title": "专为 BUT 课程打造。"
+    },
+    "title": "为什么选择 Foliode"
+  },
+  "footer": {
+    "copyright": "© {{year}} Foliode Inc. 保留所有权利。",
+    "description": "Foliode 项目为 BUT 学生和教师打造解决方案，帮助学生创建并个性化网页作品集，展示他们的技能与项目。",
+    "legal": {
+      "cookies": "Cookie 政策",
+      "privacy": "隐私政策",
+      "terms": "服务条款",
+      "title": "法律信息"
+    },
+    "navigation": {
+      "about": "关于我们",
+      "contact": "联系我们",
+      "home": "首页",
+      "products": "产品",
+      "title": "导航"
+    },
+    "resources": {
+      "blog": "博客",
+      "documentation": "文档",
+      "faq": "常见问题",
+      "title": "资源"
+    }
+  },
+  "hero": {
+    "cta": "了解平台",
+    "dashboardAlt": "仪表盘预览",
+    "subtitle": "一个直观的平台，帮助 BUT 学生展示他们的项目和关键学习成果。",
+    "title": "将您的项目打造成专业作品集"
+  },
+  "meta": {
+    "description": "几分钟内创建并分享您的作品集。",
+    "title": "Foliode — 打造您的作品集"
+  },
+  "nav": {
+    "advantages": "优势",
+    "closeMenu": "关闭菜单",
+    "features": "功能",
+    "home": "首页",
+    "language": "语言",
+    "menu": "菜单",
+    "openMenu": "打开菜单",
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "signUp": "注册",
+    "switchLanguage": "切换语言"
+  },
+  "notFound": {
+    "backHome": "返回 Foliode 首页",
+    "description": "您要查找的页面可能已被删除或暂时无法访问。",
+    "subtitle": "404 - 页面未找到",
+    "title": "哎呀！"
+  }
+}

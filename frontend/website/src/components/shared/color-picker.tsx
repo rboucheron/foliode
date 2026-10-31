@@ -1,4 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { useTranslation } from "@/i18n"
 
 interface ColorPickerProps {
   colorKey: string
@@ -8,6 +9,7 @@ interface ColorPickerProps {
 
 export function ColorPicker({ colorKey, colorValue, onChange }: ColorPickerProps) {
   const inputId = `color-${colorKey}`
+  const t = useTranslation()
 
   return (
     <div className="flex flex-col items-center gap-1">
@@ -27,7 +29,7 @@ export function ColorPicker({ colorKey, colorValue, onChange }: ColorPickerProps
             />
           </label>
         </TooltipTrigger>
-        <TooltipContent>Cliquez pour modifier la couleur</TooltipContent>
+        <TooltipContent>{t("forms.colorPicker.tooltip")}</TooltipContent>
       </Tooltip>
       <span className="text-sm font-medium capitalize">{colorKey}</span>
       <span className="text-xs text-muted-foreground uppercase">{colorValue}</span>

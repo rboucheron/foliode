@@ -1,0 +1,48 @@
+{
+  "actions": {
+    "next": "下一步",
+    "previous": "上一步",
+    "publish": "发布"
+  },
+  "errors": {
+    "createPortfolio": "创建作品集时出错。"
+  },
+  "info": {
+    "bioLabel": "个人简介 *",
+    "bioPlaceholder": "用几句话介绍一下自己...",
+    "subtitleLabel": "副标题 *",
+    "subtitlePlaceholder": "例如：计算机专业学生",
+    "titleLabel": "作品集标题 *",
+    "titlePlaceholder": "例如：Lucie Maillet"
+  },
+  "projects": {
+    "add": "添加项目",
+    "delete": "删除项目",
+    "descriptionLabel": "描述 *",
+    "imagesHint": "推荐格式：PNG 或 JPG，最大 2 MB",
+    "imagesLabel": "项目图片",
+    "title": "项目",
+    "titleLabel": "项目标题 *"
+  },
+  "skills": {
+    "add": "添加技能",
+    "delete": "删除技能",
+    "imageHint": "推荐格式：PNG 或 JPG，最大 2 MB",
+    "imageLabel": "技能图片",
+    "nameLabel": "技能名称 *",
+    "title": "技能"
+  },
+  "steps": {
+    "customization": "个性化",
+    "heading": "第 {{number}} 步：{{title}}",
+    "info": "个人信息",
+    "progressLabel": "作品集创建进度",
+    "projects": "项目",
+    "skills": "技能"
+  },
+  "template": {
+    "choosePalette": "选择您的配色方案",
+    "chooseTemplate": "选择您的模板",
+    "customizeColors": "自定义颜色"
+  }
+}

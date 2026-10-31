@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import type { SkillDraft } from "@/features/skill"
+import { useTranslation } from "@/i18n"
 import { useOnboardingStore } from "../application/onboarding.store"
 
 export function SkillsStep() {
   const { skills, setSkills } = useOnboardingStore()
+  const t = useTranslation()
 
   const updateSkill = (index: number, patch: Partial<SkillDraft>) => {
     setSkills(skills.map((skill, i) => (i === index ? { ...skill, ...patch } : skill)))
@@ -19,11 +21,11 @@ export function SkillsStep() {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Compétences</h3>
+      <h3 className="text-lg font-semibold">{t("onboarding.skills.title")}</h3>
       {skills.map((skill, index) => (
         <div key={index} className="space-y-3 rounded-md border p-3">
           <Field>
-            <FieldLabel htmlFor={`skill-name-${index}`}>Nom de la compétence *</FieldLabel>
+            <FieldLabel htmlFor={`skill-name-${index}`}>{t("onboarding.skills.nameLabel")}</FieldLabel>
             <Input
               id={`skill-name-${index}`}
               value={skill.name}
@@ -32,7 +34,7 @@ export function SkillsStep() {
             />
           </Field>
           <Field>
-            <FieldLabel htmlFor={`file-${index}`}>Image de la compétence</FieldLabel>
+            <FieldLabel htmlFor={`file-${index}`}>{t("onboarding.skills.imageLabel")}</FieldLabel>
             <FileInput
               files={skill.image ? [skill.image] : []}
               onChange={(files) => updateSkill(index, { image: files[0] ?? null })}
@@ -40,7 +42,7 @@ export function SkillsStep() {
               multiple={false}
               isRequired
             />
-            <FieldDescription>Format recommandé : PNG ou JPG, max 2MB</FieldDescription>
+            <FieldDescription>{t("onboarding.skills.imageHint")}</FieldDescription>
           </Field>
           <Button
             type="button"
@@ -49,13 +51,13 @@ export function SkillsStep() {
             onClick={() => deleteSkill(index)}
           >
             <Trash2Icon />
-            Supprimer la compétence
+            {t("onboarding.skills.delete")}
           </Button>
         </div>
       ))}
       <Button type="button" className="w-full" onClick={addSkill}>
         <PlusIcon />
-        Ajouter une compétence
+        {t("onboarding.skills.add")}
       </Button>
     </div>
   )

@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
 import { getApiErrorMessage } from "@/lib/http"
+import { useTranslation } from "@/i18n"
 import { draftPortfolio, publishPortfolio } from "../application/portfolio.api"
 import { usePortfolioStore } from "../application/portfolio.store"
 import type { AvatarPosition, ColorKey } from "../domain/portfolio"
@@ -24,6 +25,7 @@ import { TemplatePicker } from "./template-picker"
 const toColors = ({ name: _name, ...colors }: TemplateStyle) => colors
 
 export function PortfolioSettingsPage() {
+  const t = useTranslation()
   const portfolio = usePortfolioStore((state) => state.portfolio)
   const setPortfolio = usePortfolioStore((state) => state.setPortfolio)
   const fetchPortfolio = usePortfolioStore((state) => state.fetchPortfolio)
@@ -83,7 +85,7 @@ export function PortfolioSettingsPage() {
       }
       await fetchPortfolio()
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de la mise à jour du statut"))
+      toast.error(getApiErrorMessage(error, t("dashboard.settings.statusError")))
     } finally {
       setIsTogglingStatus(false)
     }
@@ -93,9 +95,9 @@ export function PortfolioSettingsPage() {
     setIsSaving(true)
     try {
       await updatePortfolio()
-      toast.success("Portfolio mis à jour")
+      toast.success(t("dashboard.settings.updated"))
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de la mise à jour du portfolio"))
+      toast.error(getApiErrorMessage(error, t("dashboard.settings.updateError")))
     } finally {
       setIsSaving(false)
     }
@@ -103,7 +105,7 @@ export function PortfolioSettingsPage() {
 
   return (
     <>
-      <DashboardTitle title="Modifier votre portfolio" />
+      <DashboardTitle title={t("dashboard.settings.title")} />
 
       <div className="grid grid-cols-1 gap-6 py-4 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-1">
@@ -115,15 +117,15 @@ export function PortfolioSettingsPage() {
           />
           <Card>
             <CardContent>
-              <div className="text-sm text-muted-foreground">URL publique</div>
-              <div className="mt-2 text-lg font-medium break-all">{portfolio.url || "(non défini)"}</div>
+              <div className="text-sm text-muted-foreground">{t("dashboard.settings.publicUrl")}</div>
+              <div className="mt-2 text-lg font-medium break-all">{portfolio.url || t("dashboard.settings.urlNotDefined")}</div>
               <div className="mt-4">
                 <Link
                   to="/$username"
                   params={{ username: portfolio.url }}
                   className="text-primary underline-offset-4 hover:underline"
                 >
-                  Prévisualiser
+                  {t("dashboard.settings.preview")}
                 </Link>
               </div>
             </CardContent>
@@ -134,7 +136,7 @@ export function PortfolioSettingsPage() {
           <CardContent className="space-y-4">
             <Field>
               <FieldLabel htmlFor="dashboard-edit-title">
-                Titre du portfolio <span className="text-destructive">*</span>
+                {t("dashboard.settings.titleLabel")} <span className="text-destructive">*</span>
               </FieldLabel>
               <Input
                 id="dashboard-edit-title"
@@ -146,7 +148,7 @@ export function PortfolioSettingsPage() {
             </Field>
             <Field>
               <FieldLabel htmlFor="dashboard-edit-subtitle">
-                Soutitre du portfolio <span className="text-destructive">*</span>
+                {t("dashboard.settings.subtitleLabel")} <span className="text-destructive">*</span>
               </FieldLabel>
               <Input
                 id="dashboard-edit-subtitle"
@@ -158,12 +160,12 @@ export function PortfolioSettingsPage() {
             </Field>
             <Field>
               <FieldLabel htmlFor="dashboard-edit-bio">
-                Présentation <span className="text-destructive">*</span>
+                {t("dashboard.settings.bioLabel")} <span className="text-destructive">*</span>
               </FieldLabel>
               <Textarea
                 id="dashboard-edit-bio"
                 data-testid="dashboard-edit-bio-input"
-                placeholder="Présentez-vous en quelques lignes..."
+                placeholder={t("dashboard.settings.bioPlaceholder")}
                 rows={3}
                 value={portfolio.bio}
                 onChange={(event) => setPortfolio({ bio: event.target.value })}
@@ -171,11 +173,11 @@ export function PortfolioSettingsPage() {
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="dashboard-edit-comment-message">Message d'incitation aux commentaires</FieldLabel>
+              <FieldLabel htmlFor="dashboard-edit-comment-message">{t("dashboard.settings.commentMessageLabel")}</FieldLabel>
               <Textarea
                 id="dashboard-edit-comment-message"
                 data-testid="dashboard-edit-comment-message-input"
-                placeholder="Encouragez les visiteurs à laisser un retour..."
+                placeholder={t("dashboard.settings.commentMessagePlaceholder")}
                 rows={3}
                 value={portfolio.commentMessage ?? ""}
                 onChange={(event) => setPortfolio({ commentMessage: event.target.value })}
@@ -189,7 +191,7 @@ export function PortfolioSettingsPage() {
 
             <Separator className="my-2" />
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold">Template</h3>
+              <h3 className="text-lg font-semibold">{t("dashboard.settings.template")}</h3>
               <TemplatePicker selectedTemplateId={portfolio.template} onSelect={handleTemplateChange} />
             </div>
 
@@ -201,7 +203,7 @@ export function PortfolioSettingsPage() {
               />
             ) : (
               <div className="space-y-3">
-                <h3 className="text-lg font-semibold">Palette de couleurs</h3>
+                <h3 className="text-lg font-semibold">{t("dashboard.settings.palette")}</h3>
                 <PaletteStyles colors={colors} onStyleChange={handleStyleChange} />
                 <ColorPickersGrid colors={colors} onColorChange={handleColorChange} />
               </div>
@@ -210,7 +212,7 @@ export function PortfolioSettingsPage() {
             <div className="flex justify-end">
               <Button onClick={handleSave} disabled={isSaving} data-testid="dashboard-edit-save-button">
                 {isSaving && <Spinner />}
-                Modifier
+                {t("dashboard.settings.submit")}
               </Button>
             </div>
           </CardContent>

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "@/i18n"
 import { CriteriaItem } from "./criteria-item"
 import { PasswordInput } from "./password-input"
 
@@ -8,6 +9,7 @@ interface PasswordValues {
 }
 
 export function PasswordStrengthChecker({ onChange }: { onChange: (values: PasswordValues) => void }) {
+  const t = useTranslation()
   const [passwordValue, setPasswordValue] = useState("")
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("")
 
@@ -32,7 +34,7 @@ export function PasswordStrengthChecker({ onChange }: { onChange: (values: Passw
       <PasswordInput
         value={passwordValue}
         onChange={(event) => handlePasswordChange(event.target.value)}
-        label="Mot de passe"
+        label={t("auth.fields.password")}
         name="password"
         id="password"
         autoComplete="new-password"
@@ -42,7 +44,7 @@ export function PasswordStrengthChecker({ onChange }: { onChange: (values: Passw
         <PasswordInput
           value={confirmPasswordValue}
           onChange={(event) => handleConfirmPasswordChange(event.target.value)}
-          label="Confirmer le mot de passe"
+          label={t("auth.fields.confirmPassword")}
           name="confirmpassword"
           id="password-confirm"
           autoComplete="new-password"
@@ -56,12 +58,12 @@ export function PasswordStrengthChecker({ onChange }: { onChange: (values: Passw
             data-testid="password-criteria"
           >
             <p className="mb-1 text-xs font-semibold text-muted-foreground">
-              Le mot de passe doit respecter les critères suivants :
+              {t("auth.password.criteriaTitle")}
             </p>
-            <CriteriaItem met={hasUpperCase} label="Contient une lettre majuscule" />
-            <CriteriaItem met={hasNumber} label="Contient un chiffre" />
-            <CriteriaItem met={hasSpecialChar} label="Contient un caractère spécial" />
-            <CriteriaItem met={isAtLeast8Chars} label="Contient au moins 8 caractères" />
+            <CriteriaItem met={hasUpperCase} label={t("auth.password.uppercase")} />
+            <CriteriaItem met={hasNumber} label={t("auth.password.number")} />
+            <CriteriaItem met={hasSpecialChar} label={t("auth.password.specialChar")} />
+            <CriteriaItem met={isAtLeast8Chars} label={t("auth.password.minLength")} />
           </div>
         )
       )}

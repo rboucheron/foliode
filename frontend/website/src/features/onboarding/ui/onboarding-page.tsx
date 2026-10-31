@@ -7,6 +7,8 @@ import { Progress } from "@/components/ui/progress"
 import { Spinner } from "@/components/ui/spinner"
 import { getApiErrorMessage } from "@/lib/http"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/i18n"
+import type { TranslationKey } from "@/i18n"
 import { createPortfolio } from "@/features/portfolio"
 import { createProjects } from "@/features/project"
 import { createSkills } from "@/features/skill"
@@ -18,12 +20,12 @@ import { RobotModelViewer } from "./robot-model-viewer"
 import { SkillsStep } from "./skills-step"
 import { TemplateStep } from "./template-step"
 
-const STEP_TITLES = [
-  "Informations Personnelles",
-  "Compétences",
-  "Projets",
-  "Personnalisation",
-] as const
+const STEP_TITLES: ReadonlyArray<TranslationKey> = [
+  "onboarding.steps.info",
+  "onboarding.steps.skills",
+  "onboarding.steps.projects",
+  "onboarding.steps.customization",
+]
 
 const LAST_STEP = STEP_TITLES.length - 1
 
@@ -34,6 +36,7 @@ export function OnboardingPage() {
   const [isPublishing, setIsPublishing] = useState(false)
   const { portfolio, skills, projects } = useOnboardingStore()
   const navigate = useNavigate()
+  const t = useTranslation()
   const progress = (currentStep / LAST_STEP) * 100
 
   const handleNext = (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,7 +60,7 @@ export function OnboardingPage() {
         await createProjects(projects)
       }
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Une erreur est survenue lors de la création du portfolio."))
+      toast.error(getApiErrorMessage(error, t("onboarding.errors.createPortfolio")))
     }
     setIsPublishing(false)
     navigate({ to: "/dashboard" })
@@ -69,20 +72,23 @@ export function OnboardingPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-xl font-bold">
-              Étape {currentStep + 1}: {STEP_TITLES[currentStep]}
+              {t("onboarding.steps.heading", {
+                number: currentStep + 1,
+                title: t(STEP_TITLES[currentStep] ?? "onboarding.steps.info"),
+              })}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="relative flex items-center justify-between">
               <Progress
                 value={progress}
-                aria-label="Progression de la création du portfolio"
+                aria-label={t("onboarding.steps.progressLabel")}
                 className="absolute top-1/2 left-0 w-full -translate-y-1/2"
               />
-              {STEP_TITLES.map((title, index) => (
+              {STEP_TITLES.map((titleKey, index) => (
                 <div
-                  key={title}
-                  title={title}
+                  key={titleKey}
+                  title={t(titleKey)}
                   aria-current={index === currentStep ? "step" : undefined}
                   className={cn(
                     "z-10 flex size-8 items-center justify-center rounded-full text-sm font-medium",
@@ -109,14 +115,14 @@ export function OnboardingPage() {
                   onClick={handlePrevious}
                   data-testid="portfolio-edit-prev-step"
                 >
-                  Précédent
+                  {t("onboarding.actions.previous")}
                 </Button>
               ) : (
                 <div />
               )}
               {currentStep < LAST_STEP ? (
                 <Button type="submit" data-testid="portfolio-edit-next-step">
-                  Suivant
+                  {t("onboarding.actions.next")}
                 </Button>
               ) : (
                 <Button
@@ -126,7 +132,7 @@ export function OnboardingPage() {
                   disabled={!portfolio.config.colors || isPublishing}
                 >
                   {isPublishing && <Spinner />}
-                  Publier
+                  {t("onboarding.actions.publish")}
                 </Button>
               )}
             </div>

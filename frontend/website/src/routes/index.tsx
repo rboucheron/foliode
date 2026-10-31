@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { LandingPage } from "@/features/landing"
+import { LandingPage, landingHead } from "@/features/landing"
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [{ title: "Foliode — Créez votre portfolio" }],
-  }),
+  head: ({ match }) => landingHead(match.context.locale),
   component: LandingPage,
 })

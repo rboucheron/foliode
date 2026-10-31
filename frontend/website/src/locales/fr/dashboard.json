@@ -1,0 +1,127 @@
+{
+  "avatarPosition": {
+    "options": {
+      "bio": "À côté de la présentation",
+      "title": "À côté du titre"
+    },
+    "title": "Position de la photo de profil"
+  },
+  "charts": {
+    "dataset": "Vues du portfolio par jour",
+    "empty": "Suivez les vues et l'engagement de votre portfolio !",
+    "title": "Vues du portfolio"
+  },
+  "colors": {
+    "info": "Info",
+    "light": "Clair",
+    "primary": "Primaire",
+    "secondary": "Secondaire",
+    "success": "Succès",
+    "warning": "Avertissement"
+  },
+  "comments": {
+    "hiddenAt": "Masqué le {{date}}",
+    "hiddenCount": "Commentaires masqués : {{count}}",
+    "hiddenEmpty": "Aucun commentaire masqué.",
+    "hiddenTitle": "Commentaires masqués",
+    "hide": "Masquer",
+    "hideError": "Impossible de masquer ce commentaire.",
+    "loadError": "Impossible de charger les commentaires.",
+    "loading": "Chargement...",
+    "notAvailable": "n/a",
+    "title": "Commentaires du portfolio",
+    "total": "Total : {{count}}",
+    "visibleCount": "Commentaires visibles : {{count}}",
+    "visibleEmpty": "Aucun commentaire visible.",
+    "visibleTitle": "Commentaires visibles"
+  },
+  "overview": {
+    "analytics": {
+      "averageTime": "Temps moyen",
+      "thisWeek": "Cette semaine",
+      "title": "Analytiques du portfolio",
+      "totalViews": "Vues totales"
+    },
+    "colors": {
+      "empty": "Aucune couleur définie",
+      "title": "Couleurs du portfolio"
+    },
+    "comments": {
+      "description": "Consultez les commentaires reçus, masquez ceux qui ne respectent pas les règles et gardez l'historique.",
+      "title": "Commentaires"
+    },
+    "editAria": "Modifier : {{title}}",
+    "education": {
+      "empty": "Aucune formation associée",
+      "name": "Formation :",
+      "title": "Formation",
+      "type": "Type :"
+    },
+    "oauth": {
+      "connectedAs": "Connecté en tant que",
+      "signInWith": "Connectez-vous avec {{provider}}"
+    },
+    "portfolio": {
+      "fallbackTitle": "Votre portfolio",
+      "notDefined": "Non défini",
+      "projectCount": "Nombre de projets : {{count}}",
+      "template": "Template : {{template}}",
+      "url": "URL : {{url}}",
+      "urlNotDefined": "Non définie"
+    },
+    "projects": {
+      "empty": "Aucun projet",
+      "more": "+ {{count}} autres projets",
+      "title": "Projets récents"
+    },
+    "skills": {
+      "empty": "Aucune compétence définie",
+      "title": "Compétences"
+    },
+    "title": "Tableau de bord",
+    "typography": {
+      "body": "Texte",
+      "bodySample": "Exemple de texte standard.",
+      "heading": "Titre (H1)",
+      "headingSample": "Exemple de titre",
+      "subheading": "Sous-titre (H2)",
+      "subheadingSample": "Exemple de sous-titre",
+      "title": "Typographie"
+    }
+  },
+  "settings": {
+    "bioLabel": "Présentation",
+    "bioPlaceholder": "Présentez-vous en quelques lignes...",
+    "commentMessageLabel": "Message d'incitation aux commentaires",
+    "commentMessagePlaceholder": "Encouragez les visiteurs à laisser un retour...",
+    "palette": "Palette de couleurs",
+    "preview": "Prévisualiser",
+    "publicUrl": "URL publique",
+    "statusError": "Erreur lors de la mise à jour du statut",
+    "submit": "Modifier",
+    "subtitleLabel": "Sous-titre du portfolio",
+    "template": "Template",
+    "title": "Modifier votre portfolio",
+    "titleLabel": "Titre du portfolio",
+    "updateError": "Erreur lors de la mise à jour du portfolio",
+    "updated": "Portfolio mis à jour",
+    "urlNotDefined": "(non défini)"
+  },
+  "status": {
+    "label": "Statut du portfolio",
+    "offline": "Hors ligne",
+    "online": "En ligne",
+    "toDraft": "Passer en brouillon",
+    "toPublic": "Passer en public",
+    "view": "Voir"
+  },
+  "theme": {
+    "choosePalette": "Choisissez votre palette de couleurs",
+    "chooseTemplate": "Choisissez votre template",
+    "customizeColors": "Personnalisez vos couleurs",
+    "save": "Enregistrer le portfolio",
+    "saveError": "Erreur lors de l'enregistrement du thème",
+    "saved": "Thème enregistré",
+    "title": "Thème de votre portfolio"
+  }
+}

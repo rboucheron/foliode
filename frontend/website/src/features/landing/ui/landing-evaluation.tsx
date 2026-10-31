@@ -1,31 +1,36 @@
+import { useTranslation } from "@/i18n"
+import type { TranslationKey } from "@/i18n"
 import { cn } from "@/lib/utils"
 
-const evaluationItems = [
+const evaluationItems: ReadonlyArray<{ id: string; titleKey: TranslationKey; descriptionKey: TranslationKey; className: string }> = [
   {
-    title: "Création de classes simplifiée",
-    description: "Organisez facilement vos étudiants en classes et accédez à leurs portfolios en un seul clic.",
+    id: "classes",
+    titleKey: "landing.evaluation.classes.title",
+    descriptionKey: "landing.evaluation.classes.description",
     className: "md:border-r-0",
   },
   {
-    title: "Évaluation centralisée des portfolios",
-    description:
-      "Attribuez des notes, laissez des commentaires, et suivez les progrès de chaque étudiant sur une interface intuitive.",
+    id: "centralized",
+    titleKey: "landing.evaluation.centralized.title",
+    descriptionKey: "landing.evaluation.centralized.description",
     className: "",
   },
   {
-    title: "Aligné avec vos objectifs pédagogiques",
-    description: "Adaptez vos critères d’évaluation aux apprentissages critiques des formations BUT.",
+    id: "aligned",
+    titleKey: "landing.evaluation.aligned.title",
+    descriptionKey: "landing.evaluation.aligned.description",
     className: "md:border-l-0",
   },
-] as const
+]
 
 export function LandingEvaluation() {
+  const t = useTranslation()
   return (
     <div>
       <div className="mt-36 px-8">
         <img
           className="relative z-40 mx-auto rounded-3xl border-[26px] border-[#2B4557]"
-          alt="Tableau de bord enseignant"
+          alt={t("landing.evaluation.imageAlt")}
           src="/Prof Dashboard.png"
           width={1200}
           height={794}
@@ -35,9 +40,9 @@ export function LandingEvaluation() {
 
       <div className="flex flex-col justify-center px-8 md:flex-row">
         {evaluationItems.map((item) => (
-          <div key={item.title} className={cn("max-w-[400px] border border-[#393939]", item.className)}>
-            <p className="px-8 pt-9 pb-11 font-semibold">{item.title}</p>
-            <p className="px-8 pt-0 pb-7">{item.description}</p>
+          <div key={item.id} className={cn("max-w-[400px] border border-[#393939]", item.className)}>
+            <p className="px-8 pt-9 pb-11 font-semibold">{t(item.titleKey)}</p>
+            <p className="px-8 pt-0 pb-7">{t(item.descriptionKey)}</p>
           </div>
         ))}
       </div>

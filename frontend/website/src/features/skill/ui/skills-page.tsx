@@ -6,9 +6,11 @@ import { deleteSkill, getPortfolioSkills } from "../application/skill.api"
 import type { Skill } from "../domain/skill"
 import { SkillCard } from "./skill-card"
 import { SkillForm } from "./skill-form"
+import { useTranslation } from "@/i18n"
 
 export function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([])
+  const t = useTranslation()
 
   const fetchSkills = useCallback(async () => {
     try {
@@ -27,13 +29,13 @@ export function SkillsPage() {
       await deleteSkill(id)
       setSkills((current) => current.filter((skill) => skill.id !== id))
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de la suppression de la compétence"))
+      toast.error(getApiErrorMessage(error, t("skills.page.deleteError")))
     }
   }
 
   return (
     <>
-      <DashboardTitle title="Mes compétences" />
+      <DashboardTitle title={t("skills.page.title")} />
       <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {skills.map((skill) => (
           <SkillCard key={skill.id} skill={skill} onDelete={() => handleDelete(skill.id)} />

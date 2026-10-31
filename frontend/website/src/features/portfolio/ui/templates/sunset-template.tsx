@@ -6,13 +6,13 @@ import { formatImage } from "@/lib/format-image"
 import { getAvatarPosition, getPortfolioOwnerName } from "../../domain/portfolio"
 import { PortfolioCommentsSection } from "../portfolio-comments-section"
 import { Badge, Card, CardBadges, CardH1, CardP, DecoratedAvatar, SectionTitle, Skills } from "./sunset/sunset-components"
-import { useSunsetI18n } from "./sunset/sunset-i18n"
+import { useTranslation } from "@/i18n"
 import { SunsetLayout } from "./sunset/sunset-layout"
 import type { TemplateProps } from "./types"
 
 /**
  * Template « Sunset » : reprise du portfolio personnel de Raphaël Boucheron
- * (thème orange, police JetBrains Mono, bascule langue FR/EN et thème clair/sombre).
+ * (thème orange, police JetBrains Mono, bascule langue FR/EN/中文 et thème clair/sombre).
  */
 export function SunsetTemplate({ portfolio }: TemplateProps) {
   return (
@@ -29,7 +29,7 @@ const toParagraphs = (text: string): string[] =>
     .filter(Boolean)
 
 function SunsetContent({ portfolio }: TemplateProps) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
   const ownerName = getPortfolioOwnerName(portfolio)
   const avatarPosition = getAvatarPosition(portfolio)
   const avatarSrc = portfolio.users.avatar_url
@@ -69,7 +69,7 @@ function SunsetContent({ portfolio }: TemplateProps) {
               <a href={`mailto:${portfolio.users.email}`}>
                 <span className="inline-flex h-10 items-center justify-center rounded-md bg-orange-600 px-8 py-3 text-sm font-medium whitespace-nowrap text-white transition-colors hover:bg-orange-700">
                   <IoMdMail className="mr-2 h-4 w-4" />
-                  {t.contact}
+                  {t("portfolio.sunset.contact")}
                 </span>
               </a>
             </div>
@@ -83,7 +83,7 @@ function SunsetContent({ portfolio }: TemplateProps) {
 
       {(hasBio || hasTools || avatarPosition === "bio") && (
         <div className="mt-72" id="about">
-          <SectionTitle>{hasTools ? t.skills : t.about}</SectionTitle>
+          <SectionTitle>{hasTools ? t("portfolio.sunset.skills") : t("portfolio.sunset.about")}</SectionTitle>
           {avatarPosition === "bio" ? (
             <section className="mx-auto max-w-6xl space-y-20 px-12 py-20">
               <div className="flex flex-col items-center gap-16 md:flex-row md:items-start">
@@ -116,7 +116,7 @@ function SunsetContent({ portfolio }: TemplateProps) {
 
       {portfolio.projects.length > 0 && (
         <div className="mt-64" id="projects">
-          <SectionTitle>{t.projects}</SectionTitle>
+          <SectionTitle>{t("portfolio.sunset.projects")}</SectionTitle>
           <div className="m-auto flex flex-wrap justify-center 2xl:mx-10 2xl:px-44">
             {portfolio.projects.map((project) => (
               <Link
@@ -146,7 +146,6 @@ function SunsetContent({ portfolio }: TemplateProps) {
           portfolioUrl={portfolio.url}
           commentMessage={portfolio.commentMessage}
           titleClassName="mb-4 w-full text-center text-3xl text-[#ff6d0a]"
-          labels={{ title: t.comments, ...t.commentsSection }}
         />
       </div>
     </main>

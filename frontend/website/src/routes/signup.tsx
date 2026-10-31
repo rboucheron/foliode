@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { SignupPage, getSessionUser } from "@/features/user";
+import { getTranslator } from "@/i18n";
 
 export const Route = createFileRoute("/signup")({
   beforeLoad: () => {
@@ -7,6 +8,8 @@ export const Route = createFileRoute("/signup")({
       throw redirect({ to: "/portfolio/edit", replace: true });
     }
   },
-  head: () => ({ meta: [{ title: "Inscription | Foliode" }] }),
+  head: ({ match }) => ({
+    meta: [{ title: getTranslator(match.context.locale)("auth.meta.signupTitle") }],
+  }),
   component: SignupPage,
 });

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { ColorPicker } from "@/components/shared/color-picker"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/i18n"
 import { AvatarPositionPicker, TEMPLATE_IDS, templates, templatesStyles } from "@/features/portfolio"
 import type { AvatarPosition, ColorKey, Colors, Template, TemplateStyle } from "@/features/portfolio"
 import { useOnboardingStore } from "../application/onboarding.store"
@@ -23,6 +24,7 @@ const styleTestId = (name: string) => `portfolio-style-${name.toLowerCase().repl
 
 export function TemplateStep() {
   const { portfolio, setPortfolio } = useOnboardingStore()
+  const t = useTranslation()
   const [selectedStyle, setSelectedStyle] = useState<TemplateStyle | null>(null)
 
   const handleTemplateChange = (template: Template) => {
@@ -60,7 +62,7 @@ export function TemplateStep() {
 
   return (
     <div className="w-full">
-      <h3 className="mb-4 text-lg font-semibold">Choisissez votre template</h3>
+      <h3 className="mb-4 text-lg font-semibold">{t("onboarding.template.chooseTemplate")}</h3>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
         {templates.map((template) => (
           <button
@@ -96,7 +98,7 @@ export function TemplateStep() {
 
       {portfolio.template && portfolio.template !== TEMPLATE_IDS.sunset && (
         <>
-          <h3 className="my-4 text-lg font-semibold">Choisissez votre palette de couleurs</h3>
+          <h3 className="my-4 text-lg font-semibold">{t("onboarding.template.choosePalette")}</h3>
           <div className="flex w-full items-center justify-between gap-5">
             {templatesStyles.map((style) => {
               const isSelected = selectedStyle?.primary === style.primary
@@ -117,7 +119,7 @@ export function TemplateStep() {
 
           {selectedStyle && (
             <div className="mt-6">
-              <h3 className="mb-4 text-lg font-semibold">Personnalisez vos couleurs</h3>
+              <h3 className="mb-4 text-lg font-semibold">{t("onboarding.template.customizeColors")}</h3>
               <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
                 {COLOR_KEYS.map((key) => (
                   <ColorPicker

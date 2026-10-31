@@ -1,0 +1,30 @@
+{
+  "colorPicker": {
+    "tooltip": "Click to change the color"
+  },
+  "fileInput": {
+    "dropzone": "Drag your images here or click to browse",
+    "remove": "Remove {{name}}",
+    "required": "Please add a file."
+  },
+  "linkAdder": {
+    "add": "Add link",
+    "invalidUrl": "The URL must look like https://example.com",
+    "label": "Project links",
+    "nameLabel": "Link name",
+    "remove": "Remove {{name}}",
+    "urlLabel": "Link URL"
+  },
+  "ui": {
+    "close": "Close",
+    "loading": "Loading",
+    "sidebarDescription": "Displays the mobile sidebar.",
+    "sidebarTitle": "Sidebar",
+    "toggleSidebar": "Toggle sidebar"
+  },
+  "urlInput": {
+    "hint": "Use only letters, numbers, - and _",
+    "label": "URL",
+    "placeholder": "your-site"
+  }
+}

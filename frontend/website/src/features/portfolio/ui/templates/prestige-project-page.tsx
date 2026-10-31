@@ -2,8 +2,10 @@ import type { CSSProperties } from "react"
 import { Link } from "@tanstack/react-router"
 import { formatImage } from "@/lib/format-image"
 import type { ProjectPageProps } from "./types"
+import { useTranslation } from "@/i18n"
 
 export function PrestigeProjectPage({ portfolio, project }: ProjectPageProps) {
+  const t = useTranslation()
   const { primary, secondary, warning, info, light } = portfolio.config.colors
   const hoverTextStyle = { "--color-hover": primary } as CSSProperties
 
@@ -53,7 +55,7 @@ export function PrestigeProjectPage({ portfolio, project }: ProjectPageProps) {
                 >
                   <img
                     src={formatImage(image.img_src)}
-                    alt={`Project image ${index + 1}`}
+                    alt={t("portfolio.template.projectImageAlt", { index: index + 1 })}
                     width={500}
                     height={300}
                     loading="lazy"
@@ -66,7 +68,7 @@ export function PrestigeProjectPage({ portfolio, project }: ProjectPageProps) {
           {project.projectsLinks?.length > 0 && (
             <div className="mb-16">
               <h2 className="mb-8 text-center text-2xl font-bold" style={{ color: secondary }}>
-                Découvrir le projet
+                {t("portfolio.template.discoverProject")}
               </h2>
               <div className="flex flex-wrap justify-center gap-6">
                 {project.projectsLinks.map((link, index) => (
@@ -95,7 +97,7 @@ export function PrestigeProjectPage({ portfolio, project }: ProjectPageProps) {
                 className="relative z-10 transition-colors duration-500 group-hover:text-(--color-hover)"
                 style={hoverTextStyle}
               >
-                Retour au portfolio
+                {t("portfolio.template.backToPortfolio")}
               </span>
               <div
                 className="absolute inset-0 w-0 transition-all duration-500 group-hover:w-full"

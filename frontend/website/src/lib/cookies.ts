@@ -11,8 +11,9 @@ export const readClientCookie = (name: string): string | null => {
   return null
 }
 
-export const writeClientCookie = (name: string, value: string): void => {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; SameSite=Lax`
+export const writeClientCookie = (name: string, value: string, maxAgeSeconds?: number): void => {
+  const maxAge = maxAgeSeconds === undefined ? "" : `; max-age=${maxAgeSeconds}`
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; SameSite=Lax${maxAge}`
 }
 
 export const deleteClientCookie = (name: string): void => {

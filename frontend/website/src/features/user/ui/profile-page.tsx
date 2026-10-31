@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { getApiErrorMessage } from "@/lib/http"
+import { useTranslation } from "@/i18n"
 import type { OAuthProvider } from "../domain/user"
 import { startOAuthSignIn } from "../application/session"
 import { useUserStore } from "../application/user.store"
@@ -23,6 +24,7 @@ interface LinkedAccountProps {
 }
 
 function LinkedAccount({ provider, name, icon: Icon, login, profileUrl }: LinkedAccountProps) {
+  const t = useTranslation()
   return (
     <div className="flex w-full flex-col items-center justify-between gap-2 rounded-lg border border-primary bg-card p-3 xl:flex-row xl:gap-0">
       <div className="flex flex-col items-center gap-3 xl:flex-row">
@@ -36,7 +38,7 @@ function LinkedAccount({ provider, name, icon: Icon, login, profileUrl }: Linked
               rel="noreferrer"
               className="inline-flex items-center gap-1 text-primary hover:underline"
             >
-              Votre profil
+              {t("auth.profile.yourProfile")}
               <ExternalLinkIcon className="size-4" />
             </a>
           ) : (
@@ -45,7 +47,7 @@ function LinkedAccount({ provider, name, icon: Icon, login, profileUrl }: Linked
               onClick={() => startOAuthSignIn(provider)}
               className="inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-80"
             >
-              Associer
+              {t("auth.profile.link")}
               <ExternalLinkIcon className="size-4" />
             </button>
           )}
@@ -58,13 +60,14 @@ function LinkedAccount({ provider, name, icon: Icon, login, profileUrl }: Linked
         )}
       >
         {login ? <CircleCheckIcon className="size-4" /> : <CircleXIcon className="size-4" />}
-        {login ? "Associé" : "Non Associé"}
+        {login ? t("auth.profile.linked") : t("auth.profile.notLinked")}
       </div>
     </div>
   )
 }
 
 export function ProfilePage() {
+  const t = useTranslation()
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
   const fetchFromJwt = useUserStore((state) => state.fetchFromJwt)
@@ -80,15 +83,15 @@ export function ProfilePage() {
     event.preventDefault()
     try {
       await updateUser()
-      toast.success("Profil mis à jour.")
+      toast.success(t("auth.profile.updated"))
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Impossible de mettre à jour le profil."))
+      toast.error(getApiErrorMessage(error, t("auth.profile.updateFailed")))
     }
   }
 
   return (
     <>
-      <DashboardTitle title="Profil" />
+      <DashboardTitle title={t("auth.profile.title")} />
       <div className="flex w-full flex-col gap-3 xl:flex-row">
         <section className="flex flex-col items-center rounded-xl border bg-card p-5 text-card-foreground xl:min-h-[calc(100vh-7rem)]">
           <div className="mb-3">
@@ -101,33 +104,33 @@ export function ProfilePage() {
         </section>
 
         <section className="flex flex-col items-center gap-3 rounded-xl border bg-card p-5 text-card-foreground xl:min-h-[calc(100vh-7rem)] xl:flex-1 xl:items-start xl:gap-5">
-          <h3 className="text-lg font-bold xl:text-2xl">Votre compte</h3>
+          <h3 className="text-lg font-bold xl:text-2xl">{t("auth.profile.account")}</h3>
           <div className="flex w-full flex-col gap-5 xl:w-9/12 xl:flex-row xl:gap-10">
             <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3 xl:w-9/12 xl:gap-8">
               <TextField
                 id="profile-lastname"
-                label="nom"
-                placeholder="Votre Nom"
+                label={t("auth.profile.lastname")}
+                placeholder={t("auth.profile.lastnamePlaceholder")}
                 value={user.lastname}
                 onChange={(event) => setUser({ lastname: event.target.value })}
               />
               <TextField
                 id="profile-firstname"
-                label="prénom"
-                placeholder="Votre prénom"
+                label={t("auth.profile.firstname")}
+                placeholder={t("auth.profile.firstnamePlaceholder")}
                 value={user.firstname}
                 onChange={(event) => setUser({ firstname: event.target.value })}
               />
               <TextField
                 id="profile-email"
-                label="Email"
-                placeholder="Votre email"
+                label={t("auth.profile.email")}
+                placeholder={t("auth.profile.emailPlaceholder")}
                 value={user.email}
                 onChange={(event) => setUser({ email: event.target.value })}
               />
               <div className="w-full xl:w-3/12">
                 <Button type="submit" className="w-full">
-                  Modifier
+                  {t("auth.profile.submit")}
                 </Button>
               </div>
             </form>
@@ -136,7 +139,7 @@ export function ProfilePage() {
 
             <div className="my-2 flex w-full items-center gap-5 xl:hidden">
               <Separator className="flex-1 bg-primary" />
-              <span className="text-center text-sm whitespace-nowrap">LIER VOS COMPTES</span>
+              <span className="text-center text-sm whitespace-nowrap">{t("auth.profile.linkAccounts")}</span>
               <Separator className="flex-1 bg-primary" />
             </div>
 

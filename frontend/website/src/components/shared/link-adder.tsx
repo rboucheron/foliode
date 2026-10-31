@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import type { ProjectLink } from "@/features/project/domain/project"
+import { useTranslation } from "@/i18n"
 
 interface LinkAdderProps {
   value?: ProjectLink[]
@@ -19,7 +20,8 @@ const normalizeUrl = (url: string): string =>
 export function LinkAdder({ value = [], onChange }: LinkAdderProps) {
   const [name, setName] = useState("")
   const [url, setUrl] = useState("")
-  const [error, setError] = useState<string | null>(null)
+  const [hasError, setHasError] = useState(false)
+  const t = useTranslation()
   const nameInputRef = useRef<HTMLInputElement>(null)
 
   const addLink = () => {
@@ -27,11 +29,11 @@ export function LinkAdder({ value = [], onChange }: LinkAdderProps) {
 
     const formattedUrl = normalizeUrl(url.trim())
     if (!URL_REGEX.test(formattedUrl)) {
-      setError("L'URL doit être au format https://exemple.fr")
+      setHasError(true)
       return
     }
 
-    setError(null)
+    setHasError(false)
     onChange([...value, { name: name.trim(), url: formattedUrl }])
     setName("")
     setUrl("")
@@ -47,7 +49,7 @@ export function LinkAdder({ value = [], onChange }: LinkAdderProps) {
 
   return (
     <div className="w-full space-y-2">
-      <Label>Liens du projet</Label>
+      <Label>{t("forms.linkAdder.label")}</Label>
       <div className="flex gap-2">
         <Input
           ref={nameInputRef}
@@ -55,21 +57,21 @@ export function LinkAdder({ value = [], onChange }: LinkAdderProps) {
           value={name}
           onChange={(event) => setName(event.target.value)}
           onKeyDown={handleKeyDown}
-          aria-label="Nom du lien"
+          aria-label={t("forms.linkAdder.nameLabel")}
         />
         <Input
           placeholder="https://foliode.com"
           value={url}
           onChange={(event) => setUrl(event.target.value)}
           onKeyDown={handleKeyDown}
-          aria-label="URL du lien"
-          aria-invalid={Boolean(error)}
+          aria-label={t("forms.linkAdder.urlLabel")}
+          aria-invalid={hasError}
         />
-        <Button type="button" variant="outline" size="icon" onClick={addLink} aria-label="Ajouter le lien">
+        <Button type="button" variant="outline" size="icon" onClick={addLink} aria-label={t("forms.linkAdder.add")}>
           <PlusIcon />
         </Button>
       </div>
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {hasError && <p className="text-sm text-destructive">{t("forms.linkAdder.invalidUrl")}</p>}
       {value.length > 0 && (
         <ul className="flex flex-col gap-2">
           {value.map((link, index) => (
@@ -90,7 +92,7 @@ export function LinkAdder({ value = [], onChange }: LinkAdderProps) {
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                aria-label={`Supprimer ${link.name}`}
+                aria-label={t("forms.linkAdder.remove", { name: link.name })}
                 onClick={() => onChange(value.filter((_, i) => i !== index))}
                 className="text-destructive hover:text-destructive"
               >

@@ -3,6 +3,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { ProjectDraft } from "../domain/project";
+import { useTranslation } from "@/i18n";
 
 interface ProjectFieldsProps {
   idPrefix: string;
@@ -15,11 +16,12 @@ export function ProjectFields({
   project,
   onChange,
 }: ProjectFieldsProps) {
+  const t = useTranslation();
   return (
     <>
       <Field>
         <FieldLabel htmlFor={`${idPrefix}-title`}>
-          Titre du projet <span className="text-destructive">*</span>
+          {t("projects.fields.title")} <span className="text-destructive">*</span>
         </FieldLabel>
         <Input
           id={`${idPrefix}-title`}
@@ -36,7 +38,7 @@ export function ProjectFields({
 
       <Field>
         <FieldLabel htmlFor={`${idPrefix}-description`}>
-          Description <span className="text-destructive">*</span>
+          {t("projects.fields.description")} <span className="text-destructive">*</span>
         </FieldLabel>
         <Textarea
           id={`${idPrefix}-description`}
