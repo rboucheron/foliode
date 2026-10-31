@@ -1,0 +1,35 @@
+{
+  "card": {
+    "delete": "Delete project",
+    "edit": "Edit project",
+    "imageAlt": "Image of project {{title}}"
+  },
+  "create": {
+    "error": "Failed to create the project",
+    "submit": "Create project",
+    "success": "Project created"
+  },
+  "delete": {
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "dialogDescription": "Are you sure you want to delete this project?",
+    "dialogTitle": "Delete project",
+    "error": "Failed to delete the project",
+    "success": "Project deleted"
+  },
+  "fields": {
+    "description": "Description",
+    "title": "Project title"
+  },
+  "page": {
+    "title": "Your projects"
+  },
+  "update": {
+    "cancel": "Discard changes",
+    "dialogTitle": "Edit project",
+    "error": "Failed to update the project",
+    "removeImage": "Remove image",
+    "submit": "Update project",
+    "success": "Project updated"
+  }
+}

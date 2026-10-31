@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { generateAvatar } from "@/lib/avatar";
 import { formatImage } from "@/lib/format-image";
+import { useTranslation } from "@/i18n";
 import { useUserStore } from "../application/user.store";
 
 interface UserAvatarProps {
@@ -14,6 +15,7 @@ export function UserAvatar({
   size = 40,
   linkToProfile = true,
 }: UserAvatarProps) {
+  const t = useTranslation();
   const user = useUserStore((state) => state.user);
   const fetchFromJwt = useUserStore((state) => state.fetchFromJwt);
 
@@ -37,7 +39,7 @@ export function UserAvatar({
   );
 
   return linkToProfile ? (
-    <Link to="/dashboard/profile" aria-label="Mon profil">
+    <Link to="/dashboard/profile" aria-label={t("auth.avatar.myProfile")}>
       {avatar}
     </Link>
   ) : (

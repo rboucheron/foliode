@@ -2,6 +2,7 @@ import { XIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { formatImage } from "@/lib/format-image"
 import type { Skill } from "../domain/skill"
+import { useTranslation } from "@/i18n"
 
 interface SkillCardProps {
   skill: Skill
@@ -9,18 +10,19 @@ interface SkillCardProps {
 }
 
 export function SkillCard({ skill, onDelete }: SkillCardProps) {
+  const t = useTranslation()
   return (
     <div className="flex h-fit w-full items-center justify-between rounded-xl border-2 border-custom bg-muted p-5">
       <img
         src={formatImage(skill.picto)}
-        alt="skill"
+        alt={t("skills.card.iconAlt", { name: skill.name })}
         width={40}
         height={40}
         loading="lazy"
         className="size-10 shrink-0 rounded-xs object-contain"
       />
       <h3 className="ml-4 grow text-xl break-all">{skill.name}</h3>
-      <Button variant="ghost" size="icon-lg" aria-label={`Supprimer ${skill.name}`} onClick={onDelete}>
+      <Button variant="ghost" size="icon-lg" aria-label={t("skills.card.delete", { name: skill.name })} onClick={onDelete}>
         <XIcon className="size-8" />
       </Button>
     </div>

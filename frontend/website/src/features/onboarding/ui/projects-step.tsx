@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { emptyProjectDraft } from "@/features/project"
 import type { ProjectDraft } from "@/features/project"
+import { useTranslation } from "@/i18n"
 import { useOnboardingStore } from "../application/onboarding.store"
 
 export function ProjectsStep() {
   const { projects, setProjects } = useOnboardingStore()
+  const t = useTranslation()
 
   const updateProject = (index: number, patch: Partial<ProjectDraft>) => {
     setProjects(projects.map((project, i) => (i === index ? { ...project, ...patch } : project)))
@@ -22,11 +24,11 @@ export function ProjectsStep() {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Projets</h3>
+      <h3 className="text-lg font-semibold">{t("onboarding.projects.title")}</h3>
       {projects.map((project, index) => (
         <div key={index} className="space-y-3 rounded-md border p-3">
           <Field>
-            <FieldLabel htmlFor={`project-title-${index}`}>Titre du projet *</FieldLabel>
+            <FieldLabel htmlFor={`project-title-${index}`}>{t("onboarding.projects.titleLabel")}</FieldLabel>
             <Input
               id={`project-title-${index}`}
               value={project.title}
@@ -35,7 +37,7 @@ export function ProjectsStep() {
             />
           </Field>
           <Field>
-            <FieldLabel htmlFor={`project-description-${index}`}>Description *</FieldLabel>
+            <FieldLabel htmlFor={`project-description-${index}`}>{t("onboarding.projects.descriptionLabel")}</FieldLabel>
             <Textarea
               id={`project-description-${index}`}
               value={project.description}
@@ -48,14 +50,14 @@ export function ProjectsStep() {
             onChange={(links) => updateProject(index, { projectsLinks: links })}
           />
           <Field>
-            <FieldLabel htmlFor={`file-${index}`}>Images du projet</FieldLabel>
+            <FieldLabel htmlFor={`file-${index}`}>{t("onboarding.projects.imagesLabel")}</FieldLabel>
             <FileInput
               files={project.images ?? []}
               onChange={(files) => updateProject(index, { images: files })}
               id={`file-${index}`}
               isRequired
             />
-            <FieldDescription>Format recommandé : PNG ou JPG, max 2MB</FieldDescription>
+            <FieldDescription>{t("onboarding.projects.imagesHint")}</FieldDescription>
           </Field>
           <Button
             type="button"
@@ -64,13 +66,13 @@ export function ProjectsStep() {
             onClick={() => deleteProject(index)}
           >
             <Trash2Icon />
-            Supprimer le projet
+            {t("onboarding.projects.delete")}
           </Button>
         </div>
       ))}
       <Button type="button" className="w-full" onClick={addProject}>
         <PlusIcon />
-        Ajouter un projet
+        {t("onboarding.projects.add")}
       </Button>
     </div>
   )

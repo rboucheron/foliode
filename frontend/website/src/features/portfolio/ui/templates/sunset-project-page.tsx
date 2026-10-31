@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react"
 import { HiHome } from "react-icons/hi2"
 import type { ProjectImage } from "@/features/project"
 import { formatImage } from "@/lib/format-image"
-import { useSunsetI18n } from "./sunset/sunset-i18n"
+import { useTranslation } from "@/i18n"
 import { SunsetLayout } from "./sunset/sunset-layout"
 import type { ProjectPageProps } from "./types"
 
@@ -35,16 +35,16 @@ const P_CLASS = "mb-4 text-gray-700 dark:text-gray-50 leading-relaxed"
 const A_CLASS = "text-blue-600 hover:text-blue-800 underline transition-colors"
 
 function SunsetProjectContent({ portfolio, project }: ProjectPageProps) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
   const images = project.projectsImages ?? []
   const links = project.projectsLinks ?? []
 
   const headings = useMemo<TocItem[]>(
     () => [
       { id: "project-title", text: project.title, level: 1 },
-      { id: "description", text: t.project.description, level: 2 },
-      ...(images.length > 0 ? [{ id: "images", text: t.project.images, level: 2 }] : []),
-      ...(links.length > 0 ? [{ id: "links", text: t.project.links, level: 2 }] : []),
+      { id: "description", text: t("portfolio.sunset.project.description"), level: 2 },
+      ...(images.length > 0 ? [{ id: "images", text: t("portfolio.sunset.project.images"), level: 2 }] : []),
+      ...(links.length > 0 ? [{ id: "links", text: t("portfolio.sunset.project.links"), level: 2 }] : []),
     ],
     [project.title, t, images.length, links.length],
   )
@@ -54,13 +54,13 @@ function SunsetProjectContent({ portfolio, project }: ProjectPageProps) {
       <div className="flex flex-col gap-8 lg:flex-row">
         <aside className="lg:w-64 lg:shrink-0">
           <div className="lg:sticky lg:top-32">
-            <nav aria-label="breadcrumb" className="mb-2">
+            <nav aria-label={t("portfolio.sunset.project.breadcrumb")} className="mb-2">
               <ol className="flex flex-wrap items-center gap-1.5 text-sm break-words text-gray-500 sm:gap-2.5 dark:text-gray-400">
                 <li className="inline-flex items-center gap-1.5">
                   <Link
                     to="/$username"
                     params={{ username: portfolio.url }}
-                    aria-label={t.project.back}
+                    aria-label={t("portfolio.sunset.project.back")}
                     className="transition-colors hover:text-gray-900 dark:hover:text-gray-50"
                   >
                     <HiHome className="h-4 w-4" />
@@ -87,7 +87,7 @@ function SunsetProjectContent({ portfolio, project }: ProjectPageProps) {
             </h1>
 
             <h2 id="description" className={H2_CLASS}>
-              {t.project.description}
+              {t("portfolio.sunset.project.description")}
             </h2>
             {toParagraphs(project.description).map((paragraph, index) => (
               <p key={index} className={P_CLASS}>
@@ -98,7 +98,7 @@ function SunsetProjectContent({ portfolio, project }: ProjectPageProps) {
             {images.length > 0 && (
               <>
                 <h2 id="images" className={H2_CLASS}>
-                  {t.project.images}
+                  {t("portfolio.sunset.project.images")}
                 </h2>
                 <ProjectImages images={images} title={project.title} />
               </>
@@ -107,7 +107,7 @@ function SunsetProjectContent({ portfolio, project }: ProjectPageProps) {
             {links.length > 0 && (
               <>
                 <h2 id="links" className={H2_CLASS}>
-                  {t.project.links}
+                  {t("portfolio.sunset.project.links")}
                 </h2>
                 <ul className="mb-4 list-inside list-disc space-y-1">
                   {links.map((link, index) => (
@@ -178,7 +178,7 @@ function TableOfContents({ headings }: { headings: TocItem[] }) {
 }
 
 function ProjectImages({ images, title }: { images: ProjectImage[]; title: string }) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const preview = images.slice(0, 2)
 
@@ -225,14 +225,14 @@ function ProjectImages({ images, title }: { images: ProjectImage[]; title: strin
             {images.length > 1 && (
               <>
                 <CarouselButton
-                  label={t.project.previous}
+                  label={t("portfolio.sunset.project.previous")}
                   className="top-1/2 -left-12 -translate-y-1/2"
                   onClick={() => setOpenIndex((openIndex - 1 + images.length) % images.length)}
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </CarouselButton>
                 <CarouselButton
-                  label={t.project.next}
+                  label={t("portfolio.sunset.project.next")}
                   className="top-1/2 -right-12 -translate-y-1/2"
                   onClick={() => setOpenIndex((openIndex + 1) % images.length)}
                 >

@@ -1,0 +1,9 @@
+{
+  "language": {
+    "description": "Choose the interface language. It is remembered on this device.",
+    "label": "Interface language",
+    "saved": "Language updated.",
+    "title": "Language"
+  },
+  "title": "Settings"
+}

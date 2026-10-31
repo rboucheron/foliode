@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { Field, FieldLabel } from "@/components/ui/field"
+import { useTranslation } from "@/i18n"
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group"
 
 interface PasswordInputProps {
@@ -14,6 +15,7 @@ interface PasswordInputProps {
 }
 
 export function PasswordInput({ onChange, value, label, name, id, autoComplete, testId }: PasswordInputProps) {
+  const t = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
 
   return (
@@ -40,7 +42,7 @@ export function PasswordInput({ onChange, value, label, name, id, autoComplete, 
           <InputGroupButton
             size="icon-xs"
             onClick={() => setIsVisible((visible) => !visible)}
-            aria-label={isVisible ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            aria-label={isVisible ? t("auth.fields.hidePassword") : t("auth.fields.showPassword")}
             data-testid={testId ? `${testId}-toggle` : undefined}
           >
             {isVisible ? <EyeOffIcon /> : <EyeIcon />}

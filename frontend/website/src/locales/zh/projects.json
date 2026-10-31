@@ -1,0 +1,35 @@
+{
+  "card": {
+    "delete": "删除项目",
+    "edit": "编辑项目",
+    "imageAlt": "项目 {{title}} 的图片"
+  },
+  "create": {
+    "error": "创建项目时出错",
+    "submit": "创建项目",
+    "success": "项目已创建"
+  },
+  "delete": {
+    "cancel": "取消",
+    "confirm": "删除",
+    "dialogDescription": "确定要删除此项目吗？",
+    "dialogTitle": "删除项目",
+    "error": "删除项目时出错",
+    "success": "项目已删除"
+  },
+  "fields": {
+    "description": "描述",
+    "title": "项目标题"
+  },
+  "page": {
+    "title": "您的项目"
+  },
+  "update": {
+    "cancel": "放弃修改",
+    "dialogTitle": "编辑项目",
+    "error": "更新项目时出错",
+    "removeImage": "删除图片",
+    "submit": "更新项目",
+    "success": "项目已更新"
+  }
+}

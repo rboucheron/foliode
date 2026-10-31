@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/sheet";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { UserAvatar, clearAuthToken, useUserStore } from "@/features/user";
+import { useTranslation } from "@/i18n";
 import { navLinks } from "../domain/nav-links";
+import { LandingLanguageList, LandingLanguageSwitcher } from "./landing-language-switcher";
+import { useLandingHome } from "./use-landing-home";
 
 const pillButtonClass =
   "h-auto rounded-[32px] border-2 border-white/4 bg-transparent p-3 text-foreground shadow-[inset_0px_2px_0px_0px_rgba(141,169,162,0.33),inset_0px_-2px_0px_0px_rgba(141,169,162,0.33)] hover:bg-muted";
@@ -19,6 +22,8 @@ const pillButtonClass =
 export function LandingNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const t = useTranslation();
+  const home = useLandingHome();
   const user = useUserStore((state) => state.user);
   const fetchFromJwt = useUserStore((state) => state.fetchFromJwt);
 
@@ -30,7 +35,7 @@ export function LandingNav() {
     clearAuthToken();
     useUserStore.setState({ user: null });
     setIsMenuOpen(false);
-    void navigate({ to: "/" });
+    void navigate({ to: home as never });
   };
 
   return (
@@ -43,14 +48,14 @@ export function LandingNav() {
                 variant="ghost"
                 size="icon"
                 className="sm:hidden"
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                aria-label={isMenuOpen ? t("landing.nav.closeMenu") : t("landing.nav.openMenu")}
               >
                 <MenuIcon />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="z-50">
               <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
+                <SheetTitle>{t("landing.nav.menu")}</SheetTitle>
               </SheetHeader>
               <ul className="flex flex-col gap-4 px-4 text-lg">
                 {navLinks.map((link) => (
@@ -60,7 +65,7 @@ export function LandingNav() {
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {link.name}
+                      {t(link.labelKey)}
                     </a>
                   </li>
                 ))}
@@ -71,30 +76,33 @@ export function LandingNav() {
                       className="w-full text-left text-destructive"
                       onClick={handleSignOut}
                     >
-                      Déconnexion
+                      {t("landing.nav.signOut")}
                     </button>
                   </li>
                 ) : (
                   <>
                     <li>
                       <Link className="block w-full text-primary" to="/login">
-                        Connexion
+                        {t("landing.nav.signIn")}
                       </Link>
                     </li>
                     <li>
                       <Link className="block w-full text-primary" to="/signup">
-                        Inscription
+                        {t("landing.nav.signUp")}
                       </Link>
                     </li>
                   </>
                 )}
+                <li className="border-t pt-4">
+                  <LandingLanguageList onSelect={() => setIsMenuOpen(false)} />
+                </li>
               </ul>
             </SheetContent>
           </Sheet>
-          <Link to="/" className="flex items-center gap-2">
+          <Link to={home as never} className="flex items-center gap-2">
             <img
               src="/foliode-icon.svg"
-              alt="logo foliode"
+              alt={t("landing.brand.logoAlt")}
               width={25}
               height={25}
             />
@@ -106,7 +114,7 @@ export function LandingNav() {
           {navLinks.map((link) => (
             <li key={link.href}>
               <a className="text-20" href={link.href}>
-                {link.name}
+                {t(link.labelKey)}
               </a>
             </li>
           ))}
@@ -120,7 +128,7 @@ export function LandingNav() {
                 onClick={handleSignOut}
                 className={pillButtonClass}
               >
-                Déconnexion
+                {t("landing.nav.signOut")}
               </Button>
               <div className="hidden lg:flex">
                 <UserAvatar size={40} />
@@ -132,13 +140,14 @@ export function LandingNav() {
                 asChild
                 className={`hidden lg:inline-flex ${pillButtonClass}`}
               >
-                <Link to="/login">Connexion</Link>
+                <Link to="/login">{t("landing.nav.signIn")}</Link>
               </Button>
               <Link className="text-20" to="/signup">
-                Inscription
+                {t("landing.nav.signUp")}
               </Link>
             </>
           )}
+          <LandingLanguageSwitcher className="hidden sm:inline-flex" />
           <ThemeSwitcher className="ml-2" />
         </div>
       </nav>

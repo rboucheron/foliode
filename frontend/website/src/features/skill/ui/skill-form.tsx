@@ -9,6 +9,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { getApiErrorMessage } from "@/lib/http"
 import { createSkill } from "../application/skill.api"
 import type { SkillDraft } from "../domain/skill"
+import { useTranslation } from "@/i18n"
 
 interface SkillFormProps {
   onCreated: () => Promise<void>
@@ -19,11 +20,12 @@ const emptySkillDraft = (): SkillDraft => ({ name: "", image: null })
 export function SkillForm({ onCreated }: SkillFormProps) {
   const [formData, setFormData] = useState<SkillDraft>(emptySkillDraft)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const t = useTranslation()
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!formData.image || !formData.name) {
-      toast.error("Tous les champs doivent être remplis")
+      toast.error(t("skills.form.requiredFields"))
       return
     }
     setIsSubmitting(true)
@@ -32,7 +34,7 @@ export function SkillForm({ onCreated }: SkillFormProps) {
       setFormData(emptySkillDraft())
       await onCreated()
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de l'ajout de la compétence"))
+      toast.error(getApiErrorMessage(error, t("skills.form.createError")))
     } finally {
       setIsSubmitting(false)
     }
@@ -44,12 +46,12 @@ export function SkillForm({ onCreated }: SkillFormProps) {
       className="flex h-fit w-full flex-col gap-3 rounded-xl border-2 border-custom bg-muted p-5"
     >
       <Field>
-        <FieldLabel htmlFor="skill-name">Compétence</FieldLabel>
+        <FieldLabel htmlFor="skill-name">{t("skills.form.nameLabel")}</FieldLabel>
         <Input
           id="skill-name"
           type="text"
           name="competence"
-          placeholder="Exemple: Développement web"
+          placeholder={t("skills.form.namePlaceholder")}
           value={formData.name}
           onChange={(event) => setFormData((current) => ({ ...current, name: event.target.value }))}
         />
@@ -63,7 +65,7 @@ export function SkillForm({ onCreated }: SkillFormProps) {
       />
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting && <Spinner />}
-        Ajouter un Skills
+        {t("skills.form.submit")}
       </Button>
     </form>
   )

@@ -10,6 +10,7 @@ import { formatImage } from "@/lib/format-image"
 import { updateProject } from "../application/project.api"
 import type { Project, ProjectDraft } from "../domain/project"
 import { ProjectFields } from "./project-fields"
+import { useTranslation } from "@/i18n"
 
 interface ProjectUpdateFormProps {
   project: Project
@@ -29,16 +30,17 @@ const toDraft = (project: Project): ProjectDraft => ({
 export function ProjectUpdateForm({ project: initialProject, onFinish, onCancel }: ProjectUpdateFormProps) {
   const [project, setProject] = useState<ProjectDraft>(() => toDraft(initialProject))
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const t = useTranslation()
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsSubmitting(true)
     try {
       await updateProject(initialProject.id, project)
-      toast.success("Projet modifié")
+      toast.success(t("projects.update.success"))
       onFinish()
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de la modification du projet"))
+      toast.error(getApiErrorMessage(error, t("projects.update.error")))
     } finally {
       setIsSubmitting(false)
     }
@@ -67,7 +69,7 @@ export function ProjectUpdateForm({ project: initialProject, onFinish, onCancel 
             variant="destructive"
             size="icon-sm"
             className="absolute top-2 right-2"
-            aria-label="Supprimer l'image"
+            aria-label={t("projects.update.removeImage")}
             onClick={() => removeExistingImage(index)}
           >
             <Trash2Icon />
@@ -84,10 +86,10 @@ export function ProjectUpdateForm({ project: initialProject, onFinish, onCancel 
 
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         {isSubmitting && <Spinner />}
-        Modifier le projet
+        {t("projects.update.submit")}
       </Button>
       <Button type="button" variant="destructive" className="w-full" onClick={onCancel}>
-        Annuler la modification
+        {t("projects.update.cancel")}
       </Button>
     </form>
   )

@@ -1,10 +1,12 @@
+import type { TranslationKey } from "@/i18n";
+
 export interface NavLink {
-  name: string;
+  labelKey: TranslationKey;
   href: `#${string}`;
 }
 
 export const navLinks: readonly NavLink[] = [
-  { name: "Accueil", href: "#accueil" },
-  { name: "Avantages", href: "#avantages" },
-  { name: "Fonctionnalités", href: "#fonctionnalites" },
+  { labelKey: "landing.nav.home", href: "#accueil" },
+  { labelKey: "landing.nav.advantages", href: "#avantages" },
+  { labelKey: "landing.nav.features", href: "#fonctionnalites" },
 ];

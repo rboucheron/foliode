@@ -1,0 +1,53 @@
+{
+  "comments": {
+    "avatar": "Photo de profil",
+    "defaultMessage": "Laissez un message constructif pour encourager l'auteur de ce portfolio.",
+    "empty": "Aucun commentaire publié pour le moment.",
+    "firstname": "Prénom",
+    "firstnameRequired": "Le prénom est obligatoire.",
+    "lastname": "Nom",
+    "lastnameRequired": "Le nom est obligatoire.",
+    "loading": "Chargement des commentaires...",
+    "message": "Votre commentaire",
+    "messageRequired": "Le message est obligatoire.",
+    "placeholder": "Partagez un retour utile, une félicitation ou une suggestion constructive.",
+    "publishedAs": "Commentaire publié depuis votre compte {{name}}.",
+    "sendError": "Une erreur est survenue lors de l'envoi du commentaire.",
+    "submit": "Publier le commentaire",
+    "success": "Commentaire publié.",
+    "title": "Commentaires",
+    "visitor": "Visiteur"
+  },
+  "sunset": {
+    "about": "À propos",
+    "comments": "Commentaires",
+    "contact": "Me contacter",
+    "copyright": "Un projet de {{name}} - © {{year}} Portfolio - Tous droits réservés.",
+    "email": "Email",
+    "legal": "Mentions légales",
+    "openMenu": "Ouvrir le menu",
+    "project": {
+      "back": "Retour au portfolio",
+      "breadcrumb": "Fil d'Ariane",
+      "description": "Description",
+      "images": "Images",
+      "links": "Liens",
+      "next": "Image suivante",
+      "previous": "Image précédente"
+    },
+    "projects": "Projets",
+    "skills": "Compétences",
+    "toolLogoAlt": "Logo {{name}}"
+  },
+  "template": {
+    "avatarAlt": "Avatar de {{name}}",
+    "backToPortfolio": "Retour au portfolio",
+    "discoverProject": "Découvrir le projet",
+    "greeting": "Bonjour, je suis",
+    "projectImageAlt": "Image du projet {{index}}",
+    "projectLinks": "Liens du projet",
+    "projects": "Mes projets",
+    "skills": "Compétences",
+    "viewProject": "Voir le projet"
+  }
+}

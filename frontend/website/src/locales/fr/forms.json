@@ -1,0 +1,30 @@
+{
+  "colorPicker": {
+    "tooltip": "Cliquez pour modifier la couleur"
+  },
+  "fileInput": {
+    "dropzone": "Glissez vos images ici ou cliquez pour parcourir",
+    "remove": "Retirer {{name}}",
+    "required": "Veuillez ajouter un fichier."
+  },
+  "linkAdder": {
+    "add": "Ajouter le lien",
+    "invalidUrl": "L'URL doit être au format https://exemple.fr",
+    "label": "Liens du projet",
+    "nameLabel": "Nom du lien",
+    "remove": "Supprimer {{name}}",
+    "urlLabel": "URL du lien"
+  },
+  "ui": {
+    "close": "Fermer",
+    "loading": "Chargement",
+    "sidebarDescription": "Affiche le menu latéral mobile.",
+    "sidebarTitle": "Menu latéral",
+    "toggleSidebar": "Afficher / masquer le menu"
+  },
+  "urlInput": {
+    "hint": "Utilisez uniquement des lettres, chiffres, - et _",
+    "label": "URL",
+    "placeholder": "votre-site"
+  }
+}

@@ -20,6 +20,7 @@ import { deleteProject } from "../application/project.api"
 import { useProjectsStore } from "../application/projects.store"
 import type { Project } from "../domain/project"
 import { ProjectUpdateForm } from "./project-update-form"
+import { useTranslation } from "@/i18n"
 
 export function ProjectList() {
   const projects = useProjectsStore((state) => state.projects)
@@ -27,6 +28,7 @@ export function ProjectList() {
   const [editedProject, setEditedProject] = useState<Project | null>(null)
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const t = useTranslation()
 
   useEffect(() => {
     void fetchProjects()
@@ -40,9 +42,9 @@ export function ProjectList() {
       const { projects: current, setProjects } = useProjectsStore.getState()
       setProjects(current.filter((project) => project.id !== projectToDelete.id))
       setProjectToDelete(null)
-      toast.success("Projet supprimé")
+      toast.success(t("projects.delete.success"))
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de la suppression du projet"))
+      toast.error(getApiErrorMessage(error, t("projects.delete.error")))
     } finally {
       setIsDeleting(false)
     }
@@ -62,7 +64,7 @@ export function ProjectList() {
       <Dialog open={editedProject !== null} onOpenChange={(open) => !open && setEditedProject(null)}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Modifier le projet</DialogTitle>
+            <DialogTitle>{t("projects.update.dialogTitle")}</DialogTitle>
           </DialogHeader>
           {editedProject && (
             <ProjectUpdateForm
@@ -81,16 +83,16 @@ export function ProjectList() {
       <Dialog open={projectToDelete !== null} onOpenChange={(open) => !open && setProjectToDelete(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Supprimer le projet</DialogTitle>
-            <DialogDescription>Êtes-vous sûr de vouloir supprimer ce projet ?</DialogDescription>
+            <DialogTitle>{t("projects.delete.dialogTitle")}</DialogTitle>
+            <DialogDescription>{t("projects.delete.dialogDescription")}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Annuler</Button>
+              <Button variant="outline">{t("projects.delete.cancel")}</Button>
             </DialogClose>
             <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
               {isDeleting && <Spinner />}
-              Supprimer
+              {t("projects.delete.confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -107,6 +109,7 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   const coverImage = project.projectsImages?.[0]
+  const t = useTranslation()
 
   return (
     <Card className="h-max w-full sm:w-[300px]">
@@ -114,10 +117,10 @@ function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         <div className="mb-1 flex w-full items-center justify-between gap-2">
           <h4 className="text-lg font-bold break-all uppercase">{project.title}</h4>
           <div className="flex shrink-0 items-center gap-1">
-            <Button variant="ghost" size="icon-sm" aria-label="Modifier le projet" onClick={onEdit}>
+            <Button variant="ghost" size="icon-sm" aria-label={t("projects.card.edit")} onClick={onEdit}>
               <PencilIcon className="text-primary" />
             </Button>
-            <Button variant="ghost" size="icon-sm" aria-label="Supprimer le projet" onClick={onDelete}>
+            <Button variant="ghost" size="icon-sm" aria-label={t("projects.card.delete")} onClick={onDelete}>
               <Trash2Icon className="text-destructive" />
             </Button>
           </div>
@@ -143,7 +146,7 @@ function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         <CardContent>
           <img
             src={formatImage(coverImage.img_src)}
-            alt="project image"
+            alt={coverImage.img_alt || t("projects.card.imageAlt", { title: project.title })}
             loading="lazy"
             className="w-full rounded-xl object-cover"
           />

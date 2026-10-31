@@ -1,0 +1,53 @@
+{
+  "comments": {
+    "avatar": "Profile picture",
+    "defaultMessage": "Leave a constructive message to encourage the author of this portfolio.",
+    "empty": "No comments yet.",
+    "firstname": "First name",
+    "firstnameRequired": "The first name is required.",
+    "lastname": "Last name",
+    "lastnameRequired": "The last name is required.",
+    "loading": "Loading comments...",
+    "message": "Your comment",
+    "messageRequired": "The message is required.",
+    "placeholder": "Share useful feedback, congratulations or a constructive suggestion.",
+    "publishedAs": "Comment posted from your account {{name}}.",
+    "sendError": "Something went wrong while posting your comment.",
+    "submit": "Post comment",
+    "success": "Comment posted.",
+    "title": "Comments",
+    "visitor": "Visitor"
+  },
+  "sunset": {
+    "about": "About",
+    "comments": "Comments",
+    "contact": "Contact me",
+    "copyright": "A project by {{name}} - © {{year}} Portfolio - All rights reserved.",
+    "email": "Email",
+    "legal": "Legal notice",
+    "openMenu": "Open main menu",
+    "project": {
+      "back": "Back to portfolio",
+      "breadcrumb": "Breadcrumb",
+      "description": "Description",
+      "images": "Images",
+      "links": "Links",
+      "next": "Next image",
+      "previous": "Previous image"
+    },
+    "projects": "Projects",
+    "skills": "Skills",
+    "toolLogoAlt": "{{name}} logo"
+  },
+  "template": {
+    "avatarAlt": "{{name}}'s avatar",
+    "backToPortfolio": "Back to portfolio",
+    "discoverProject": "Explore the project",
+    "greeting": "Hi, I'm",
+    "projectImageAlt": "Project image {{index}}",
+    "projectLinks": "Project links",
+    "projects": "My projects",
+    "skills": "Skills",
+    "viewProject": "View project"
+  }
+}

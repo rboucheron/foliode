@@ -4,8 +4,10 @@ import { formatImage } from "@/lib/format-image";
 import { cn } from "@/lib/utils";
 import { PortfolioCommentsSection } from "../portfolio-comments-section";
 import type { TemplateProps } from "./types";
+import { useTranslation } from "@/i18n";
 
 export function PrestigeTemplate({ portfolio }: TemplateProps) {
+  const t = useTranslation();
   const { primary, secondary, success, info, light } = portfolio.config.colors;
   const avatar = portfolio.users.avatar_url;
   const email = portfolio.users.email;
@@ -36,7 +38,7 @@ export function PrestigeTemplate({ portfolio }: TemplateProps) {
               className="text-center text-6xl font-bold"
               style={{ color: success }}
             >
-              Bonjour,je suis{" "}
+              {t("portfolio.template.greeting")}{" "}
               <span className="uppercase">{portfolio.users.firstname}</span>
             </h2>
             <p
@@ -49,7 +51,7 @@ export function PrestigeTemplate({ portfolio }: TemplateProps) {
 
           <img
             src={avatar ? formatImage(avatar) : generateAvatar(50, email)}
-            alt={`avatar of ${portfolio.users.firstname}`}
+            alt={t("portfolio.template.avatarAlt", { name: portfolio.users.firstname })}
             className="m-auto w-1/3 rounded-full"
           />
         </div>
@@ -61,7 +63,7 @@ export function PrestigeTemplate({ portfolio }: TemplateProps) {
             className="mb-12 text-center text-5xl md:text-7xl"
             style={{ color: secondary }}
           >
-            Mes Projets
+            {t("portfolio.template.projects")}
           </h2>
           <div className="space-y-16">
             {portfolio.projects.map((project, index) => {
@@ -110,7 +112,7 @@ export function PrestigeTemplate({ portfolio }: TemplateProps) {
                         className="mt-4 inline-block px-6 py-2 hover:opacity-90"
                         style={{ backgroundColor: primary, color: secondary }}
                       >
-                        Voir le projet
+                        {t("portfolio.template.viewProject")}
                       </Link>
                       {cover ? (
                         <div className="mt-4 aspect-video overflow-hidden rounded-xl shadow-md">
@@ -137,7 +139,7 @@ export function PrestigeTemplate({ portfolio }: TemplateProps) {
           className="mb-10 text-center text-5xl md:text-7xl"
           style={{ color: secondary }}
         >
-          Compétences
+          {t("portfolio.template.skills")}
         </h2>
         <div className="flex flex-wrap justify-center gap-6">
           {portfolio.tools.map((tool) => (

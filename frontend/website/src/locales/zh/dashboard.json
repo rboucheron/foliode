@@ -1,0 +1,127 @@
+{
+  "avatarPosition": {
+    "options": {
+      "bio": "简介旁边",
+      "title": "标题旁边"
+    },
+    "title": "头像位置"
+  },
+  "charts": {
+    "dataset": "作品集每日浏览量",
+    "empty": "追踪您作品集的浏览量和互动情况！",
+    "title": "作品集浏览量"
+  },
+  "colors": {
+    "info": "信息色",
+    "light": "浅色",
+    "primary": "主色",
+    "secondary": "辅助色",
+    "success": "成功色",
+    "warning": "警示色"
+  },
+  "comments": {
+    "hiddenAt": "隐藏于 {{date}}",
+    "hiddenCount": "已隐藏评论：{{count}}",
+    "hiddenEmpty": "暂无已隐藏评论。",
+    "hiddenTitle": "已隐藏评论",
+    "hide": "隐藏",
+    "hideError": "无法隐藏此评论。",
+    "loadError": "无法加载评论。",
+    "loading": "加载中...",
+    "notAvailable": "无",
+    "title": "作品集评论",
+    "total": "总计：{{count}}",
+    "visibleCount": "可见评论：{{count}}",
+    "visibleEmpty": "暂无可见评论。",
+    "visibleTitle": "可见评论"
+  },
+  "overview": {
+    "analytics": {
+      "averageTime": "平均停留时间",
+      "thisWeek": "本周",
+      "title": "作品集数据分析",
+      "totalViews": "总浏览量"
+    },
+    "colors": {
+      "empty": "暂未设置颜色",
+      "title": "作品集配色"
+    },
+    "comments": {
+      "description": "查看收到的评论，隐藏违反规则的评论，并保留历史记录。",
+      "title": "评论"
+    },
+    "editAria": "编辑：{{title}}",
+    "education": {
+      "empty": "暂无关联的教育背景",
+      "name": "专业：",
+      "title": "教育背景",
+      "type": "类型："
+    },
+    "oauth": {
+      "connectedAs": "已登录为",
+      "signInWith": "使用 {{provider}} 登录"
+    },
+    "portfolio": {
+      "fallbackTitle": "您的作品集",
+      "notDefined": "未设置",
+      "projectCount": "项目数量：{{count}}",
+      "template": "模板：{{template}}",
+      "url": "网址：{{url}}",
+      "urlNotDefined": "未设置"
+    },
+    "projects": {
+      "empty": "暂无项目",
+      "more": "+ 另外 {{count}} 个项目",
+      "title": "最近项目"
+    },
+    "skills": {
+      "empty": "暂未添加技能",
+      "title": "技能"
+    },
+    "title": "仪表盘",
+    "typography": {
+      "body": "正文",
+      "bodySample": "标准正文示例。",
+      "heading": "标题 (H1)",
+      "headingSample": "标题示例",
+      "subheading": "副标题 (H2)",
+      "subheadingSample": "副标题示例",
+      "title": "字体排版"
+    }
+  },
+  "settings": {
+    "bioLabel": "个人简介",
+    "bioPlaceholder": "用几句话介绍一下自己……",
+    "commentMessageLabel": "评论引导语",
+    "commentMessagePlaceholder": "鼓励访客留下反馈……",
+    "palette": "配色方案",
+    "preview": "预览",
+    "publicUrl": "公开网址",
+    "statusError": "更新状态时出错",
+    "submit": "更新",
+    "subtitleLabel": "作品集副标题",
+    "template": "模板",
+    "title": "编辑您的作品集",
+    "titleLabel": "作品集标题",
+    "updateError": "更新作品集时出错",
+    "updated": "作品集已更新",
+    "urlNotDefined": "（未设置）"
+  },
+  "status": {
+    "label": "作品集状态",
+    "offline": "未上线",
+    "online": "已上线",
+    "toDraft": "设为草稿",
+    "toPublic": "设为公开",
+    "view": "查看"
+  },
+  "theme": {
+    "choosePalette": "选择配色方案",
+    "chooseTemplate": "选择模板",
+    "customizeColors": "自定义颜色",
+    "save": "保存作品集",
+    "saveError": "保存主题时出错",
+    "saved": "主题已保存",
+    "title": "作品集主题"
+  }
+}

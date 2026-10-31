@@ -1,0 +1,48 @@
+{
+  "actions": {
+    "next": "Next",
+    "previous": "Previous",
+    "publish": "Publish"
+  },
+  "errors": {
+    "createPortfolio": "Something went wrong while creating the portfolio."
+  },
+  "info": {
+    "bioLabel": "About you *",
+    "bioPlaceholder": "Introduce yourself in a few lines...",
+    "subtitleLabel": "Subtitle *",
+    "subtitlePlaceholder": "e.g. Computer Science student",
+    "titleLabel": "Portfolio title *",
+    "titlePlaceholder": "e.g. Lucie Maillet"
+  },
+  "projects": {
+    "add": "Add a project",
+    "delete": "Delete project",
+    "descriptionLabel": "Description *",
+    "imagesHint": "Recommended format: PNG or JPG, max 2 MB",
+    "imagesLabel": "Project images",
+    "title": "Projects",
+    "titleLabel": "Project title *"
+  },
+  "skills": {
+    "add": "Add a skill",
+    "delete": "Delete skill",
+    "imageHint": "Recommended format: PNG or JPG, max 2 MB",
+    "imageLabel": "Skill image",
+    "nameLabel": "Skill name *",
+    "title": "Skills"
+  },
+  "steps": {
+    "customization": "Customization",
+    "heading": "Step {{number}}: {{title}}",
+    "info": "Personal information",
+    "progressLabel": "Portfolio creation progress",
+    "projects": "Projects",
+    "skills": "Skills"
+  },
+  "template": {
+    "choosePalette": "Choose your color palette",
+    "chooseTemplate": "Choose your template",
+    "customizeColors": "Customize your colors"
+  }
+}

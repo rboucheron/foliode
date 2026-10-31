@@ -11,16 +11,21 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedRouteImport } from './routes/_authed'
+import { Route as EnRouteImport } from './routes/en'
+import { Route as FrRouteImport } from './routes/fr'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ZhRouteImport } from './routes/zh'
 import { Route as UsernameIndexRouteImport } from './routes/$username/index'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as DevTranslationsRouteImport } from './routes/dev/translations'
 import { Route as UsernameProjectTitleRouteImport } from './routes/$username/project/$title'
 import { Route as AuthedDashboardIndexRouteImport } from './routes/_authed/dashboard/index'
 import { Route as AuthedDashboardCommentsRouteImport } from './routes/_authed/dashboard/comments'
 import { Route as AuthedDashboardEditRouteImport } from './routes/_authed/dashboard/edit'
 import { Route as AuthedDashboardProfileRouteImport } from './routes/_authed/dashboard/profile'
 import { Route as AuthedDashboardProjectsRouteImport } from './routes/_authed/dashboard/projects'
+import { Route as AuthedDashboardSettingsRouteImport } from './routes/_authed/dashboard/settings'
 import { Route as AuthedDashboardSkillsRouteImport } from './routes/_authed/dashboard/skills'
 import { Route as AuthedDashboardThemeRouteImport } from './routes/_authed/dashboard/theme'
 import { Route as AuthedPortfolioEditRouteImport } from './routes/_authed/portfolio/edit'
@@ -36,6 +41,16 @@ const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnRoute = EnRouteImport.update({
+  id: '/en',
+  path: '/en',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FrRoute = FrRouteImport.update({
+  id: '/fr',
+  path: '/fr',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -44,6 +59,11 @@ const LoginRoute = LoginRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhRoute = ZhRouteImport.update({
+  id: '/zh',
+  path: '/zh',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UsernameIndexRoute = UsernameIndexRouteImport.update({
@@ -55,6 +75,11 @@ const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthedRoute,
+} as any)
+const DevTranslationsRoute = DevTranslationsRouteImport.update({
+  id: '/dev/translations',
+  path: '/dev/translations',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const UsernameProjectTitleRoute = UsernameProjectTitleRouteImport.update({
   id: '/$username/project/$title',
@@ -86,6 +111,11 @@ const AuthedDashboardProjectsRoute = AuthedDashboardProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => AuthedDashboardRoute,
 } as any)
+const AuthedDashboardSettingsRoute = AuthedDashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthedDashboardRoute,
+} as any)
 const AuthedDashboardSkillsRoute = AuthedDashboardSkillsRouteImport.update({
   id: '/skills',
   path: '/skills',
@@ -114,15 +144,20 @@ const ApiAuthCallbackProviderRoute = ApiAuthCallbackProviderRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/en': typeof EnRoute
+  '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/zh': typeof ZhRoute
   '/dashboard': typeof AuthedDashboardRouteWithChildren
+  '/dev/translations': typeof DevTranslationsRoute
   '/$username/': typeof UsernameIndexRoute
   '/$username/project/$title': typeof UsernameProjectTitleRoute
   '/dashboard/comments': typeof AuthedDashboardCommentsRoute
   '/dashboard/edit': typeof AuthedDashboardEditRoute
   '/dashboard/profile': typeof AuthedDashboardProfileRoute
   '/dashboard/projects': typeof AuthedDashboardProjectsRoute
+  '/dashboard/settings': typeof AuthedDashboardSettingsRoute
   '/dashboard/skills': typeof AuthedDashboardSkillsRoute
   '/dashboard/theme': typeof AuthedDashboardThemeRoute
   '/portfolio/edit': typeof AuthedPortfolioEditRoute
@@ -132,14 +167,19 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/en': typeof EnRoute
+  '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/zh': typeof ZhRoute
+  '/dev/translations': typeof DevTranslationsRoute
   '/$username': typeof UsernameIndexRoute
   '/$username/project/$title': typeof UsernameProjectTitleRoute
   '/dashboard/comments': typeof AuthedDashboardCommentsRoute
   '/dashboard/edit': typeof AuthedDashboardEditRoute
   '/dashboard/profile': typeof AuthedDashboardProfileRoute
   '/dashboard/projects': typeof AuthedDashboardProjectsRoute
+  '/dashboard/settings': typeof AuthedDashboardSettingsRoute
   '/dashboard/skills': typeof AuthedDashboardSkillsRoute
   '/dashboard/theme': typeof AuthedDashboardThemeRoute
   '/portfolio/edit': typeof AuthedPortfolioEditRoute
@@ -151,15 +191,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
+  '/en': typeof EnRoute
+  '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/zh': typeof ZhRoute
   '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
+  '/dev/translations': typeof DevTranslationsRoute
   '/$username/': typeof UsernameIndexRoute
   '/$username/project/$title': typeof UsernameProjectTitleRoute
   '/_authed/dashboard/comments': typeof AuthedDashboardCommentsRoute
   '/_authed/dashboard/edit': typeof AuthedDashboardEditRoute
   '/_authed/dashboard/profile': typeof AuthedDashboardProfileRoute
   '/_authed/dashboard/projects': typeof AuthedDashboardProjectsRoute
+  '/_authed/dashboard/settings': typeof AuthedDashboardSettingsRoute
   '/_authed/dashboard/skills': typeof AuthedDashboardSkillsRoute
   '/_authed/dashboard/theme': typeof AuthedDashboardThemeRoute
   '/_authed/portfolio/edit': typeof AuthedPortfolioEditRoute
@@ -171,15 +216,20 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/en'
+    | '/fr'
     | '/login'
     | '/signup'
+    | '/zh'
     | '/dashboard'
+    | '/dev/translations'
     | '/$username/'
     | '/$username/project/$title'
     | '/dashboard/comments'
     | '/dashboard/edit'
     | '/dashboard/profile'
     | '/dashboard/projects'
+    | '/dashboard/settings'
     | '/dashboard/skills'
     | '/dashboard/theme'
     | '/portfolio/edit'
@@ -189,14 +239,19 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/en'
+    | '/fr'
     | '/login'
     | '/signup'
+    | '/zh'
+    | '/dev/translations'
     | '/$username'
     | '/$username/project/$title'
     | '/dashboard/comments'
     | '/dashboard/edit'
     | '/dashboard/profile'
     | '/dashboard/projects'
+    | '/dashboard/settings'
     | '/dashboard/skills'
     | '/dashboard/theme'
     | '/portfolio/edit'
@@ -207,15 +262,20 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authed'
+    | '/en'
+    | '/fr'
     | '/login'
     | '/signup'
+    | '/zh'
     | '/_authed/dashboard'
+    | '/dev/translations'
     | '/$username/'
     | '/$username/project/$title'
     | '/_authed/dashboard/comments'
     | '/_authed/dashboard/edit'
     | '/_authed/dashboard/profile'
     | '/_authed/dashboard/projects'
+    | '/_authed/dashboard/settings'
     | '/_authed/dashboard/skills'
     | '/_authed/dashboard/theme'
     | '/_authed/portfolio/edit'
@@ -227,8 +287,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
+  EnRoute: typeof EnRoute
+  FrRoute: typeof FrRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  ZhRoute: typeof ZhRoute
+  DevTranslationsRoute: typeof DevTranslationsRoute
   UsernameIndexRoute: typeof UsernameIndexRoute
   UsernameProjectTitleRoute: typeof UsernameProjectTitleRoute
   ApiAuthProviderRoute: typeof ApiAuthProviderRoute
@@ -251,6 +315,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en': {
+      id: '/en'
+      path: '/en'
+      fullPath: '/en'
+      preLoaderRoute: typeof EnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fr': {
+      id: '/fr'
+      path: '/fr'
+      fullPath: '/fr'
+      preLoaderRoute: typeof FrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -263,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh': {
+      id: '/zh'
+      path: '/zh'
+      fullPath: '/zh'
+      preLoaderRoute: typeof ZhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$username/': {
@@ -278,6 +363,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthedDashboardRouteImport
       parentRoute: typeof AuthedRoute
+    }
+    '/dev/translations': {
+      id: '/dev/translations'
+      path: '/dev/translations'
+      fullPath: '/dev/translations'
+      preLoaderRoute: typeof DevTranslationsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$username/project/$title': {
       id: '/$username/project/$title'
@@ -319,6 +411,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/dashboard/projects'
       preLoaderRoute: typeof AuthedDashboardProjectsRouteImport
+      parentRoute: typeof AuthedDashboardRoute
+    }
+    '/_authed/dashboard/settings': {
+      id: '/_authed/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof AuthedDashboardSettingsRouteImport
       parentRoute: typeof AuthedDashboardRoute
     }
     '/_authed/dashboard/skills': {
@@ -364,6 +463,7 @@ interface AuthedDashboardRouteChildren {
   AuthedDashboardEditRoute: typeof AuthedDashboardEditRoute
   AuthedDashboardProfileRoute: typeof AuthedDashboardProfileRoute
   AuthedDashboardProjectsRoute: typeof AuthedDashboardProjectsRoute
+  AuthedDashboardSettingsRoute: typeof AuthedDashboardSettingsRoute
   AuthedDashboardSkillsRoute: typeof AuthedDashboardSkillsRoute
   AuthedDashboardThemeRoute: typeof AuthedDashboardThemeRoute
   AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
@@ -374,6 +474,7 @@ const AuthedDashboardRouteChildren: AuthedDashboardRouteChildren = {
   AuthedDashboardEditRoute: AuthedDashboardEditRoute,
   AuthedDashboardProfileRoute: AuthedDashboardProfileRoute,
   AuthedDashboardProjectsRoute: AuthedDashboardProjectsRoute,
+  AuthedDashboardSettingsRoute: AuthedDashboardSettingsRoute,
   AuthedDashboardSkillsRoute: AuthedDashboardSkillsRoute,
   AuthedDashboardThemeRoute: AuthedDashboardThemeRoute,
   AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
@@ -399,8 +500,12 @@ const AuthedRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
+  EnRoute: EnRoute,
+  FrRoute: FrRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  ZhRoute: ZhRoute,
+  DevTranslationsRoute: DevTranslationsRoute,
   UsernameIndexRoute: UsernameIndexRoute,
   UsernameProjectTitleRoute: UsernameProjectTitleRoute,
   ApiAuthProviderRoute: ApiAuthProviderRoute,

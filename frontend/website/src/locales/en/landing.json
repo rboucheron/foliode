@@ -1,0 +1,103 @@
+{
+  "advantages": {
+    "customPortfolio": {
+      "content": "Our platform lets you build a unique portfolio that reflects your personality and skills. Customize colors and layouts, and organize your projects however you like.",
+      "subtitle": "Flexible options for your creation",
+      "title": "Easily create a custom portfolio"
+    },
+    "hosting": {
+      "content": "Every portfolio is hosted on its own subdomain (firstname.lastname.foliode.com) with advanced security to protect your data.",
+      "subtitle": "A reliable, convenient solution",
+      "title": "Free and secure hosting"
+    },
+    "intro": "Foliode is a tool designed for BUT students and teachers. Simplify the creation of online portfolios tailored to your skills and learning goals.",
+    "teachers": {
+      "content": "Create classes, track your students' progress and grade their work easily through an intuitive interface.",
+      "subtitle": "Tools built for teachers",
+      "title": "Learning follow-up for teachers"
+    },
+    "templates": {
+      "content": "Access a varied collection of professional, eye-catching templates. Find the perfect style to showcase your projects and skills.",
+      "subtitle": "A design that fits your needs",
+      "title": "Choose from modern templates"
+    },
+    "title": "Our Benefits"
+  },
+  "brand": {
+    "logoAlt": "foliode logo"
+  },
+  "evaluation": {
+    "aligned": {
+      "description": "Adapt your grading criteria to the key learning outcomes of BUT programs.",
+      "title": "Aligned with your learning goals"
+    },
+    "centralized": {
+      "description": "Give grades, leave comments and track each student's progress through an intuitive interface.",
+      "title": "Centralized portfolio grading"
+    },
+    "classes": {
+      "description": "Easily organize your students into classes and access their portfolios in a single click.",
+      "title": "Simple class management"
+    },
+    "imageAlt": "Teacher dashboard"
+  },
+  "features": {
+    "butOriented": {
+      "description": "A tool designed specifically to meet the needs of BUT students and teachers.",
+      "title": "Built for BUT programs."
+    },
+    "title": "Why choose Foliode"
+  },
+  "footer": {
+    "copyright": "© {{year}} Foliode Inc. All rights reserved.",
+    "description": "The Foliode project builds a solution for BUT students and teachers. It lets students create and customize a web portfolio that highlights their skills and projects.",
+    "legal": {
+      "cookies": "Cookie Policy",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "title": "Legal"
+    },
+    "navigation": {
+      "about": "About",
+      "contact": "Contact",
+      "home": "Home",
+      "products": "Products",
+      "title": "Navigation"
+    },
+    "resources": {
+      "blog": "Blog",
+      "documentation": "Documentation",
+      "faq": "FAQ",
+      "title": "Resources"
+    }
+  },
+  "hero": {
+    "cta": "Discover the platform",
+    "dashboardAlt": "Dashboard preview",
+    "subtitle": "An intuitive platform that helps BUT students showcase their projects and key learning outcomes.",
+    "title": "Turn your projects into a professional portfolio"
+  },
+  "meta": {
+    "description": "Create and share your portfolio in minutes.",
+    "title": "Foliode — Build your portfolio"
+  },
+  "nav": {
+    "advantages": "Benefits",
+    "closeMenu": "Close menu",
+    "features": "Features",
+    "home": "Home",
+    "language": "Language",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "signIn": "Log in",
+    "signOut": "Log out",
+    "signUp": "Sign up",
+    "switchLanguage": "Change language"
+  },
+  "notFound": {
+    "backHome": "Back to Foliode",
+    "description": "The page you are looking for may have been removed or is temporarily unavailable.",
+    "subtitle": "404 - Page not found",
+    "title": "Oops!"
+  }
+}

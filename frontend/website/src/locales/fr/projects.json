@@ -1,0 +1,35 @@
+{
+  "card": {
+    "delete": "Supprimer le projet",
+    "edit": "Modifier le projet",
+    "imageAlt": "Image du projet {{title}}"
+  },
+  "create": {
+    "error": "Erreur lors de la création du projet",
+    "submit": "Créer un projet",
+    "success": "Projet créé"
+  },
+  "delete": {
+    "cancel": "Annuler",
+    "confirm": "Supprimer",
+    "dialogDescription": "Êtes-vous sûr de vouloir supprimer ce projet ?",
+    "dialogTitle": "Supprimer le projet",
+    "error": "Erreur lors de la suppression du projet",
+    "success": "Projet supprimé"
+  },
+  "fields": {
+    "description": "Description",
+    "title": "Titre du projet"
+  },
+  "page": {
+    "title": "Vos projets"
+  },
+  "update": {
+    "cancel": "Annuler la modification",
+    "dialogTitle": "Modifier le projet",
+    "error": "Erreur lors de la modification du projet",
+    "removeImage": "Supprimer l'image",
+    "submit": "Modifier le projet",
+    "success": "Projet modifié"
+  }
+}

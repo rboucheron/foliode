@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { getApiErrorMessage } from "@/lib/http"
+import { useTranslation } from "@/i18n"
 import { extractToken } from "../domain/auth"
 import { signInUser, signUpUser } from "../application/auth.api"
 import { saveAuthToken } from "../application/session"
@@ -19,6 +20,7 @@ const completeSignup = (token: string): void => {
 }
 
 export function SignupPage() {
+  const t = useTranslation()
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState({
@@ -39,7 +41,7 @@ export function SignupPage() {
     setError("")
 
     if (data.password !== data.passwordConfirm) {
-      setError("Les mots de passes ne correspondent pas.")
+      setError(t("auth.signup.errors.passwordMismatch"))
       return
     }
 
@@ -76,10 +78,10 @@ export function SignupPage() {
       setError(
         "error" in signInResponse
           ? signInResponse.error
-          : "Inscription reussie, mais connexion impossible automatiquement."
+          : t("auth.signup.errors.autoLoginFailed")
       )
     } catch (err) {
-      setError(getApiErrorMessage(err, "Une erreur est survenue pendant l'inscription."))
+      setError(getApiErrorMessage(err, t("auth.signup.errors.default")))
     } finally {
       setIsLoading(false)
     }
@@ -87,8 +89,8 @@ export function SignupPage() {
 
   return (
     <AuthLayout
-      title="Inscrivez-vous sur Foliode !"
-      subtitle="Rejoignez-nous et commencez à valoriser vos projets"
+      title={t("auth.signup.title")}
+      subtitle={t("auth.signup.subtitle")}
       footer={
         <div className="flex w-full flex-col items-center gap-3">
           <GithubAuthButton disabled={isLoading} />
@@ -98,7 +100,7 @@ export function SignupPage() {
       <form
         onSubmit={handleSubmit}
         role="form"
-        aria-label="Formulaire d'inscription"
+        aria-label={t("auth.signup.formLabel")}
         data-testid="signup-form"
         className="flex w-full flex-col gap-4"
       >
@@ -108,8 +110,8 @@ export function SignupPage() {
           type="email"
           autoComplete="email"
           testId="email-input"
-          label="Adresse email"
-          placeholder="john.doe@example.com"
+          label={t("auth.fields.email")}
+          placeholder={t("auth.fields.emailPlaceholder")}
           value={data.email}
           onChange={handleInputChange}
         />
@@ -119,8 +121,8 @@ export function SignupPage() {
           type="text"
           autoComplete="given-name"
           testId="firstname-input"
-          label="Prénom"
-          placeholder="John"
+          label={t("auth.fields.firstname")}
+          placeholder={t("auth.fields.firstnamePlaceholder")}
           value={data.firstname}
           onChange={handleInputChange}
         />
@@ -130,8 +132,8 @@ export function SignupPage() {
           type="text"
           autoComplete="family-name"
           testId="lastname-input"
-          label="Nom"
-          placeholder="DOE"
+          label={t("auth.fields.lastname")}
+          placeholder={t("auth.fields.lastnamePlaceholder")}
           value={data.lastname}
           onChange={handleInputChange}
         />
@@ -145,15 +147,15 @@ export function SignupPage() {
 
         <div className="flex items-center justify-between text-xs sm:text-sm">
           <span className="text-muted-foreground">
-            Déjà un compte ?{" "}
+            {t("auth.signup.hasAccount")}{" "}
             <Link to="/login" className="font-semibold text-primary hover:underline">
-              Connectez-vous !
+              {t("auth.signup.loginLink")}
             </Link>
           </span>
         </div>
 
         <Button type="submit" size="lg" disabled={isLoading} data-testid="signup-submit" className="w-full">
-          {isLoading ? <Spinner aria-label="Chargement..." /> : "S'inscrire"}
+          {isLoading ? <Spinner aria-label={t("auth.signup.loading")} /> : t("auth.signup.submit")}
         </Button>
       </form>
     </AuthLayout>

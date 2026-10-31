@@ -1,0 +1,17 @@
+{
+  "card": {
+    "delete": "Supprimer {{name}}",
+    "iconAlt": "Icône de {{name}}"
+  },
+  "form": {
+    "createError": "Erreur lors de l'ajout de la compétence",
+    "nameLabel": "Compétence",
+    "namePlaceholder": "Exemple : Développement web",
+    "requiredFields": "Tous les champs doivent être remplis",
+    "submit": "Ajouter une compétence"
+  },
+  "page": {
+    "deleteError": "Erreur lors de la suppression de la compétence",
+    "title": "Mes compétences"
+  }
+}

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/i18n"
 
 const DIAGONAL_LINES = Array.from({ length: 70 }, (_, index) => index)
 
@@ -19,6 +20,7 @@ function HatchedColumn({ className }: { className?: string }) {
 const BLOB_BASE = "absolute hidden rounded-[50%] opacity-50 blur-[90px] z-4 sm:block"
 
 export function LandingHero() {
+  const t = useTranslation()
   return (
     <>
       <section className="relative h-[700px]" id="accueil">
@@ -41,14 +43,13 @@ export function LandingHero() {
 
         <div className="absolute z-10 mt-20 w-full px-6 text-center">
           <h1 className="mx-auto max-w-[992px] text-[40px] leading-[40px] font-medium text-foreground sm:text-[50px] sm:leading-[50px] md:text-[65px] md:leading-[65px] lg:text-[80px] lg:leading-[80px] xl:text-[94px] xl:leading-[90px]">
-            Transformez vos projets en un portfolio professionnel
+            {t("landing.hero.title")}
           </h1>
           <p className="mx-auto mt-10 max-w-lg text-16 font-normal text-foreground">
-            Une plateforme intuitive pour aider les étudiants de BUT à valoriser leurs projets et leurs apprentissages
-            critiques.
+            {t("landing.hero.subtitle")}
           </p>
           <Button asChild size="lg" className="mt-20 rounded-full">
-            <a href="#avantages">Découvrir la plateforme</a>
+            <a href="#avantages">{t("landing.hero.cta")}</a>
           </Button>
         </div>
 
@@ -63,7 +64,7 @@ export function LandingHero() {
       <div>
         <img
           src="/Dashboard.png"
-          alt="Dashboard"
+          alt={t("landing.hero.dashboardAlt")}
           width={1640}
           height={300}
           fetchPriority="high"

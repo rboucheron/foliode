@@ -11,12 +11,14 @@ import {
 import { FileInput } from "@/components/shared/file-input"
 import { generateAvatar } from "@/lib/avatar"
 import { formatImage } from "@/lib/format-image"
+import { useTranslation } from "@/i18n"
 import { useUserStore } from "../application/user.store"
 
 export function AvatarInput({ size }: { size: number }) {
   const user = useUserStore((state) => state.user)
   const fetchFromJwt = useUserStore((state) => state.fetchFromJwt)
   const updateProfilePicture = useUserStore((state) => state.updateProfilePicture)
+  const t = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
   const [file, setFile] = useState<File | null>(null)
 
@@ -35,7 +37,7 @@ export function AvatarInput({ size }: { size: number }) {
       await updateProfilePicture(file)
       setFile(null)
     } catch {
-      toast.error("Impossible de mettre à jour la photo de profil.")
+      toast.error(t("auth.avatar.updateFailed"))
     }
   }
 
@@ -44,12 +46,12 @@ export function AvatarInput({ size }: { size: number }) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        aria-label="Modifier votre photo de profil"
+        aria-label={t("auth.avatar.edit")}
         className="rounded-full transition-opacity hover:opacity-80 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-hidden"
       >
         <img
           src={src}
-          alt={user.email || "Avatar"}
+          alt={user.email || t("auth.avatar.alt")}
           width={size}
           height={size}
           className="rounded-full object-cover"
@@ -60,7 +62,7 @@ export function AvatarInput({ size }: { size: number }) {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Modifier votre photo de profil</DialogTitle>
+            <DialogTitle>{t("auth.avatar.edit")}</DialogTitle>
           </DialogHeader>
           <FileInput
             multiple={false}
@@ -69,9 +71,9 @@ export function AvatarInput({ size }: { size: number }) {
           />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setIsOpen(false)}>
-              Annuler
+              {t("auth.avatar.cancel")}
             </Button>
-            {file && <Button onClick={handleSubmit}>Ajouter</Button>}
+            {file && <Button onClick={handleSubmit}>{t("auth.avatar.add")}</Button>}
           </DialogFooter>
         </DialogContent>
       </Dialog>

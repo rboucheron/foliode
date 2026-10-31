@@ -2,8 +2,10 @@ import { Link } from "@tanstack/react-router"
 import { ExternalLinkIcon } from "lucide-react"
 import { formatImage } from "@/lib/format-image"
 import type { ProjectPageProps } from "./types"
+import { useTranslation } from "@/i18n"
 
 export function EmeraldProjectPage({ portfolio, project }: ProjectPageProps) {
+  const t = useTranslation()
   const { primary, secondary, warning, success, info, light } = portfolio.config.colors
 
   return (
@@ -37,7 +39,7 @@ export function EmeraldProjectPage({ portfolio, project }: ProjectPageProps) {
                     <img
                       key={image.id ?? index}
                       src={formatImage(image.img_src)}
-                      alt={`Project image ${index + 1}`}
+                      alt={t("portfolio.template.projectImageAlt", { index: index + 1 })}
                       width={500}
                       height={300}
                       loading="lazy"
@@ -52,7 +54,7 @@ export function EmeraldProjectPage({ portfolio, project }: ProjectPageProps) {
           {project.projectsLinks?.length > 0 && (
             <div className="mb-12">
               <h2 className="mb-6 text-center text-2xl font-bold" style={{ color: secondary }}>
-                Liens du projet
+                {t("portfolio.template.projectLinks")}
               </h2>
               <div className="flex flex-wrap justify-center gap-4">
                 {project.projectsLinks.map((link, index) => (
@@ -79,7 +81,7 @@ export function EmeraldProjectPage({ portfolio, project }: ProjectPageProps) {
               className="inline-block rounded-xl px-8 py-4 font-semibold shadow-lg transition-all duration-300 hover:scale-105"
               style={{ backgroundColor: success, color: light }}
             >
-              Retour au portfolio
+              {t("portfolio.template.backToPortfolio")}
             </Link>
           </div>
         </div>

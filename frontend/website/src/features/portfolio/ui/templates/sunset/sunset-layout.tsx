@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Mail, Menu, MessageSquare, X } from "lucide-
 import { FaEnvelopeSquare } from "react-icons/fa"
 import type { Portfolio } from "../../../domain/portfolio"
 import { getPortfolioOwnerName } from "../../../domain/portfolio"
-import { SunsetI18nProvider, useSunsetI18n } from "./sunset-i18n"
+import { useTranslation } from "@/i18n"
 import { ToggleLang, ToggleTheme } from "./sunset-toggles"
 
 type NavKey = "about" | "projects"
@@ -20,28 +20,26 @@ const SUNSET_THEME_VARS = {
 /** Coquille commune (fond dégradé + grille, header, footer) aux pages du template Sunset. */
 export function SunsetLayout({ portfolio, children }: { portfolio: Portfolio; children: ReactNode }) {
   return (
-    <SunsetI18nProvider>
-      <div
-        style={SUNSET_THEME_VARS}
-        className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-50 font-jetbrains text-[#030712] dark:from-[#2f2f2f] dark:via-[#2f2f2f] dark:to-[#2f2f2f] dark:text-[#f9fafb]">
-        <div className="relative min-h-screen w-full">
-          <div className="relative z-40">
-            <Header portfolio={portfolio} />
-            {children}
-            <Footer portfolio={portfolio} />
-          </div>
-          <div
-            aria-hidden
-            className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-20"
-            style={{
-              backgroundImage: `linear-gradient(rgba(156, 163, 175, 0.4) 1px, transparent 1px),
-linear-gradient(90deg, rgba(156, 163, 175, 0.4) 1px, transparent 1px)`,
-              backgroundSize: "20px 20px",
-            }}
-          />
+    <div
+      style={SUNSET_THEME_VARS}
+      className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-50 font-jetbrains text-[#030712] dark:from-[#2f2f2f] dark:via-[#2f2f2f] dark:to-[#2f2f2f] dark:text-[#f9fafb]">
+      <div className="relative min-h-screen w-full">
+        <div className="relative z-40">
+          <Header portfolio={portfolio} />
+          {children}
+          <Footer portfolio={portfolio} />
         </div>
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-20"
+          style={{
+            backgroundImage: `linear-gradient(rgba(156, 163, 175, 0.4) 1px, transparent 1px),
+linear-gradient(90deg, rgba(156, 163, 175, 0.4) 1px, transparent 1px)`,
+            backgroundSize: "20px 20px",
+          }}
+        />
       </div>
-    </SunsetI18nProvider>
+    </div>
   )
 }
 
@@ -50,7 +48,7 @@ const getInitials = (portfolio: Portfolio): string =>
   portfolio.title.charAt(0).toUpperCase()
 
 function Header({ portfolio }: { portfolio: Portfolio }) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
   const [activeNav, setActiveNav] = useState<NavKey | null>(null)
   const [isBurgerOpen, setIsBurgerOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -66,8 +64,8 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
   const handleCloseAll = () => setActiveNav(null)
 
   const navItems: { key: NavKey; label: string }[] = [
-    { key: "about", label: t.about },
-    { key: "projects", label: t.projects },
+    { key: "about", label: t("portfolio.sunset.about") },
+    { key: "projects", label: t("portfolio.sunset.projects") },
   ]
 
   return (
@@ -121,7 +119,7 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
                   onClick={() => setIsBurgerOpen(!isBurgerOpen)}
                   className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-orange-500 focus:outline-hidden focus:ring-inset"
                 >
-                  <span className="sr-only">{t.openMenu}</span>
+                  <span className="sr-only">{t("portfolio.sunset.openMenu")}</span>
                   {isBurgerOpen ? (
                     <X className="block h-6 w-6" aria-hidden="true" />
                   ) : (
@@ -177,17 +175,17 @@ function NavButton({ title, children }: { title: string; children: ReactNode }) 
 }
 
 function AboutNav({ portfolio, onNavigate }: { portfolio: Portfolio; onNavigate: () => void }) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
 
   return (
     <Nav className="grid-cols-2">
       <a href={`mailto:${portfolio.users.email}`} className="justify-self-center" onClick={onNavigate}>
-        <NavButton title={t.email}>
+        <NavButton title={t("portfolio.sunset.email")}>
           <Mail size={60} />
         </NavButton>
       </a>
       <a href="#comments" className="justify-self-center" onClick={onNavigate}>
-        <NavButton title={t.comments}>
+        <NavButton title={t("portfolio.sunset.comments")}>
           <MessageSquare size={60} />
         </NavButton>
       </a>
@@ -196,7 +194,7 @@ function AboutNav({ portfolio, onNavigate }: { portfolio: Portfolio; onNavigate:
 }
 
 function ProjectNav({ portfolio, onNavigate }: { portfolio: Portfolio; onNavigate: () => void }) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
   const columns = [0, 1, 2].map((column) =>
     portfolio.projects.filter((_, index) => index % 3 === column),
   )
@@ -206,7 +204,7 @@ function ProjectNav({ portfolio, onNavigate }: { portfolio: Portfolio; onNavigat
       <div className="mx-auto grid w-full max-w-7xl grid-cols-3">
         {columns.map((projects, index) => (
           <div key={index} className="flex flex-col p-4">
-            {index === 0 ? <div className="text-lg font-bold">{t.projects}</div> : <div className="h-7" />}
+            {index === 0 ? <div className="text-lg font-bold">{t("portfolio.sunset.projects")}</div> : <div className="h-7" />}
             <ul className="mt-3 space-y-2 text-start">
               {projects.map((project) => (
                 <li key={project.id} className="cursor-pointer hover:text-[#ff6d0a]">
@@ -256,7 +254,7 @@ function BurgerNav({
   isOpen: boolean
   setIsOpen: (open: boolean) => void
 }) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
   const handleClose = () => setIsOpen(false)
 
   return (
@@ -269,21 +267,21 @@ function BurgerNav({
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mt-6 flex flex-col justify-around">
-          <Accordion title={t.about}>
+          <Accordion title={t("portfolio.sunset.about")}>
             <a
               href={`mailto:${portfolio.users.email}`}
               className="ml-2 cursor-pointer hover:text-gray-400"
               onClick={handleClose}
             >
-              {t.email}
+              {t("portfolio.sunset.email")}
             </a>
             <a href="#comments" className="ml-2 cursor-pointer hover:text-gray-400" onClick={handleClose}>
-              {t.comments}
+              {t("portfolio.sunset.comments")}
             </a>
           </Accordion>
 
           {portfolio.projects.length > 0 && (
-            <Accordion title={t.projects}>
+            <Accordion title={t("portfolio.sunset.projects")}>
               {portfolio.projects.map((project) => (
                 <Link
                   key={project.id}
@@ -299,7 +297,7 @@ function BurgerNav({
           )}
 
           {portfolio.tools.length > 0 && (
-            <Accordion title={t.skills}>
+            <Accordion title={t("portfolio.sunset.skills")}>
               {portfolio.tools.map((tool) => (
                 <div key={tool.id} className="ml-2 cursor-pointer hover:text-gray-400">
                   {tool.name}
@@ -314,18 +312,21 @@ function BurgerNav({
 }
 
 function Footer({ portfolio }: { portfolio: Portfolio }) {
-  const { t } = useSunsetI18n()
+  const t = useTranslation()
 
   return (
     <footer className="mt-28 w-full bg-[#f66d0a] py-5">
       <div className="m-auto flex w-1/2 justify-center text-white lg:w-1/6 dark:text-black">
-        <a href={`mailto:${portfolio.users.email}`} aria-label={t.email}>
+        <a href={`mailto:${portfolio.users.email}`} aria-label={t("portfolio.sunset.email")}>
           <FaEnvelopeSquare size={35} />
         </a>
       </div>
-      <div className="text-md mt-4 w-full text-center font-extralight text-white dark:text-black">{t.legal}</div>
+      <div className="text-md mt-4 w-full text-center font-extralight text-white dark:text-black">{t("portfolio.sunset.legal")}</div>
       <div className="text-md mt-4 w-full text-center font-extralight text-white dark:text-black">
-        {t.copyright(getPortfolioOwnerName(portfolio), new Date().getFullYear())}
+        {t("portfolio.sunset.copyright", {
+          name: getPortfolioOwnerName(portfolio),
+          year: new Date().getFullYear(),
+        })}
       </div>
     </footer>
   )

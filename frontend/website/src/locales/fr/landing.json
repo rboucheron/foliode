@@ -1,0 +1,103 @@
+{
+  "advantages": {
+    "customPortfolio": {
+      "content": "Notre plateforme vous permet de créer un portfolio unique qui reflète votre personnalité et vos compétences. Personnalisez les couleurs, les mises en page et organisez vos projets comme vous le souhaitez.",
+      "subtitle": "Des options flexibles pour votre création",
+      "title": "Créer facilement un portfolio personnalisé"
+    },
+    "hosting": {
+      "content": "Chaque portfolio est hébergé sur un sous-domaine unique (prenom.nom.foliode.com) avec une sécurité avancée pour protéger vos données.",
+      "subtitle": "Une solution fiable et pratique",
+      "title": "Hébergement gratuit et sécurisé"
+    },
+    "intro": "Foliode est un outil conçu pour les étudiants et enseignants des formations BUT. Simplifiez la création de portfolios en ligne adaptés à vos compétences et objectifs pédagogiques.",
+    "teachers": {
+      "content": "Créez des classes, suivez les progrès de vos étudiants, et attribuez des évaluations facilement grâce à une interface intuitive.",
+      "subtitle": "Des outils pensés pour les professeurs",
+      "title": "Suivi pédagogique pour enseignants"
+    },
+    "templates": {
+      "content": "Accédez à une collection variée de templates professionnels et attrayants. Trouvez le style parfait pour mettre en valeur vos projets et compétences.",
+      "subtitle": "Un design adapté à vos besoins",
+      "title": "Choisir parmi des templates modernes"
+    },
+    "title": "Nos Avantages"
+  },
+  "brand": {
+    "logoAlt": "logo foliode"
+  },
+  "evaluation": {
+    "aligned": {
+      "description": "Adaptez vos critères d’évaluation aux apprentissages critiques des formations BUT.",
+      "title": "Aligné avec vos objectifs pédagogiques"
+    },
+    "centralized": {
+      "description": "Attribuez des notes, laissez des commentaires, et suivez les progrès de chaque étudiant sur une interface intuitive.",
+      "title": "Évaluation centralisée des portfolios"
+    },
+    "classes": {
+      "description": "Organisez facilement vos étudiants en classes et accédez à leurs portfolios en un seul clic.",
+      "title": "Création de classes simplifiée"
+    },
+    "imageAlt": "Tableau de bord enseignant"
+  },
+  "features": {
+    "butOriented": {
+      "description": "Un outil pensé spécifiquement pour répondre aux besoins des étudiants et enseignants en BUT.",
+      "title": "Orienté pour les formations BUT."
+    },
+    "title": "Pourquoi choisir Foliode"
+  },
+  "footer": {
+    "copyright": "© {{year}} Foliode Inc. Tous droits réservés.",
+    "description": "Le projet Foliode développe une solution pour les étudiants et enseignants de formations BUT. Il permet de créer et personnaliser un portfolio web, mettant en avant les compétences et projets des étudiants.",
+    "legal": {
+      "cookies": "Politique de cookies",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation",
+      "title": "Mentions légales"
+    },
+    "navigation": {
+      "about": "À propos",
+      "contact": "Contact",
+      "home": "Accueil",
+      "products": "Produits",
+      "title": "Navigation"
+    },
+    "resources": {
+      "blog": "Blog",
+      "documentation": "Documentation",
+      "faq": "FAQ",
+      "title": "Ressources"
+    }
+  },
+  "hero": {
+    "cta": "Découvrir la plateforme",
+    "dashboardAlt": "Aperçu du tableau de bord",
+    "subtitle": "Une plateforme intuitive pour aider les étudiants de BUT à valoriser leurs projets et leurs apprentissages critiques.",
+    "title": "Transformez vos projets en un portfolio professionnel"
+  },
+  "meta": {
+    "description": "Créez et partagez votre portfolio en quelques minutes.",
+    "title": "Foliode — Créez votre portfolio"
+  },
+  "nav": {
+    "advantages": "Avantages",
+    "closeMenu": "Fermer le menu",
+    "features": "Fonctionnalités",
+    "home": "Accueil",
+    "language": "Langue",
+    "menu": "Menu",
+    "openMenu": "Ouvrir le menu",
+    "signIn": "Connexion",
+    "signOut": "Déconnexion",
+    "signUp": "Inscription",
+    "switchLanguage": "Changer de langue"
+  },
+  "notFound": {
+    "backHome": "Revenir sur la page Foliode",
+    "description": "La page que vous recherchez a peut-être été supprimée ou est temporairement indisponible.",
+    "subtitle": "404 - La page n'est pas trouvée",
+    "title": "Oups !"
+  }
+}

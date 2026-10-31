@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { CloudUploadIcon, ImageIcon, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 interface FileInputProps {
   files: File[];
@@ -18,6 +19,7 @@ export function FileInput({
   multiple = true,
 }: FileInputProps) {
   const generatedId = useId();
+  const t = useTranslation();
   const inputId = id ?? generatedId;
   const [dragging, setDragging] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
@@ -99,7 +101,7 @@ export function FileInput({
                 )}
               />
               <span className="text-sm text-muted-foreground">
-                Glissez vos images ici ou cliquez pour parcourir
+                {t("forms.fileInput.dropzone")}
               </span>
             </>
           ) : (
@@ -115,7 +117,7 @@ export function FileInput({
                   </span>
                   <button
                     type="button"
-                    aria-label={`Retirer ${file.name}`}
+                    aria-label={t("forms.fileInput.remove", { name: file.name })}
                     onClick={(event) => {
                       event.preventDefault();
                       onChange(files.filter((_, i) => i !== index));
@@ -132,7 +134,7 @@ export function FileInput({
       </div>
       {showError && (
         <p className="mt-1 text-xs text-destructive">
-          Veuillez ajouter un fichier.
+          {t("forms.fileInput.required")}
         </p>
       )}
     </div>

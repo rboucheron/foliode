@@ -1,0 +1,48 @@
+{
+  "actions": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "publish": "Publier"
+  },
+  "errors": {
+    "createPortfolio": "Une erreur est survenue lors de la création du portfolio."
+  },
+  "info": {
+    "bioLabel": "Présentation *",
+    "bioPlaceholder": "Présentez-vous en quelques lignes...",
+    "subtitleLabel": "Sous-titre *",
+    "subtitlePlaceholder": "Ex : Étudiant en BUT Informatique",
+    "titleLabel": "Titre du portfolio *",
+    "titlePlaceholder": "Ex : Lucie Maillet"
+  },
+  "projects": {
+    "add": "Ajouter un projet",
+    "delete": "Supprimer le projet",
+    "descriptionLabel": "Description *",
+    "imagesHint": "Format recommandé : PNG ou JPG, 2 Mo max",
+    "imagesLabel": "Images du projet",
+    "title": "Projets",
+    "titleLabel": "Titre du projet *"
+  },
+  "skills": {
+    "add": "Ajouter une compétence",
+    "delete": "Supprimer la compétence",
+    "imageHint": "Format recommandé : PNG ou JPG, 2 Mo max",
+    "imageLabel": "Image de la compétence",
+    "nameLabel": "Nom de la compétence *",
+    "title": "Compétences"
+  },
+  "steps": {
+    "customization": "Personnalisation",
+    "heading": "Étape {{number}} : {{title}}",
+    "info": "Informations personnelles",
+    "progressLabel": "Progression de la création du portfolio",
+    "projects": "Projets",
+    "skills": "Compétences"
+  },
+  "template": {
+    "choosePalette": "Choisissez votre palette de couleurs",
+    "chooseTemplate": "Choisissez votre template",
+    "customizeColors": "Personnalisez vos couleurs"
+  }
+}

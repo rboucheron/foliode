@@ -4,8 +4,10 @@ import { formatImage } from "@/lib/format-image"
 import { cn } from "@/lib/utils"
 import { PortfolioCommentsSection } from "../portfolio-comments-section"
 import type { TemplateProps } from "./types"
+import { useTranslation } from "@/i18n"
 
 export function BentoTemplate({ portfolio }: TemplateProps) {
+  const t = useTranslation()
   const { primary, secondary, light } = portfolio.config.colors
   const avatar = portfolio.users.avatar_url
 
@@ -54,7 +56,7 @@ export function BentoTemplate({ portfolio }: TemplateProps) {
         >
           <div className="p-6">
             <h2 className="mb-4 text-2xl font-bold" style={{ color: light }}>
-              Compétences
+              {t("portfolio.template.skills")}
             </h2>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {portfolio.tools.map((tool) => (

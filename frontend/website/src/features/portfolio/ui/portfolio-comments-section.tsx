@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { useUserStore } from "@/features/user";
+import { useI18n } from "@/i18n";
 import { generateAvatar } from "@/lib/avatar";
 import { formatImage } from "@/lib/format-image";
 import {
@@ -16,69 +17,24 @@ import {
 } from "../application/comment.api";
 import type { PortfolioComment } from "../domain/portfolio";
 
-export interface PortfolioCommentsLabels {
-  title: string;
-  defaultMessage: string;
-  firstname: string;
-  lastname: string;
-  avatar: string;
-  message: string;
-  placeholder: string;
-  submit: string;
-  loading: string;
-  empty: string;
-  publishedAs: (name: string) => string;
-  success: string;
-  messageRequired: string;
-  firstnameRequired: string;
-  lastnameRequired: string;
-  visitor: string;
-  dateLocale: string;
-}
-
-const DEFAULT_LABELS: PortfolioCommentsLabels = {
-  title: "Commentaires",
-  defaultMessage:
-    "Laissez un message constructif pour encourager l'auteur de ce portfolio.",
-  firstname: "Prénom",
-  lastname: "Nom",
-  avatar: "Photo de profil",
-  message: "Votre commentaire",
-  placeholder:
-    "Partagez un retour utile, une félicitation ou une suggestion constructive.",
-  submit: "Publier le commentaire",
-  loading: "Chargement des commentaires...",
-  empty: "Aucun commentaire publié pour le moment.",
-  publishedAs: (name) => `Commentaire publié depuis votre compte ${name}.`,
-  success: "Commentaire publié.",
-  messageRequired: "Le message est obligatoire.",
-  firstnameRequired: "Le prénom est obligatoire.",
-  lastnameRequired: "Le nom est obligatoire.",
-  visitor: "Visiteur",
-  dateLocale: "fr-FR",
-};
-
 interface PortfolioCommentsSectionProps {
   portfolioUrl: string;
   commentMessage?: string | null;
   titleColor?: string;
   /** Classes appliquées au titre (remplacent le style par défaut). */
   titleClassName?: string;
-  labels?: Partial<PortfolioCommentsLabels>;
 }
-
-const DEFAULT_ERROR = "Une erreur est survenue lors de l'envoi du commentaire.";
 
 const joinValues = (value: object): string =>
   Object.values(value)
     .filter((item): item is string => typeof item === "string")
     .join(" ");
 
-const extractErrorMessage = (error: unknown): string => {
-  if (!axios.isAxiosError(error)) return DEFAULT_ERROR;
+const extractErrorMessage = (error: unknown): string | null => {
+  if (!axios.isAxiosError(error)) return null;
   const payload: unknown = error.response?.data;
   if (!payload || typeof payload !== "object" || !("error" in payload))
-    return DEFAULT_ERROR;
+    return null;
 
   const errorValue: unknown = payload.error;
 
@@ -103,7 +59,7 @@ const extractErrorMessage = (error: unknown): string => {
     return joinValues(errorValue);
   }
 
-  return DEFAULT_ERROR;
+  return null;
 };
 
 export function PortfolioCommentsSection({
@@ -111,9 +67,8 @@ export function PortfolioCommentsSection({
   commentMessage,
   titleColor,
   titleClassName,
-  labels: labelOverrides,
 }: PortfolioCommentsSectionProps) {
-  const labels = { ...DEFAULT_LABELS, ...labelOverrides };
+  const { t, formatDate } = useI18n();
   const user = useUserStore((state) => state.user);
   const fetchFromJwt = useUserStore((state) => state.fetchFromJwt);
   const [comments, setComments] = useState<PortfolioComment[]>([]);
@@ -149,15 +104,15 @@ export function PortfolioCommentsSection({
     setErrorMessage(null);
 
     if (message.trim() === "") {
-      setErrorMessage(labels.messageRequired);
+      setErrorMessage(t("portfolio.comments.messageRequired"));
       return;
     }
     if (!user && guestFirstname.trim() === "") {
-      setErrorMessage(labels.firstnameRequired);
+      setErrorMessage(t("portfolio.comments.firstnameRequired"));
       return;
     }
     if (!user && guestLastname.trim() === "") {
-      setErrorMessage(labels.lastnameRequired);
+      setErrorMessage(t("portfolio.comments.lastnameRequired"));
       return;
     }
 
@@ -178,10 +133,11 @@ export function PortfolioCommentsSection({
       setGuestLastname("");
       setAvatarFile(null);
       setFileInputKey((key) => key + 1);
-      toast.success(labels.success);
+      toast.success(t("portfolio.comments.success"));
       await loadComments();
     } catch (error) {
-      const errorText = extractErrorMessage(error);
+      const errorText =
+        extractErrorMessage(error) || t("portfolio.comments.sendError");
       setErrorMessage(errorText);
       toast.error(errorText);
     } finally {
@@ -197,13 +153,13 @@ export function PortfolioCommentsSection({
             className={titleClassName ?? "text-4xl font-bold md:text-5xl"}
             style={{ color: titleColor }}
           >
-            {labels.title}
+            {t("portfolio.comments.title")}
           </h2>
           <p
             className="mx-auto max-w-3xl text-base text-muted-foreground md:text-lg"
             style={{ color: titleColor }}
           >
-            {commentMessage || labels.defaultMessage}
+            {commentMessage || t("portfolio.comments.defaultMessage")}
           </p>
         </div>
 
@@ -221,7 +177,7 @@ export function PortfolioCommentsSection({
             {!user ? (
               <div className="grid gap-4 md:grid-cols-2">
                 <Field>
-                  <FieldLabel htmlFor="comment-firstname">{labels.firstname}</FieldLabel>
+                  <FieldLabel htmlFor="comment-firstname">{t("portfolio.comments.firstname")}</FieldLabel>
                   <Input
                     id="comment-firstname"
                     value={guestFirstname}
@@ -229,7 +185,7 @@ export function PortfolioCommentsSection({
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="comment-lastname">{labels.lastname}</FieldLabel>
+                  <FieldLabel htmlFor="comment-lastname">{t("portfolio.comments.lastname")}</FieldLabel>
                   <Input
                     id="comment-lastname"
                     value={guestLastname}
@@ -238,7 +194,7 @@ export function PortfolioCommentsSection({
                 </Field>
                 <Field className="md:col-span-2">
                   <FieldLabel htmlFor="comment-avatar">
-                    {labels.avatar}
+                    {t("portfolio.comments.avatar")}
                   </FieldLabel>
                   <Input
                     key={fileInputKey}
@@ -253,20 +209,22 @@ export function PortfolioCommentsSection({
               </div>
             ) : (
               <div className="rounded-xl bg-muted px-4 py-3 text-sm text-muted-foreground">
-                {labels.publishedAs(`${user.firstname} ${user.lastname}`)}
+                {t("portfolio.comments.publishedAs", {
+                  name: `${user.firstname} ${user.lastname}`,
+                })}
               </div>
             )}
 
             <Field>
               <FieldLabel htmlFor="comment-message">
-                {labels.message}
+                {t("portfolio.comments.message")}
               </FieldLabel>
               <Textarea
                 id="comment-message"
                 rows={4}
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
-                placeholder={labels.placeholder}
+                placeholder={t("portfolio.comments.placeholder")}
               />
             </Field>
 
@@ -277,7 +235,7 @@ export function PortfolioCommentsSection({
                 disabled={isSubmitting}
               >
                 {isSubmitting ? <Spinner /> : null}
-                {labels.submit}
+                {t("portfolio.comments.submit")}
               </Button>
             </div>
           </CardContent>
@@ -286,11 +244,11 @@ export function PortfolioCommentsSection({
         <div className="space-y-4">
           {isLoading ? (
             <p className="text-center text-sm text-muted-foreground">
-              {labels.loading}
+              {t("portfolio.comments.loading")}
             </p>
           ) : comments.length === 0 ? (
             <p className="text-center text-sm text-muted-foreground">
-              {labels.empty}
+              {t("portfolio.comments.empty")}
             </p>
           ) : (
             comments.map((comment) => {
@@ -307,7 +265,7 @@ export function PortfolioCommentsSection({
                           ? formatImage(comment.authorAvatarUrl)
                           : generateAvatar(72, avatarSeed)
                       }
-                      alt={`${comment.authorFirstname ?? labels.visitor} ${comment.authorLastname ?? ""}`.trim()}
+                      alt={`${comment.authorFirstname ?? t("portfolio.comments.visitor")} ${comment.authorLastname ?? ""}`.trim()}
                       width={72}
                       height={72}
                       loading="lazy"
@@ -319,9 +277,7 @@ export function PortfolioCommentsSection({
                           {comment.authorFirstname} {comment.authorLastname}
                         </h3>
                         <span className="text-xs text-muted-foreground">
-                          {new Date(comment.createdAt).toLocaleDateString(
-                            labels.dateLocale,
-                          )}
+                          {formatDate(comment.createdAt)}
                         </span>
                       </div>
                       <p className="text-sm leading-relaxed text-muted-foreground">

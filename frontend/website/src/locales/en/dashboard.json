@@ -1,0 +1,127 @@
+{
+  "avatarPosition": {
+    "options": {
+      "bio": "Next to the introduction",
+      "title": "Next to the title"
+    },
+    "title": "Profile picture position"
+  },
+  "charts": {
+    "dataset": "Portfolio views per day",
+    "empty": "Track your portfolio's views and engagement!",
+    "title": "Portfolio views"
+  },
+  "colors": {
+    "info": "Info",
+    "light": "Light",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "success": "Success",
+    "warning": "Warning"
+  },
+  "comments": {
+    "hiddenAt": "Hidden on {{date}}",
+    "hiddenCount": "Hidden comments: {{count}}",
+    "hiddenEmpty": "No hidden comments.",
+    "hiddenTitle": "Hidden comments",
+    "hide": "Hide",
+    "hideError": "Unable to hide this comment.",
+    "loadError": "Unable to load comments.",
+    "loading": "Loading...",
+    "notAvailable": "n/a",
+    "title": "Portfolio comments",
+    "total": "Total: {{count}}",
+    "visibleCount": "Visible comments: {{count}}",
+    "visibleEmpty": "No visible comments.",
+    "visibleTitle": "Visible comments"
+  },
+  "overview": {
+    "analytics": {
+      "averageTime": "Average time",
+      "thisWeek": "This week",
+      "title": "Portfolio analytics",
+      "totalViews": "Total views"
+    },
+    "colors": {
+      "empty": "No colors set",
+      "title": "Portfolio colors"
+    },
+    "comments": {
+      "description": "Review the comments you receive, hide those that break the rules and keep the history.",
+      "title": "Comments"
+    },
+    "editAria": "Edit: {{title}}",
+    "education": {
+      "empty": "No program linked",
+      "name": "Program:",
+      "title": "Education",
+      "type": "Type:"
+    },
+    "oauth": {
+      "connectedAs": "Signed in as",
+      "signInWith": "Sign in with {{provider}}"
+    },
+    "portfolio": {
+      "fallbackTitle": "Your portfolio",
+      "notDefined": "Not set",
+      "projectCount": "Number of projects: {{count}}",
+      "template": "Template: {{template}}",
+      "url": "URL: {{url}}",
+      "urlNotDefined": "Not set"
+    },
+    "projects": {
+      "empty": "No projects",
+      "more": "+ {{count}} more projects",
+      "title": "Recent projects"
+    },
+    "skills": {
+      "empty": "No skills yet",
+      "title": "Skills"
+    },
+    "title": "Dashboard",
+    "typography": {
+      "body": "Body text",
+      "bodySample": "Sample body text.",
+      "heading": "Heading (H1)",
+      "headingSample": "Sample heading",
+      "subheading": "Subheading (H2)",
+      "subheadingSample": "Sample subheading",
+      "title": "Typography"
+    }
+  },
+  "settings": {
+    "bioLabel": "Introduction",
+    "bioPlaceholder": "Introduce yourself in a few lines...",
+    "commentMessageLabel": "Comment prompt message",
+    "commentMessagePlaceholder": "Encourage visitors to leave feedback...",
+    "palette": "Color palette",
+    "preview": "Preview",
+    "publicUrl": "Public URL",
+    "statusError": "Error while updating the status",
+    "submit": "Update",
+    "subtitleLabel": "Portfolio subtitle",
+    "template": "Template",
+    "title": "Edit your portfolio",
+    "titleLabel": "Portfolio title",
+    "updateError": "Error while updating the portfolio",
+    "updated": "Portfolio updated",
+    "urlNotDefined": "(not set)"
+  },
+  "status": {
+    "label": "Portfolio status",
+    "offline": "Offline",
+    "online": "Online",
+    "toDraft": "Switch to draft",
+    "toPublic": "Make public",
+    "view": "View"
+  },
+  "theme": {
+    "choosePalette": "Choose your color palette",
+    "chooseTemplate": "Choose your template",
+    "customizeColors": "Customize your colors",
+    "save": "Save portfolio",
+    "saveError": "Error while saving the theme",
+    "saved": "Theme saved",
+    "title": "Your portfolio theme"
+  }
+}

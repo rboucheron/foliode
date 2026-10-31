@@ -1,5 +1,6 @@
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group"
+import { useTranslation } from "@/i18n"
 
 interface URLInputProps {
   value: string
@@ -9,10 +10,11 @@ interface URLInputProps {
 }
 
 export function URLInput({ value, onChange, testId, id = "portfolio-url" }: URLInputProps) {
+  const t = useTranslation()
   return (
     <Field>
       <FieldLabel htmlFor={id}>
-        URL <span className="text-destructive">*</span>
+        {t("forms.urlInput.label")} <span className="text-destructive">*</span>
       </FieldLabel>
       <InputGroup>
         <InputGroupAddon>
@@ -21,7 +23,7 @@ export function URLInput({ value, onChange, testId, id = "portfolio-url" }: URLI
         <InputGroupInput
           id={id}
           data-testid={testId}
-          placeholder="votre-site"
+          placeholder={t("forms.urlInput.placeholder")}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           required
@@ -30,7 +32,7 @@ export function URLInput({ value, onChange, testId, id = "portfolio-url" }: URLI
           <InputGroupText>.foliode.com</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
-      <FieldDescription>Utilisez uniquement des lettres, chiffres, - et _</FieldDescription>
+      <FieldDescription>{t("forms.urlInput.hint")}</FieldDescription>
     </Field>
   )
 }

@@ -3,8 +3,10 @@ import { generateAvatar } from "@/lib/avatar"
 import { formatImage } from "@/lib/format-image"
 import { PortfolioCommentsSection } from "../portfolio-comments-section"
 import type { TemplateProps } from "./types"
+import { useTranslation } from "@/i18n"
 
 export function EmeraldTemplate({ portfolio }: TemplateProps) {
+  const t = useTranslation()
   const { primary, secondary, warning, success, info, light } = portfolio.config.colors
   const avatar = portfolio.users.avatar_url
   const email = portfolio.users.email
@@ -33,7 +35,7 @@ export function EmeraldTemplate({ portfolio }: TemplateProps) {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 md:flex-row">
           <div className="flex-1 space-y-6">
             <h2 className="text-5xl leading-tight font-bold md:text-6xl" style={{ color: info }}>
-              Bonjour, je suis <span className="uppercase">{portfolio.users.firstname}</span>
+              {t("portfolio.template.greeting")} <span className="uppercase">{portfolio.users.firstname}</span>
             </h2>
             <p className="text-xl leading-relaxed" style={{ color: info }}>
               {portfolio.bio}
@@ -43,7 +45,7 @@ export function EmeraldTemplate({ portfolio }: TemplateProps) {
             <div className="relative h-64 w-64 overflow-hidden rounded-full">
               <img
                 src={avatar ? formatImage(avatar) : generateAvatar(50, email)}
-                alt={`avatar of ${portfolio.users.firstname}`}
+                alt={t("portfolio.template.avatarAlt", { name: portfolio.users.firstname })}
                 width={256}
                 height={256}
                 className="h-full w-full object-cover"
@@ -60,7 +62,7 @@ export function EmeraldTemplate({ portfolio }: TemplateProps) {
             className="mb-12 text-center text-4xl font-bold md:text-5xl"
             style={{ color: secondary }}
           >
-            Mes Projets
+            {t("portfolio.template.projects")}
           </h2>
           <div className="space-y-16">
             {portfolio.projects.map((project) => {
@@ -84,7 +86,7 @@ export function EmeraldTemplate({ portfolio }: TemplateProps) {
                       className="absolute bottom-3 left-3 inline-block rounded-xl px-8 py-3 text-lg font-semibold transition-colors duration-300"
                       style={{ backgroundColor: info, color: secondary }}
                     >
-                      Voir le projet
+                      {t("portfolio.template.viewProject")}
                     </Link>
                   </div>
                   {cover ? (
@@ -112,7 +114,7 @@ export function EmeraldTemplate({ portfolio }: TemplateProps) {
       <section className="px-4 py-20" style={{ backgroundColor: warning }}>
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-12 text-center text-4xl font-bold md:text-5xl" style={{ color: info }}>
-            Compétences
+            {t("portfolio.template.skills")}
           </h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {portfolio.tools.map((tool) => (

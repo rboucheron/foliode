@@ -4,6 +4,7 @@ import { DashboardTitle } from "@/components/layout/dashboard-title"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { getApiErrorMessage } from "@/lib/http"
+import { useTranslation } from "@/i18n"
 import { usePortfolioStore } from "../application/portfolio.store"
 import type { AvatarPosition, ColorKey } from "../domain/portfolio"
 import type { Template, TemplateStyle } from "../domain/templates"
@@ -15,6 +16,7 @@ import { TemplatePicker } from "./template-picker"
 const toColors = ({ name: _name, ...colors }: TemplateStyle) => colors
 
 export function PortfolioThemePage() {
+  const t = useTranslation()
   const portfolio = usePortfolioStore((state) => state.portfolio)
   const setPortfolio = usePortfolioStore((state) => state.setPortfolio)
   const fetchPortfolio = usePortfolioStore((state) => state.fetchPortfolio)
@@ -50,9 +52,9 @@ export function PortfolioThemePage() {
     setIsSaving(true)
     try {
       await updatePortfolio()
-      toast.success("Thème enregistré")
+      toast.success(t("dashboard.theme.saved"))
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Erreur lors de l'enregistrement du thème"))
+      toast.error(getApiErrorMessage(error, t("dashboard.theme.saveError")))
     } finally {
       setIsSaving(false)
     }
@@ -60,8 +62,8 @@ export function PortfolioThemePage() {
 
   return (
     <>
-      <DashboardTitle title="Théme de votre portfolio" />
-      <h3 className="mb-4 text-lg font-semibold">Choisissez votre template</h3>
+      <DashboardTitle title={t("dashboard.theme.title")} />
+      <h3 className="mb-4 text-lg font-semibold">{t("dashboard.theme.chooseTemplate")}</h3>
       {portfolio ? (
         <TemplatePicker
           selectedTemplateId={portfolio.template}
@@ -87,7 +89,7 @@ export function PortfolioThemePage() {
           <div className="flex justify-center">
             <Button onClick={handleSave} disabled={isSaving} className="my-10">
               {isSaving && <Spinner />}
-              Enregistrer le Portfolio
+              {t("dashboard.theme.save")}
             </Button>
           </div>
         </>
@@ -95,7 +97,7 @@ export function PortfolioThemePage() {
 
       {portfolio?.template && portfolio.template !== TEMPLATE_IDS.sunset && (
         <>
-          <h3 className="my-4 text-lg font-semibold">Choisissez votre palette de couleurs</h3>
+          <h3 className="my-4 text-lg font-semibold">{t("dashboard.theme.choosePalette")}</h3>
           <PaletteStyles
             colors={portfolio.config.colors}
             onStyleChange={handleStyleChange}
@@ -104,13 +106,13 @@ export function PortfolioThemePage() {
           />
 
           <div className="mt-6">
-            <h3 className="mb-4 text-lg font-semibold">Personnalisez vos couleurs</h3>
+            <h3 className="mb-4 text-lg font-semibold">{t("dashboard.theme.customizeColors")}</h3>
             <ColorPickersGrid colors={portfolio.config.colors} onColorChange={handleColorChange} />
           </div>
           <div className="flex justify-center">
             <Button onClick={handleSave} disabled={isSaving} className="my-10">
               {isSaving && <Spinner />}
-              Enregistrer le Portfolio
+              {t("dashboard.theme.save")}
             </Button>
           </div>
         </>

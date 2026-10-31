@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "signOut": "退出登录"
+  },
+  "brand": {
+    "logoAlt": "Foliode 标志"
+  },
+  "language": {
+    "label": "语言",
+    "switchTo": "切换到{{language}}"
+  },
+  "meta": {
+    "description": "几分钟内创建并分享您的作品集。",
+    "title": "Foliode"
+  },
+  "nav": {
+    "comments": "评论",
+    "edit": "编辑",
+    "overview": "仪表盘",
+    "profile": "个人资料",
+    "projects": "我的项目",
+    "settings": "设置",
+    "skills": "我的技能",
+    "theme": "主题",
+    "toggleSidebar": "显示 / 隐藏菜单"
+  },
+  "theme": {
+    "dark": "深色模式",
+    "light": "浅色模式",
+    "switchToDark": "切换到深色模式",
+    "switchToLight": "切换到浅色模式"
+  }
+}

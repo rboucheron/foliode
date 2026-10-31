@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "signOut": "Sign out"
+  },
+  "brand": {
+    "logoAlt": "foliode logo"
+  },
+  "language": {
+    "label": "Language",
+    "switchTo": "Switch to {{language}}"
+  },
+  "meta": {
+    "description": "Create and share your portfolio in minutes.",
+    "title": "Foliode"
+  },
+  "nav": {
+    "comments": "Comments",
+    "edit": "Edit",
+    "overview": "Dashboard",
+    "profile": "Profile",
+    "projects": "My projects",
+    "settings": "Settings",
+    "skills": "My skills",
+    "theme": "Theme",
+    "toggleSidebar": "Show / hide menu"
+  },
+  "theme": {
+    "dark": "Dark mode",
+    "light": "Light mode",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
+  }
+}
