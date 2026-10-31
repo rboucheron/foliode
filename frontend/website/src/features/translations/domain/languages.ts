@@ -64,3 +64,35 @@ export const suggestLocaleDetails = (code: string): { tag: string; nativeName: s
     return null
   }
 }
+
+export const validateLocaleRemoval = (
+  code: string,
+  definedCodes: ReadonlyArray<string>,
+  sourceLocale: string,
+): string | null => {
+  if (!definedCodes.includes(code)) return `La langue « ${code} » n'existe pas.`
+  if (code === sourceLocale) {
+    return `« ${code} » est la langue source : elle définit les clés et ne peut pas être supprimée.`
+  }
+  if (definedCodes.length <= 1) return "Le site doit garder au moins une langue."
+  return null
+}
+
+export const removeLocaleDefinition = (configSource: string, code: string): string => {
+  const start = configSource.indexOf(DEFINITIONS_START)
+  const end = configSource.indexOf(DEFINITIONS_END, start)
+  if (start === -1 || end === -1) {
+    throw new Error("LOCALE_DEFINITIONS introuvable dans src/i18n/config.ts.")
+  }
+  const block = configSource.slice(start, end)
+  const line = block
+    .split("\n")
+    .find((candidate) => new RegExp(`^\\s*\\{\\s*code:\\s*${JSON.stringify(code)}\\s*,`).test(candidate))
+  if (!line) throw new Error(`Définition de « ${code} » introuvable dans LOCALE_DEFINITIONS.`)
+  return configSource.slice(0, start) + block.replace(`${line}\n`, "") + configSource.slice(end)
+}
+
+const normalizeSource = (source: string): string => source.replace(/\s+/g, " ").trim()
+
+export const isGeneratedLocaleRoute = (source: string, code: string): boolean =>
+  normalizeSource(source) === normalizeSource(localeRouteSource(code))
