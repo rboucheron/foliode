@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { useRouter } from "@tanstack/react-router"
+import { Link, useRouter } from "@tanstack/react-router"
 import { toast } from "sonner"
-import { AlertTriangleIcon, PlusIcon, RotateCcwIcon, SaveIcon, SearchIcon, Trash2Icon } from "lucide-react"
+import { AlertTriangleIcon, LanguagesIcon, PlusIcon, RotateCcwIcon, SaveIcon, SearchIcon, Trash2Icon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -34,23 +34,37 @@ import {
 import type { CatalogEntry, CatalogIssue, FlatFiles } from "../domain/catalog"
 import { saveTranslationFiles } from "../application/translations.functions"
 
-type StatusFilter = "all" | "todo" | "issues" | "changed"
+export type StatusFilter = "all" | "todo" | "issues" | "changed"
+
+export const STATUS_FILTERS: ReadonlyArray<StatusFilter> = ["all", "todo", "issues", "changed"]
+
+export interface EditorSearch {
+  locale?: Locale
+  status?: StatusFilter
+}
 
 const PAGE_SIZE = 80
 
 const valuesEqual = (a: Record<Locale, string>, b: Record<Locale, string> | undefined) =>
   !!b && LOCALES.every((l) => a[l] === b[l])
 
-export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
+export function TranslationsEditorPage({ files, search }: { files: FlatFiles; search: EditorSearch }) {
   const router = useRouter()
   const [entries, setEntries] = useState<CatalogEntry[]>(() => buildCatalog(files))
   const [original, setOriginal] = useState(() => snapshot(buildCatalog(files)))
   const [query, setQuery] = useState("")
   const [namespace, setNamespace] = useState<Namespace | "all">("all")
-  const [status, setStatus] = useState<StatusFilter>("all")
+  const [status, setStatus] = useState<StatusFilter>(search.status ?? "all")
+  const [focus, setFocus] = useState<Locale | "all">(search.locale ?? "all")
   const [limit, setLimit] = useState(PAGE_SIZE)
   const [isSaving, setIsSaving] = useState(false)
   const [isAddOpen, setIsAddOpen] = useState(false)
+
+  const visibleLocales = useMemo<ReadonlyArray<Locale>>(
+    () => (focus === "all" ? LOCALES : [...new Set<Locale>([DEFAULT_LOCALE, focus])]),
+    [focus],
+  )
+  const todoLocales = focus === "all" ? LOCALES : [focus]
 
   const issues = useMemo(() => findIssues(entries), [entries])
   const issuesById = useMemo(() => {
@@ -80,15 +94,15 @@ export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
     return entries.filter((entry) => {
       const id = entryId(entry)
       if (namespace !== "all" && entry.namespace !== namespace) return false
-      if (status === "todo" && !LOCALES.some((l) => !entry.values[l].trim())) return false
-      if (status === "issues" && !issuesById.has(id)) return false
+      if (status === "todo" && !todoLocales.some((l) => !entry.values[l].trim())) return false
+      if (status === "issues" && !issuesById.get(id)?.some((i) => todoLocales.includes(i.locale))) return false
       if (status === "changed" && !changedIds.has(id)) return false
       if (!q) return true
       return id.toLowerCase().includes(q) || LOCALES.some((l) => entry.values[l].toLowerCase().includes(q))
     })
-  }, [entries, namespace, status, query, issuesById, changedIds])
+  }, [entries, namespace, status, query, issuesById, changedIds, todoLocales])
 
-  useEffect(() => setLimit(PAGE_SIZE), [query, namespace, status])
+  useEffect(() => setLimit(PAGE_SIZE), [query, namespace, status, focus])
 
   const updateValue = (id: string, locale: Locale, value: string) =>
     setEntries((current) =>
@@ -158,6 +172,11 @@ export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
               Outil de développement — écrit directement dans <code>src/locales/&lt;langue&gt;/&lt;namespace&gt;.json</code>
             </p>
           </div>
+          <Button variant="ghost" asChild>
+            <Link to="/dev/languages">
+              <LanguagesIcon /> Langues
+            </Link>
+          </Button>
           <ThemeSwitcher />
           <Button variant="outline" onClick={reset} disabled={!isDirty || isSaving}>
             <RotateCcwIcon /> Annuler
@@ -170,11 +189,20 @@ export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
       </header>
 
       <main className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4">
-        <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="grid grid-cols-[repeat(auto-fit,minmax(14rem,1fr))] gap-3">
           {stats.map(({ locale, translated, total }) => {
             const percent = total ? Math.round((translated / total) * 100) : 100
             return (
-              <div key={locale} className="rounded-lg border p-3">
+              <button
+                key={locale}
+                type="button"
+                onClick={() => setFocus((current) => (current === locale ? "all" : locale))}
+                aria-pressed={focus === locale}
+                className={cn(
+                  "rounded-lg border p-3 text-left transition-colors hover:bg-muted",
+                  focus === locale && "border-primary ring-2 ring-primary/30",
+                )}
+              >
                 <div className="flex items-baseline justify-between">
                   <span className="font-medium">
                     {LOCALE_NATIVE_NAMES[locale]} <span className="text-muted-foreground">({locale})</span>
@@ -185,7 +213,7 @@ export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
                 <p className="mt-1 text-xs text-muted-foreground">
                   {translated} / {total} clés · {total - translated} manquante(s)
                 </p>
-              </div>
+              </button>
             )
           })}
           <button
@@ -231,6 +259,19 @@ export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
               ))}
             </SelectContent>
           </Select>
+          <Select value={focus} onValueChange={(v) => setFocus(v as Locale | "all")}>
+            <SelectTrigger className="w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes les langues</SelectItem>
+              {LOCALES.map((locale) => (
+                <SelectItem key={locale} value={locale}>
+                  {LOCALE_NATIVE_NAMES[locale]} ({locale})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Select value={status} onValueChange={(v) => setStatus(v as StatusFilter)}>
             <SelectTrigger className="w-44">
               <SelectValue />
@@ -258,6 +299,7 @@ export function TranslationsEditorPage({ files }: { files: FlatFiles }) {
               <EntryRow
                 key={id}
                 entry={entry}
+                locales={visibleLocales}
                 issues={issuesById.get(id) ?? []}
                 isChanged={changedIds.has(id)}
                 onChange={(locale, value) => updateValue(id, locale, value)}
@@ -284,12 +326,14 @@ const snapshot = (entries: ReadonlyArray<CatalogEntry>) =>
 
 function EntryRow({
   entry,
+  locales,
   issues,
   isChanged,
   onChange,
   onRemove,
 }: {
   entry: CatalogEntry
+  locales: ReadonlyArray<Locale>
   issues: CatalogIssue[]
   isChanged: boolean
   onChange: (locale: Locale, value: string) => void
@@ -311,8 +355,11 @@ function EntryRow({
           <Trash2Icon />
         </Button>
       </div>
-      <div className="grid gap-2 md:grid-cols-3">
-        {LOCALES.map((locale) => {
+      <div
+        className="grid gap-2 md:[grid-template-columns:repeat(var(--columns),minmax(0,1fr))]"
+        style={{ "--columns": Math.min(locales.length, 4) } as React.CSSProperties}
+      >
+        {locales.map((locale) => {
           const localeIssues = issues.filter((i) => i.locale === locale)
           return (
             <label key={locale} className="flex flex-col gap-1">

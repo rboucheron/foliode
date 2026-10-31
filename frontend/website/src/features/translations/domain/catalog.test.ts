@@ -15,8 +15,10 @@ import { localeFromPathname, matchAcceptLanguage } from "@/i18n/config"
 const entry = (key: string, fr: string, en: string, zh: string): CatalogEntry => ({
   namespace: "common",
   key,
-  values: { fr, en, zh },
+  values: { ...emptyValues(), fr, en, zh },
 })
+
+const BASE_LOCALES = new Set(["fr", "en", "zh"])
 
 describe("i18n helpers", () => {
   test("flatten / unflatten aller-retour", () => {
@@ -65,7 +67,7 @@ describe("catalogue de traductions", () => {
       entry("vars", "Bonjour {{name}}", "Hello {{user}}", "你好{{name}}"),
       entry("orphan", "", "Lonely", ""),
     ])
-    expect(issues.map((i) => `${i.kind}:${i.key}:${i.locale}`).sort()).toEqual(
+    expect(issues.filter((i) => BASE_LOCALES.has(i.locale)).map((i) => `${i.kind}:${i.key}:${i.locale}`).sort()).toEqual(
       [
         "missing:missing:en",
         "placeholders:vars:en",

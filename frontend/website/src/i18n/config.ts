@@ -1,6 +1,12 @@
-export const LOCALES = ["fr", "en", "zh"] as const
+export const LOCALE_DEFINITIONS = [
+  { code: "fr", tag: "fr-FR", nativeName: "Français" },
+  { code: "en", tag: "en-US", nativeName: "English" },
+  { code: "zh", tag: "zh-CN", nativeName: "中文" },
+] as const
 
-export type Locale = (typeof LOCALES)[number]
+export type Locale = (typeof LOCALE_DEFINITIONS)[number]["code"]
+
+export const LOCALES: ReadonlyArray<Locale> = LOCALE_DEFINITIONS.map((definition) => definition.code)
 
 export const DEFAULT_LOCALE: Locale = "fr"
 
@@ -21,17 +27,13 @@ export const NAMESPACES = [
 
 export type Namespace = (typeof NAMESPACES)[number]
 
-export const LOCALE_TAGS: Record<Locale, string> = {
-  fr: "fr-FR",
-  en: "en-US",
-  zh: "zh-CN",
-}
+export const LOCALE_TAGS = Object.fromEntries(
+  LOCALE_DEFINITIONS.map((definition) => [definition.code, definition.tag]),
+) as Record<Locale, string>
 
-export const LOCALE_NATIVE_NAMES: Record<Locale, string> = {
-  fr: "Français",
-  en: "English",
-  zh: "中文",
-}
+export const LOCALE_NATIVE_NAMES = Object.fromEntries(
+  LOCALE_DEFINITIONS.map((definition) => [definition.code, definition.nativeName]),
+) as Record<Locale, string>
 
 export const isLocale = (value: unknown): value is Locale =>
   typeof value === "string" && (LOCALES as ReadonlyArray<string>).includes(value)
