@@ -1,4 +1,4 @@
-import type { Colors } from "@/features/portfolio/domain/portfolio";
+import type { AvatarPosition, Colors } from "@/features/portfolio/domain/portfolio";
 
 export interface PortfolioDraft {
   title: string;
@@ -8,6 +8,7 @@ export interface PortfolioDraft {
   template: string;
   config: {
     colors: Colors | null;
+    avatarPosition?: AvatarPosition;
   };
 }
 

@@ -6,6 +6,7 @@ import type { Portfolio } from "../domain/portfolio";
 import { BentoTemplate } from "./templates/bento-template";
 import { EmeraldTemplate } from "./templates/emerald-template";
 import { PrestigeTemplate } from "./templates/prestige-template";
+import { SunsetTemplate } from "./templates/sunset-template";
 
 const SUPPORTED_TEMPLATES: readonly string[] = Object.values(TEMPLATE_IDS);
 
@@ -31,6 +32,8 @@ export function PublicPortfolioPage({ portfolio }: { portfolio: Portfolio }) {
       return <EmeraldTemplate portfolio={portfolio} />;
     case TEMPLATE_IDS.prestige:
       return <PrestigeTemplate portfolio={portfolio} />;
+    case TEMPLATE_IDS.sunset:
+      return <SunsetTemplate portfolio={portfolio} />;
     default:
       return null;
   }

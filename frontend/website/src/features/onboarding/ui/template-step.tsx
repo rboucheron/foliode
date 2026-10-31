@@ -2,8 +2,8 @@ import { useState } from "react"
 import { ColorPicker } from "@/components/shared/color-picker"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { templates, templatesStyles } from "@/features/portfolio"
-import type { ColorKey, Colors, Template, TemplateStyle } from "@/features/portfolio"
+import { AvatarPositionPicker, TEMPLATE_IDS, templates, templatesStyles } from "@/features/portfolio"
+import type { AvatarPosition, ColorKey, Colors, Template, TemplateStyle } from "@/features/portfolio"
 import { useOnboardingStore } from "../application/onboarding.store"
 
 const COLOR_KEYS: ColorKey[] = ["primary", "secondary", "warning", "success", "info", "light"]
@@ -42,6 +42,10 @@ export function TemplateStep() {
     setPortfolio({ ...portfolio, config: { ...portfolio.config, colors } })
   }
 
+  const handleAvatarPositionChange = (avatarPosition: AvatarPosition) => {
+    setPortfolio({ ...portfolio, config: { ...portfolio.config, avatarPosition } })
+  }
+
   const handleColorChange = (key: string, value: string) => {
     if (!selectedStyle || !isColorKey(key)) return
     setSelectedStyle({ ...selectedStyle, [key]: value })
@@ -57,7 +61,7 @@ export function TemplateStep() {
   return (
     <div className="w-full">
       <h3 className="mb-4 text-lg font-semibold">Choisissez votre template</h3>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
         {templates.map((template) => (
           <button
             key={template.id}
@@ -81,7 +85,16 @@ export function TemplateStep() {
         ))}
       </div>
 
-      {portfolio.template && (
+      {portfolio.template === TEMPLATE_IDS.sunset && (
+        <div className="mt-6">
+          <AvatarPositionPicker
+            value={portfolio.config.avatarPosition}
+            onChange={handleAvatarPositionChange}
+          />
+        </div>
+      )}
+
+      {portfolio.template && portfolio.template !== TEMPLATE_IDS.sunset && (
         <>
           <h3 className="my-4 text-lg font-semibold">Choisissez votre palette de couleurs</h3>
           <div className="flex w-full items-center justify-between gap-5">

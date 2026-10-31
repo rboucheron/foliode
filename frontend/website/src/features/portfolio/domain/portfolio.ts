@@ -29,8 +29,14 @@ export interface PortfolioOwner {
   promotion: Promotion | null;
 }
 
+/** Position de la photo de profil (template Sunset) : à côté du titre ou de la présentation. */
+export type AvatarPosition = "title" | "bio";
+
+export const DEFAULT_AVATAR_POSITION: AvatarPosition = "title";
+
 export interface PortfolioConfig {
   colors: Colors;
+  avatarPosition?: AvatarPosition;
 }
 
 /** 1 = publié, 0 = brouillon. */
@@ -57,7 +63,7 @@ export interface PortfolioUpsertRequest {
   commentMessage?: string | null;
   template: string;
   url: string;
-  config: { colors: Colors | null };
+  config: { colors: Colors | null; avatarPosition?: AvatarPosition };
 }
 
 export interface PortfolioStat {
@@ -96,6 +102,9 @@ export const normalizePortfolio = (portfolio: Portfolio): Portfolio => {
 
   return { ...portfolio, config: { ...config, colors } };
 };
+
+export const getAvatarPosition = (portfolio: Portfolio): AvatarPosition =>
+  portfolio.config.avatarPosition === "bio" ? "bio" : DEFAULT_AVATAR_POSITION;
 
 export const getPortfolioOwnerName = (portfolio: Portfolio): string =>
   `${portfolio.users.firstname} ${portfolio.users.lastname}`.trim();

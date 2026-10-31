@@ -13,8 +13,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { getApiErrorMessage } from "@/lib/http"
 import { draftPortfolio, publishPortfolio } from "../application/portfolio.api"
 import { usePortfolioStore } from "../application/portfolio.store"
-import type { ColorKey } from "../domain/portfolio"
+import type { AvatarPosition, ColorKey } from "../domain/portfolio"
 import type { Template, TemplateStyle } from "../domain/templates"
+import { TEMPLATE_IDS } from "../domain/templates"
+import { AvatarPositionPicker } from "./avatar-position-picker"
 import { ColorPickersGrid, PaletteStyles } from "./palette-picker"
 import { PortfolioStatusCard } from "./portfolio-status-card"
 import { TemplatePicker } from "./template-picker"
@@ -64,6 +66,12 @@ export function PortfolioSettingsPage() {
   const handleColorChange = (key: ColorKey, value: string) => {
     setPortfolio({ config: { ...portfolio.config, colors: { ...colors, [key]: value } } })
   }
+
+  const handleAvatarPositionChange = (avatarPosition: AvatarPosition) => {
+    setPortfolio({ config: { ...portfolio.config, avatarPosition } })
+  }
+
+  const isSunset = portfolio.template === TEMPLATE_IDS.sunset
 
   const handleToggleVisibility = async () => {
     setIsTogglingStatus(true)
@@ -186,11 +194,18 @@ export function PortfolioSettingsPage() {
             </div>
 
             <Separator className="my-2" />
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold">Palette de couleurs</h3>
-              <PaletteStyles colors={colors} onStyleChange={handleStyleChange} />
-              <ColorPickersGrid colors={colors} onColorChange={handleColorChange} />
-            </div>
+            {isSunset ? (
+              <AvatarPositionPicker
+                value={portfolio.config.avatarPosition}
+                onChange={handleAvatarPositionChange}
+              />
+            ) : (
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">Palette de couleurs</h3>
+                <PaletteStyles colors={colors} onStyleChange={handleStyleChange} />
+                <ColorPickersGrid colors={colors} onColorChange={handleColorChange} />
+              </div>
+            )}
 
             <div className="flex justify-end">
               <Button onClick={handleSave} disabled={isSaving} data-testid="dashboard-edit-save-button">

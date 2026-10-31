@@ -6,6 +6,7 @@ import { loadPublicPortfolio } from "./public-portfolio-page";
 import { BentoProjectPage } from "./templates/bento-project-page";
 import { EmeraldProjectPage } from "./templates/emerald-project-page";
 import { PrestigeProjectPage } from "./templates/prestige-project-page";
+import { SunsetProjectPage } from "./templates/sunset-project-page";
 
 interface PublicProjectData {
   portfolio: Portfolio;
@@ -30,6 +31,8 @@ export function PublicProjectPage({ portfolio, project }: PublicProjectData) {
       return <EmeraldProjectPage portfolio={portfolio} project={project} />;
     case TEMPLATE_IDS.prestige:
       return <PrestigeProjectPage portfolio={portfolio} project={project} />;
+    case TEMPLATE_IDS.sunset:
+      return <SunsetProjectPage portfolio={portfolio} project={project} />;
     default:
       return null;
   }

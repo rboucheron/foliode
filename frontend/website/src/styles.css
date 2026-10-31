@@ -5,9 +5,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Police du template Sunset (JetBrains Mono NL, licence OFL) */
+@font-face {
+    font-family: 'JetBrainsMonoNL';
+    src: url('/fonts/jetbrains-mono/JetBrainsMonoNL-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrainsMonoNL';
+    src: url('/fonts/jetbrains-mono/JetBrainsMonoNL-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrainsMonoNL';
+    src: url('/fonts/jetbrains-mono/JetBrainsMonoNL-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Archivo Variable', sans-serif;
+    --font-jetbrains: 'JetBrainsMonoNL', monospace;
     --color-custom: #2C2D33;
     --color-portfolio-green-primary: #334B35;
     --color-portfolio-green-secondary: #F6EEE1;
