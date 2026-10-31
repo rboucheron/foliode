@@ -1,4 +1,7 @@
-import type { Project } from "@/features/project/domain/project";
+import type {
+  Project,
+  ProjectContentTranslation,
+} from "@/features/project/domain/project";
 import type { Skill } from "@/features/skill/domain/skill";
 
 export interface Colors {
@@ -39,10 +42,23 @@ export interface PortfolioConfig {
   avatarPosition?: AvatarPosition;
 }
 
-/** 1 = publié, 0 = brouillon. */
 export type PortfolioStatus = 0 | 1;
 
+export interface ContentLanguage {
+  code: string;
+  label: string | null;
+}
+
+export interface PortfolioContentTranslation {
+  title: string;
+  subtitle: string | null;
+  bio: string | null;
+}
+
 export interface Portfolio {
+  sourceLanguage?: ContentLanguage | null;
+  languages?: ContentLanguage[];
+  translations?: Record<string, PortfolioContentTranslation>;
   status?: number;
   title: string;
   subtitle: string;
@@ -100,8 +116,23 @@ export const normalizePortfolio = (portfolio: Portfolio): Portfolio => {
 
   const colors = (config.colors ?? config.color ?? FALLBACK_COLORS) as Colors;
 
-  return { ...portfolio, config: { ...config, colors } };
+  return {
+    ...portfolio,
+    config: { ...config, colors },
+    sourceLanguage: portfolio.sourceLanguage ?? null,
+    languages: Array.isArray(portfolio.languages) ? portfolio.languages : [],
+    translations: toRecord(portfolio.translations),
+    projects: (portfolio.projects ?? []).map((project) => ({
+      ...project,
+      translations: toRecord<ProjectContentTranslation>(project.translations),
+    })),
+  };
 };
+
+const toRecord = <T>(
+  value: Record<string, T> | undefined | null,
+): Record<string, T> =>
+  value && typeof value === "object" && !Array.isArray(value) ? value : {};
 
 export const getAvatarPosition = (portfolio: Portfolio): AvatarPosition =>
   portfolio.config.avatarPosition === "bio" ? "bio" : DEFAULT_AVATAR_POSITION;
