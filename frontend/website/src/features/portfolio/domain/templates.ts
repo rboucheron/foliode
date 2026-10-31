@@ -11,6 +11,7 @@ export const TEMPLATE_IDS = {
   bento: "template-1",
   emerald: "template-2",
   prestige: "template-3",
+  sunset: "template-4",
 } as const;
 
 export const templates: Template[] = [
@@ -51,6 +52,19 @@ export const templates: Template[] = [
       success: "#FAAF15",
       info: "#231C0A",
       light: "#334B35",
+    },
+  },
+  {
+    id: TEMPLATE_IDS.sunset,
+    name: "Sunset",
+    preview: "/templates/sunset.svg",
+    color: {
+      primary: "#FF6D0A",
+      secondary: "#FFFBF9",
+      warning: "#F54703",
+      success: "#FED7AA",
+      info: "#2F2F2F",
+      light: "#FFF7ED",
     },
   },
 ];

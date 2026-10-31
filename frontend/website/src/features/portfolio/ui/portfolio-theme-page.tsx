@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { getApiErrorMessage } from "@/lib/http"
 import { usePortfolioStore } from "../application/portfolio.store"
-import type { ColorKey } from "../domain/portfolio"
+import type { AvatarPosition, ColorKey } from "../domain/portfolio"
 import type { Template, TemplateStyle } from "../domain/templates"
+import { TEMPLATE_IDS } from "../domain/templates"
+import { AvatarPositionPicker } from "./avatar-position-picker"
 import { ColorPickersGrid, PaletteStyles } from "./palette-picker"
 import { TemplatePicker } from "./template-picker"
 
@@ -39,6 +41,11 @@ export function PortfolioThemePage() {
     setPortfolio({ config: { ...portfolio.config, colors: { ...portfolio.config.colors, [key]: value } } })
   }
 
+  const handleAvatarPositionChange = (avatarPosition: AvatarPosition) => {
+    if (!portfolio) return
+    setPortfolio({ config: { ...portfolio.config, avatarPosition } })
+  }
+
   const handleSave = async () => {
     setIsSaving(true)
     try {
@@ -69,7 +76,24 @@ export function PortfolioThemePage() {
         )
       )}
 
-      {portfolio?.template && (
+      {portfolio?.template === TEMPLATE_IDS.sunset && (
+        <>
+          <div className="mt-6">
+            <AvatarPositionPicker
+              value={portfolio.config.avatarPosition}
+              onChange={handleAvatarPositionChange}
+            />
+          </div>
+          <div className="flex justify-center">
+            <Button onClick={handleSave} disabled={isSaving} className="my-10">
+              {isSaving && <Spinner />}
+              Enregistrer le Portfolio
+            </Button>
+          </div>
+        </>
+      )}
+
+      {portfolio?.template && portfolio.template !== TEMPLATE_IDS.sunset && (
         <>
           <h3 className="my-4 text-lg font-semibold">Choisissez votre palette de couleurs</h3>
           <PaletteStyles
