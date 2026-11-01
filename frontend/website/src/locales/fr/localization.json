@@ -1,0 +1,84 @@
+{
+  "done": {
+    "back": "Retour à l'édition",
+    "description": "Votre portfolio est disponible en : {{languages}}.",
+    "noLanguage": "Votre portfolio s'affiche uniquement dans sa langue d'origine.",
+    "nothing": "Tout est déjà à jour, il n'y a rien à traduire.",
+    "restart": "Modifier les langues",
+    "title": "Traductions à jour",
+    "view": "Voir mon portfolio"
+  },
+  "editCard": {
+    "button": "Traduire mon portfolio",
+    "count": "{{count}} langue(s) de traduction",
+    "description": "Traduisez la page principale et vos projets dans d'autres langues.",
+    "none": "Aucune traduction pour l'instant.",
+    "title": "Langues du portfolio"
+  },
+  "languages": {
+    "cancel": "Annuler",
+    "errors": {
+      "duplicate": "Cette langue est déjà dans la liste.",
+      "empty": "Saisissez le nom de la langue.",
+      "noSource": "Choisissez la langue d'origine de votre contenu.",
+      "sourceSelected": "La langue d'origine ne peut pas être une langue de traduction.",
+      "tooLong": "Le nom de la langue ne doit pas dépasser 100 caractères.",
+      "tooMany": "Vous pouvez ajouter au maximum 10 langues."
+    },
+    "freeAdd": "Ajouter",
+    "freeLabel": "Ajouter une autre langue",
+    "freePlaceholder": "Ex. Italiano",
+    "freeRemove": "Retirer {{language}}",
+    "noTarget": "Aucune langue sélectionnée : votre portfolio s'affichera uniquement dans sa langue d'origine.",
+    "removeConfirm": "Retirer et continuer",
+    "removeDescription": "Les traductions de ces langues seront définitivement supprimées :",
+    "removeTitle": "Retirer {{count}} langue(s) ?",
+    "saving": "Enregistrement...",
+    "sourceDescription": "La langue dans laquelle votre contenu est rédigé aujourd'hui.",
+    "sourceLocked": "Retirez toutes les langues de traduction pour changer la langue d'origine.",
+    "sourceOther": "Autre langue...",
+    "sourceOtherPlaceholder": "Ex. Brezhoneg",
+    "sourceTitle": "Langue d'origine",
+    "step": "Choisissez vos langues",
+    "submit": "Enregistrer et traduire",
+    "targetsDescription": "Cochez les langues du site ou ajoutez la langue de votre choix.",
+    "targetsTitle": "Langues de traduction"
+  },
+  "page": {
+    "back": "Retour à l'édition",
+    "description": "Traduisez votre page principale puis vos projets. Les compétences et les autres contenus ne sont pas traduits.",
+    "loadError": "Impossible de charger vos traductions.",
+    "retry": "Réessayer",
+    "title": "Traduire mon portfolio"
+  },
+  "public": {
+    "switcher": "Langue du portfolio"
+  },
+  "steps": {
+    "backToLanguages": "Retour aux langues",
+    "emptySource": "Vide dans l'original : rien à traduire.",
+    "fields": {
+      "bio": "Présentation",
+      "description": "Description",
+      "subtitle": "Sous-titre",
+      "title": "Titre"
+    },
+    "finish": "Enregistrer et terminer",
+    "invalid": "Complétez les champs obligatoires avant de continuer.",
+    "main": "Page principale",
+    "next": "Enregistrer et continuer",
+    "original": "Original · {{language}}",
+    "outdatedHint": "L'original a été modifié depuis cette traduction.",
+    "previous": "Précédent",
+    "progress": "Étape {{current}} sur {{total}}",
+    "project": "Projet : {{title}}",
+    "required": "Ce champ est obligatoire.",
+    "saveError": "Impossible d'enregistrer les traductions.",
+    "saving": "Enregistrement...",
+    "state": {
+      "missing": "À traduire",
+      "outdated": "À retraduire",
+      "upToDate": "À jour"
+    }
+  }
+}

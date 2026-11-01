@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PortfoliosRepository::class)]
@@ -91,6 +93,13 @@ class Portfolios
     #[ORM\OneToMany(targetEntity: PortfolioViews::class, mappedBy: 'portfolio')]
     private Collection $portfolioViews;
 
+    #[ORM\OneToMany(targetEntity: PortfolioLanguage::class, mappedBy: 'portfolio', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'ASC', 'code' => 'ASC'])]
+    private Collection $portfolioLanguages;
+
+    #[ORM\OneToMany(targetEntity: PortfolioTranslation::class, mappedBy: 'portfolio', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $portfolioTranslations;
+
 
     public function __construct()
     {
@@ -99,6 +108,8 @@ class Portfolios
         $this->projects = new ArrayCollection();
         $this->tools = new ArrayCollection();
         $this->portfolioViews = new ArrayCollection();
+        $this->portfolioLanguages = new ArrayCollection();
+        $this->portfolioTranslations = new ArrayCollection();
     }
 
     public function setAuthor(string $author): static
@@ -289,4 +300,110 @@ class Portfolios
         return $this->portfolioViews;
     }
 
+    public function getPortfolioLanguages(): Collection
+    {
+        return $this->portfolioLanguages;
+    }
+
+    public function addPortfolioLanguage(PortfolioLanguage $language): static
+    {
+        if (!$this->portfolioLanguages->contains($language)) {
+            $this->portfolioLanguages->add($language);
+            $language->setPortfolio($this);
+        }
+
+        return $this;
+    }
+
+    public function removePortfolioLanguage(PortfolioLanguage $language): static
+    {
+        $this->portfolioLanguages->removeElement($language);
+
+        return $this;
+    }
+
+    public function getPortfolioTranslations(): Collection
+    {
+        return $this->portfolioTranslations;
+    }
+
+    public function addPortfolioTranslation(PortfolioTranslation $translation): static
+    {
+        if (!$this->portfolioTranslations->contains($translation)) {
+            $this->portfolioTranslations->add($translation);
+            $translation->setPortfolio($this);
+        }
+
+        return $this;
+    }
+
+    public function removePortfolioTranslation(PortfolioTranslation $translation): static
+    {
+        $this->portfolioTranslations->removeElement($translation);
+
+        return $this;
+    }
+
+    public function findSourceLanguage(): ?PortfolioLanguage
+    {
+        foreach ($this->portfolioLanguages as $language) {
+            if ($language->isSource()) {
+                return $language;
+            }
+        }
+
+        return null;
+    }
+
+    public function findTargetLanguages(): array
+    {
+        return array_values(array_filter(
+            $this->portfolioLanguages->toArray(),
+            static fn (PortfolioLanguage $language): bool => !$language->isSource()
+        ));
+    }
+
+    public function findTranslation(string $language): ?PortfolioTranslation
+    {
+        foreach ($this->portfolioTranslations as $translation) {
+            if ($translation->getLanguage() === $language) {
+                return $translation;
+            }
+        }
+
+        return null;
+    }
+
+    #[Groups('getPortfolio')]
+    public function getSourceLanguage(): ?array
+    {
+        return $this->findSourceLanguage()?->toArray();
+    }
+
+    #[Groups('getPortfolio')]
+    public function getLanguages(): array
+    {
+        return array_map(
+            static fn (PortfolioLanguage $language): array => $language->toArray(),
+            $this->findTargetLanguages()
+        );
+    }
+
+    #[Groups('getPortfolio')]
+    #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
+    public function getTranslations(): array
+    {
+        $targets = array_map(
+            static fn (PortfolioLanguage $language): ?string => $language->getCode(),
+            $this->findTargetLanguages()
+        );
+        $translations = [];
+        foreach ($this->portfolioTranslations as $translation) {
+            if (in_array($translation->getLanguage(), $targets, true)) {
+                $translations[$translation->getLanguage()] = $translation->toContent();
+            }
+        }
+
+        return $translations;
+    }
 }

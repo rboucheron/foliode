@@ -9,6 +9,11 @@ export interface ProjectImage {
   img_alt: string;
 }
 
+export interface ProjectContentTranslation {
+  title: string;
+  description: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -16,6 +21,7 @@ export interface Project {
   projectsLinks: ProjectLink[];
   projectsImages?: ProjectImage[];
   links?: string[];
+  translations?: Record<string, ProjectContentTranslation>;
 }
 
 export interface ProjectDraft {

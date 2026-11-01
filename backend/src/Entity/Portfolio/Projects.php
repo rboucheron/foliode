@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -63,12 +65,16 @@ class Projects
     #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $tools;
 
+    #[ORM\OneToMany(targetEntity: ProjectTranslation::class, mappedBy: 'project', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $projectTranslations;
+
 
     public function __construct()
     {
         $this->projectsImages = new ArrayCollection();
         $this->projectsLinks = new ArrayCollection();
         $this->tools = new ArrayCollection();
+        $this->projectTranslations = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -211,7 +217,54 @@ class Projects
         return $this;
     }
 
+    public function getProjectTranslations(): Collection
+    {
+        return $this->projectTranslations;
+    }
 
+    public function addProjectTranslation(ProjectTranslation $translation): static
+    {
+        if (!$this->projectTranslations->contains($translation)) {
+            $this->projectTranslations->add($translation);
+            $translation->setProject($this);
+        }
 
+        return $this;
+    }
 
+    public function removeProjectTranslation(ProjectTranslation $translation): static
+    {
+        $this->projectTranslations->removeElement($translation);
+
+        return $this;
+    }
+
+    public function findTranslation(string $language): ?ProjectTranslation
+    {
+        foreach ($this->projectTranslations as $translation) {
+            if ($translation->getLanguage() === $language) {
+                return $translation;
+            }
+        }
+
+        return null;
+    }
+
+    #[Groups('getPortfolio')]
+    #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
+    public function getTranslations(): array
+    {
+        $targets = array_map(
+            static fn (PortfolioLanguage $language): ?string => $language->getCode(),
+            $this->portfolio?->findTargetLanguages() ?? []
+        );
+        $translations = [];
+        foreach ($this->projectTranslations as $translation) {
+            if (in_array($translation->getLanguage(), $targets, true)) {
+                $translations[$translation->getLanguage()] = $translation->toContent();
+            }
+        }
+
+        return $translations;
+    }
 }

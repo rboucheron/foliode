@@ -1,4 +1,4 @@
-export type { Project, ProjectDraft, ProjectImage, ProjectLink } from "./domain/project"
+export type { Project, ProjectContentTranslation, ProjectDraft, ProjectImage, ProjectLink } from "./domain/project"
 export { emptyProjectDraft } from "./domain/project"
 export * from "./application/project.api"
 export { useProjectsStore } from "./application/projects.store"

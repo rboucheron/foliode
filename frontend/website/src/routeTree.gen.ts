@@ -30,6 +30,7 @@ import { Route as AuthedDashboardSkillsRouteImport } from './routes/_authed/dash
 import { Route as AuthedDashboardThemeRouteImport } from './routes/_authed/dashboard/theme'
 import { Route as AuthedPortfolioEditRouteImport } from './routes/_authed/portfolio/edit'
 import { Route as ApiAuthProviderRouteImport } from './routes/api/auth/$provider'
+import { Route as AuthedDashboardEditTranslationsRouteImport } from './routes/_authed/dashboard/edit_.translations'
 import { Route as ApiAuthCallbackProviderRouteImport } from './routes/api/auth/callback/$provider'
 
 const IndexRoute = IndexRouteImport.update({
@@ -136,6 +137,12 @@ const ApiAuthProviderRoute = ApiAuthProviderRouteImport.update({
   path: '/api/auth/$provider',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedDashboardEditTranslationsRoute =
+  AuthedDashboardEditTranslationsRouteImport.update({
+    id: '/edit_/translations',
+    path: '/edit/translations',
+    getParentRoute: () => AuthedDashboardRoute,
+  } as any)
 const ApiAuthCallbackProviderRoute = ApiAuthCallbackProviderRouteImport.update({
   id: '/api/auth/callback/$provider',
   path: '/api/auth/callback/$provider',
@@ -163,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/portfolio/edit': typeof AuthedPortfolioEditRoute
   '/api/auth/$provider': typeof ApiAuthProviderRoute
   '/dashboard/': typeof AuthedDashboardIndexRoute
+  '/dashboard/edit/translations': typeof AuthedDashboardEditTranslationsRoute
   '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
 }
 export interface FileRoutesByTo {
@@ -185,6 +193,7 @@ export interface FileRoutesByTo {
   '/portfolio/edit': typeof AuthedPortfolioEditRoute
   '/api/auth/$provider': typeof ApiAuthProviderRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/edit/translations': typeof AuthedDashboardEditTranslationsRoute
   '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
 }
 export interface FileRoutesById {
@@ -210,6 +219,7 @@ export interface FileRoutesById {
   '/_authed/portfolio/edit': typeof AuthedPortfolioEditRoute
   '/api/auth/$provider': typeof ApiAuthProviderRoute
   '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
+  '/_authed/dashboard/edit_/translations': typeof AuthedDashboardEditTranslationsRoute
   '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
 }
 export interface FileRouteTypes {
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/portfolio/edit'
     | '/api/auth/$provider'
     | '/dashboard/'
+    | '/dashboard/edit/translations'
     | '/api/auth/callback/$provider'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/portfolio/edit'
     | '/api/auth/$provider'
     | '/dashboard'
+    | '/dashboard/edit/translations'
     | '/api/auth/callback/$provider'
   id:
     | '__root__'
@@ -281,6 +293,7 @@ export interface FileRouteTypes {
     | '/_authed/portfolio/edit'
     | '/api/auth/$provider'
     | '/_authed/dashboard/'
+    | '/_authed/dashboard/edit_/translations'
     | '/api/auth/callback/$provider'
   fileRoutesById: FileRoutesById
 }
@@ -448,6 +461,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthProviderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/dashboard/edit_/translations': {
+      id: '/_authed/dashboard/edit_/translations'
+      path: '/edit/translations'
+      fullPath: '/dashboard/edit/translations'
+      preLoaderRoute: typeof AuthedDashboardEditTranslationsRouteImport
+      parentRoute: typeof AuthedDashboardRoute
+    }
     '/api/auth/callback/$provider': {
       id: '/api/auth/callback/$provider'
       path: '/api/auth/callback/$provider'
@@ -467,6 +487,7 @@ interface AuthedDashboardRouteChildren {
   AuthedDashboardSkillsRoute: typeof AuthedDashboardSkillsRoute
   AuthedDashboardThemeRoute: typeof AuthedDashboardThemeRoute
   AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
+  AuthedDashboardEditTranslationsRoute: typeof AuthedDashboardEditTranslationsRoute
 }
 
 const AuthedDashboardRouteChildren: AuthedDashboardRouteChildren = {
@@ -478,6 +499,7 @@ const AuthedDashboardRouteChildren: AuthedDashboardRouteChildren = {
   AuthedDashboardSkillsRoute: AuthedDashboardSkillsRoute,
   AuthedDashboardThemeRoute: AuthedDashboardThemeRoute,
   AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
+  AuthedDashboardEditTranslationsRoute: AuthedDashboardEditTranslationsRoute,
 }
 
 const AuthedDashboardRouteWithChildren = AuthedDashboardRoute._addFileChildren(

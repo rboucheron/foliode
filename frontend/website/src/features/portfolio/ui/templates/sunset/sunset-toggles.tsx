@@ -2,6 +2,8 @@ import { Moon, Sun } from "lucide-react"
 import { useTheme } from "@/components/theme/theme-provider"
 import { LOCALES, LOCALE_NATIVE_NAMES, useI18n } from "@/i18n"
 import type { Locale } from "@/i18n"
+import { isFreeLanguage } from "../../../domain/content-language"
+import { usePortfolioContent } from "../../portfolio-content-language"
 
 export function ToggleTheme() {
   const { resolvedTheme, setTheme } = useTheme()
@@ -23,17 +25,32 @@ export function ToggleTheme() {
 const nextLocale = (locale: Locale): Locale => LOCALES[(LOCALES.indexOf(locale) + 1) % LOCALES.length] ?? locale
 
 export function ToggleLang() {
-  const { locale, setLocale, t } = useI18n()
-  const next = nextLocale(locale)
+  const content = usePortfolioContent()
+  if (content && content.languages.length > 1 && content.current) {
+    const { languages, current } = content
+    const next = languages[(languages.findIndex((l) => l.code === current.code) + 1) % languages.length] ?? current
+    return <LangButton code={next.code} label={content.labelOf(next)} onClick={() => content.select(next.code)} />
+  }
+  return <SiteLangToggle />
+}
 
+function SiteLangToggle() {
+  const { locale, setLocale } = useI18n()
+  const next = nextLocale(locale)
+  return <LangButton code={next} label={LOCALE_NATIVE_NAMES[next]} onClick={() => setLocale(next)} />
+}
+
+function LangButton({ code, label, onClick }: { code: string; label: string; onClick: () => void }) {
+  const { t } = useI18n()
   return (
     <button
       type="button"
-      onClick={() => setLocale(next)}
-      aria-label={t("common.language.switchTo", { language: LOCALE_NATIVE_NAMES[next] })}
+      onClick={onClick}
+      aria-label={t("common.language.switchTo", { language: label })}
+      title={label}
       className="grid cursor-pointer justify-items-center"
     >
-      <Flag locale={next} />
+      <Flag code={code} label={label} />
     </button>
   )
 }
@@ -44,15 +61,15 @@ const FLAGS: Partial<Record<string, () => React.JSX.Element>> = {
   zh: ChineseFlag,
 }
 
-function Flag({ locale }: { locale: Locale }) {
-  const LocaleFlag = FLAGS[locale]
-  return LocaleFlag ? <LocaleFlag /> : <CodeBadge locale={locale} />
+function Flag({ code, label }: { code: string; label: string }) {
+  const LocaleFlag = FLAGS[code]
+  return LocaleFlag ? <LocaleFlag /> : <CodeBadge text={isFreeLanguage(code) ? label.slice(0, 2) : code} />
 }
 
-function CodeBadge({ locale }: { locale: Locale }) {
+function CodeBadge({ text }: { text: string }) {
   return (
     <span className="grid size-[22px] place-items-center rounded-full bg-[#ff6d0a] text-[9px] font-bold text-white uppercase">
-      {locale}
+      {text}
     </span>
   )
 }

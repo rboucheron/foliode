@@ -52,6 +52,9 @@ class PublicPortfolioProvider implements ProviderInterface
         $resource->author = $payload['author'] ?? null;
         $resource->projects = $payload['projects'] ?? [];
         $resource->tools = $payload['tools'] ?? [];
+        $resource->sourceLanguage = $payload['sourceLanguage'] ?? null;
+        $resource->languages = $payload['languages'] ?? [];
+        $resource->translations = $payload['translations'] ?? [];
 
         return $resource;
     }

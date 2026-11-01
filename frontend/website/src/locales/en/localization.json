@@ -1,0 +1,84 @@
+{
+  "done": {
+    "back": "Back to editing",
+    "description": "Your portfolio is available in: {{languages}}.",
+    "noLanguage": "Your portfolio is only shown in its original language.",
+    "nothing": "Everything is already up to date, there is nothing to translate.",
+    "restart": "Change languages",
+    "title": "Translations up to date",
+    "view": "View my portfolio"
+  },
+  "editCard": {
+    "button": "Translate my portfolio",
+    "count": "{{count}} translation language(s)",
+    "description": "Translate your main page and your projects into other languages.",
+    "none": "No translations yet.",
+    "title": "Portfolio languages"
+  },
+  "languages": {
+    "cancel": "Cancel",
+    "errors": {
+      "duplicate": "This language is already in the list.",
+      "empty": "Enter the name of the language.",
+      "noSource": "Choose the original language of your content.",
+      "sourceSelected": "The original language cannot be a translation language.",
+      "tooLong": "The language name must not exceed 100 characters.",
+      "tooMany": "You can add up to 10 languages."
+    },
+    "freeAdd": "Add",
+    "freeLabel": "Add another language",
+    "freePlaceholder": "E.g. Italiano",
+    "freeRemove": "Remove {{language}}",
+    "noTarget": "No language selected: your portfolio will only be shown in its original language.",
+    "removeConfirm": "Remove and continue",
+    "removeDescription": "The translations for these languages will be permanently deleted:",
+    "removeTitle": "Remove {{count}} language(s)?",
+    "saving": "Saving...",
+    "sourceDescription": "The language your content is currently written in.",
+    "sourceLocked": "Remove all translation languages to change the original language.",
+    "sourceOther": "Other language...",
+    "sourceOtherPlaceholder": "E.g. Brezhoneg",
+    "sourceTitle": "Original language",
+    "step": "Choose your languages",
+    "submit": "Save and translate",
+    "targetsDescription": "Tick the site languages or add any language you like.",
+    "targetsTitle": "Translation languages"
+  },
+  "page": {
+    "back": "Back to editing",
+    "description": "Translate your main page, then your projects. Skills and other content are not translated.",
+    "loadError": "Unable to load your translations.",
+    "retry": "Try again",
+    "title": "Translate my portfolio"
+  },
+  "public": {
+    "switcher": "Portfolio language"
+  },
+  "steps": {
+    "backToLanguages": "Back to languages",
+    "emptySource": "Empty in the original: nothing to translate.",
+    "fields": {
+      "bio": "About",
+      "description": "Description",
+      "subtitle": "Subtitle",
+      "title": "Title"
+    },
+    "finish": "Save and finish",
+    "invalid": "Fill in the required fields before continuing.",
+    "main": "Main page",
+    "next": "Save and continue",
+    "original": "Original · {{language}}",
+    "outdatedHint": "The original has changed since this translation.",
+    "previous": "Previous",
+    "progress": "Step {{current}} of {{total}}",
+    "project": "Project: {{title}}",
+    "required": "This field is required.",
+    "saveError": "Unable to save the translations.",
+    "saving": "Saving...",
+    "state": {
+      "missing": "To translate",
+      "outdated": "To retranslate",
+      "upToDate": "Up to date"
+    }
+  }
+}
