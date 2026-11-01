@@ -1,6 +1,7 @@
 <?php
 namespace App\Tests\Api;
 
+use App\Tests\Factory\ProfileFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AuthUserTest extends WebTestCase
@@ -42,5 +43,23 @@ class AuthUserTest extends WebTestCase
         self::$token = $data['token'];
 
         return $data['token'];
+    }
+
+    public function testSigninRejectsInvalidCredentials(): void
+    {
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            '/v1/api/user/signin',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode([
+                'email' => 'unknown+' . bin2hex(random_bytes(4)) . '@example.test',
+                'password' => 'wrong-' . ProfileFactory::PASSWORD,
+            ], JSON_THROW_ON_ERROR)
+        );
+
+        self::assertResponseStatusCodeSame(400);
     }
 }
