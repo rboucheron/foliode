@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="1.0">
+    <category>
+        <pattern>QUELLES SONT LES PROJETS *</pattern>
+        <template><condition name="project_count"><li value="0">Votre portfolio ne contient encore aucun projet.</li><li>Voici les projets de votre portfolio :
+<get name="project_list"/><condition name="bio_present"><li value="1">
+Le portfolio contient également une présentation.</li><li></li></condition></li></condition></template>
+    </category>
+    <category>
+        <pattern>QUELS SONT MES PROJETS *</pattern>
+        <template><condition name="project_count"><li value="0">Votre portfolio ne contient encore aucun projet.</li><li>Voici les projets de votre portfolio :
+<get name="project_list"/><condition name="bio_present"><li value="1">
+Le portfolio contient également une présentation.</li><li></li></condition></li></condition></template>
+    </category>
+    <category>
+        <pattern>LISTE DES PROJETS *</pattern>
+        <template><condition name="project_count"><li value="0">Votre portfolio ne contient encore aucun projet.</li><li>Voici les projets de votre portfolio :
+<get name="project_list"/><condition name="bio_present"><li value="1">
+Le portfolio contient également une présentation.</li><li></li></condition></li></condition></template>
+    </category>
+
+    <category>
+        <pattern>BONJOUR AGENT FOLIODE QUELS SONT MES PROJETS *</pattern>
+        <template><condition name="project_count"><li value="0">Votre portfolio ne contient encore aucun projet.</li><li>Voici les projets de votre portfolio :
+<get name="project_list"/></li></condition></template>
+    </category>
+    <category>
+        <pattern>BONJOUR AGENT FOLIODE DES CONSEILS *</pattern>
+        <template>Pour améliorer une description, soyez concret : problème résolu, rôle joué, technologies utilisées et résultat obtenu. Évitez les formulations vagues et ajoutez un exemple ou une mesure.</template>
+    </category>
+    <category>
+        <pattern>BONJOUR *</pattern>
+        <template>Bonjour <star/> ! Je suis l'agent Foliode. Demandez-moi la liste de vos projets ou des conseils sur une description.</template>
+    </category>
+
+    <category>
+        <pattern>COMMENT AMELIORER LA DESCRIPTION *</pattern>
+        <template>Pour améliorer cette description, indiquez clairement le problème résolu, votre rôle, les technologies utilisées et un résultat mesurable. Suggestion : commencez par une phrase courte sur la valeur du projet, puis ajoutez deux ou trois faits concrets.</template>
+    </category>
+    <category>
+        <pattern>CONSEIL *</pattern>
+        <template>Pour améliorer une description, soyez concret : problème résolu, rôle joué, technologies utilisées et résultat obtenu. Évitez les formulations vagues et ajoutez un exemple ou une mesure.</template>
+    </category>
+    <category>
+        <pattern>* DESCRIPTION *</pattern>
+        <template>Pour améliorer une description, soyez concret : problème résolu, rôle joué, technologies utilisées et résultat obtenu. Évitez les formulations vagues et ajoutez un exemple ou une mesure.</template>
+    </category>
+
+    <category>
+        <pattern>*</pattern>
+        <template>Je peux répondre à deux types de questions : lister les projets de votre portfolio et donner des conseils pour améliorer une description.</template>
+    </category>
+</aiml>

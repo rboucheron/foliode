@@ -10,6 +10,12 @@ portfolio_controllers:
         namespace: App\Portfolio\Controller
     type: attribute
 
+chat_controllers:
+    resource:
+        path: ../src/Chat/Controller/
+        namespace: App\Chat\Controller
+    type: attribute
+
 user_controllers:
     resource:
         path: ../src/User/Controller/
