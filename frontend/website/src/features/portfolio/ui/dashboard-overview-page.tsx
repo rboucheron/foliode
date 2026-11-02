@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { useTranslation } from "@/i18n"
 import { startOAuthSignIn, useUserStore } from "@/features/user"
 import type { OAuthProvider } from "@/features/user"
+import { ChatPanel } from "@/features/chat"
 import type { ColorKey } from "../domain/portfolio"
 import { usePortfolioStore } from "../application/portfolio.store"
 import { PortfolioCharts } from "./portfolio-charts"
@@ -241,6 +242,10 @@ export function DashboardOverviewPage() {
               </p>
             </CardContent>
           </Card>
+
+          <ChatPanel
+            userLabel={[user?.firstname, user?.lastname].filter(Boolean).join(" ") || undefined}
+          />
 
           <Card className={cn(cardClassName, "col-span-full")}>
             <CardContent>
