@@ -193,3 +193,10 @@ def restart(ctx):
     """Restart all services."""
     _run(ctx, f"{COMPOSE} down")
     _run(ctx, f"{COMPOSE} up -d")
+
+@task(pre=[setup])
+def all(ctx):
+    """Run full bootstrap setup and execute all tests."""
+    print("[info] Running tests...")
+    test(ctx)
+    print("[ok] Complete setup and tests executed successfully!")
