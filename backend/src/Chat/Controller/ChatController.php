@@ -4,6 +4,7 @@ namespace App\Chat\Controller;
 
 use App\Chat\Dto\PortfolioChatRequest;
 use App\Chat\Service\PortfolioChatService;
+use App\Entity\Portfolio\PortfolioStatus;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,13 +43,18 @@ final class ChatController extends AbstractController
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $locale = $portfolioChatRequest->locale ?: ($request->getPreferredLanguage(['fr', 'en']) ?? 'fr');
 
-        return new JsonResponse([
-            'answer' => $this->portfolioChatService->answer(
-                $portfolio,
-                $portfolioChatRequest->message,
-                $request->getPreferredLanguage(['fr', 'en']) ?? 'fr',
-            ),
-        ]);
+        $response = $this->portfolioChatService->respond(
+            $portfolio,
+            $portfolioChatRequest->message,
+            $locale,
+        );
+
+        if (($response['action'] ?? null) === 'publish') {
+            $this->portfolioService->updateStatus($portfolio, PortfolioStatus::PUBLISHED);
+        }
+
+        return new JsonResponse($response);
     }
 }

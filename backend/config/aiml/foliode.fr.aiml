@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aiml version="1.0">
     <category>
+        <pattern>AJOUTER UN PROJET *</pattern>
+        <template><action name="add_project"/>Ouvrons le formulaire d’ajout de projet.</template>
+    </category>
+    <category>
+        <pattern>AJOUTER UN PROJET</pattern>
+        <template><action name="add_project"/>Ouvrons le formulaire d’ajout de projet.</template>
+    </category>
+    <category>
+        <pattern>ADD PROJECT</pattern>
+        <template><action name="add_project"/>Ouvrons le formulaire d’ajout de projet.</template>
+    </category>
+    <category>
+        <pattern>PUBLIE MON PORTFOLIO *</pattern>
+        <template><action name="publish"/>C’est fait ! Votre portfolio est maintenant en ligne.</template>
+    </category>
+    <category>
+        <pattern>JE VEUX PUBLIER MON PORTFOLIO *</pattern>
+        <template><action name="publish"/>C’est fait ! Votre portfolio est maintenant en ligne.</template>
+    </category>
+    <category>
+        <pattern>METTRE MON PORTFOLIO EN LIGNE *</pattern>
+        <template><action name="publish"/>C’est fait ! Votre portfolio est maintenant en ligne.</template>
+    </category>
+    <category>
+        <pattern>JE VEUX METTRE MON PORTFOLIO EN LIGNE *</pattern>
+        <template><action name="publish"/>C’est fait ! Votre portfolio est maintenant en ligne.</template>
+    </category>
+    <category>
+        <pattern>POUSSER MON PORTFOLIO EN LIGNE *</pattern>
+        <template><action name="publish"/>C’est fait ! Votre portfolio est maintenant en ligne.</template>
+    </category>
+    <category>
+        <pattern>JE VEUX POUSSER MON PORTFOLIO EN LIGNE *</pattern>
+        <template><action name="publish"/>C’est fait ! Votre portfolio est maintenant en ligne.</template>
+    </category>
+    <category>
         <pattern>QUELLES SONT LES PROJETS *</pattern>
         <template><condition name="project_count"><li value="0">Votre portfolio ne contient encore aucun projet.</li><li>Voici les projets de votre portfolio :
 <get name="project_list"/><condition name="bio_present"><li value="1">

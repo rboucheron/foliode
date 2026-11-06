@@ -24,6 +24,14 @@ final class PortfolioChatService
 
     public function answer(Portfolios $portfolio, string $message, string $locale = 'fr'): string
     {
+        return $this->respond($portfolio, $message, $locale)['answer'];
+    }
+
+    /**
+     * @return array{answer: string, action?: string}
+     */
+    public function respond(Portfolios $portfolio, string $message, string $locale = 'fr'): array
+    {
         $variables = $this->buildVariables($portfolio);
         $normalizedMessage = $this->normalize($message);
         $xpath = new DOMXPath($locale === 'en' && $this->englishAiml !== null ? $this->englishAiml : $this->aiml);
@@ -46,7 +54,13 @@ final class PortfolioChatService
 
             $variables['star'] = $captures[0] ?? '';
 
-            return $this->render($template, $variables);
+            $response = ['answer' => $this->render($template, $variables)];
+            $action = $xpath->query('./action', $template)->item(0);
+            if ($action instanceof DOMElement && $action->getAttribute('name') !== '') {
+                $response['action'] = $action->getAttribute('name');
+            }
+
+            return $response;
         }
 
         throw new ServiceUnavailableHttpException(null, 'No AIML response rule matched the message.');
@@ -107,15 +121,9 @@ final class PortfolioChatService
      */
     private function match(string $pattern, string $message): ?array
     {
-        $tokens = explode(' ', $pattern);
-        $regex = '';
-        foreach ($tokens as $index => $token) {
-            if ($token === '*') {
-                $regex .= $index === count($tokens) - 1 ? '(?: (.*))?' : '(.*)';
-                continue;
-            }
-            $regex .= ($index === 0 ? '' : ' ').preg_quote($token, '/');
-        }
+        $quotedPattern = preg_quote($pattern, '/');
+        $regex = str_replace(' \*', '(?: (.*))?', $quotedPattern);
+        $regex = str_replace('\*', '(.*)', $regex);
         $regex = '/^'.$regex.'$/u';
 
         return preg_match($regex, $message, $matches) === 1 ? array_slice($matches, 1) : null;

@@ -13,7 +13,7 @@ import { emptyProjectDraft } from "../domain/project"
 import { ProjectFields } from "./project-fields"
 import { useTranslation } from "@/i18n"
 
-export function ProjectForm() {
+export function ProjectForm({ onCreated, compact = false }: { onCreated?: () => void; compact?: boolean }) {
   const [project, setProject] = useState<ProjectDraft>(emptyProjectDraft)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const t = useTranslation()
@@ -27,6 +27,7 @@ export function ProjectForm() {
       setProjects([...projects, created])
       setProject(emptyProjectDraft())
       toast.success(t("projects.create.success"))
+      onCreated?.()
     } catch (error) {
       toast.error(getApiErrorMessage(error, t("projects.create.error")))
     } finally {
@@ -34,27 +35,31 @@ export function ProjectForm() {
     }
   }
 
+  const form = (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <ProjectFields
+        idPrefix="project-create"
+        project={project}
+        onChange={(changes) => setProject((current) => ({ ...current, ...changes }))}
+      />
+      <FileInput
+        id="project-create-images"
+        files={project.images ?? []}
+        onChange={(images) => setProject((current) => ({ ...current, images }))}
+        isRequired
+      />
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting && <Spinner />}
+        {t("projects.create.submit")}
+      </Button>
+    </form>
+  )
+
+  if (compact) return form
+
   return (
     <Card className="h-max w-full sm:w-[300px]">
-      <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <ProjectFields
-            idPrefix="project-create"
-            project={project}
-            onChange={(changes) => setProject((current) => ({ ...current, ...changes }))}
-          />
-          <FileInput
-            id="project-create-images"
-            files={project.images ?? []}
-            onChange={(images) => setProject((current) => ({ ...current, images }))}
-            isRequired
-          />
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting && <Spinner />}
-            {t("projects.create.submit")}
-          </Button>
-        </form>
-      </CardContent>
+      <CardContent>{form}</CardContent>
     </Card>
   )
 }

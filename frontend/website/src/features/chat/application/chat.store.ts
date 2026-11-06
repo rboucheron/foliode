@@ -10,31 +10,51 @@ import {
   getSuggestedQuestionsFromApi,
   sendPortfolioChatMessage,
 } from "./chat.api"
+import type { Locale } from "@/i18n"
 
 interface ChatState {
   messages: ChatMessage[]
+  welcomeMessage: string
   isLoading: boolean
   error: string | null
   suggestedQuestions: SuggestedQuestion[]
   isLoadingSuggestions: boolean
 
   fetchSuggestedQuestions: () => Promise<void>
-  sendMessage: (content: string) => Promise<void>
+  sendMessage: (content: string, messages?: ChatErrorMessagesWithoutWelcome, locale?: Locale) => Promise<"add_project" | "publish" | undefined>
   clearMessages: () => void
+  setWelcomeMessage: (message: string) => void
   setError: (error: string | null) => void
 }
 
-const INITIAL_ASSISTANT_MESSAGE: ChatMessage = {
-  id: "initial_welcome",
-  role: "assistant",
-  content:
-    "Bonjour ! Je suis l'agent IA de votre portfolio Foliode. Vous pouvez me demander la liste de vos projets ou des conseils concrets pour améliorer vos descriptions.",
-  timestamp: Date.now(),
-  status: "sent",
+export interface ChatErrorMessages {
+  empty: string
+  tooShort: string
+  tooLong: string
+  invalid: string
+  unableToProcess: string
+  unexpected: string
+  welcome: string
 }
 
+type ChatErrorMessagesWithoutWelcome = Omit<ChatErrorMessages, "welcome">
+
+const DEFAULT_ERROR_MESSAGES: ChatErrorMessages = {
+  empty: "The message cannot be empty.",
+  tooShort: "The message is too short.",
+  tooLong: "The message is too long.",
+  invalid: "Invalid message.",
+  unableToProcess: "Unable to process your request.",
+  unexpected: "An unexpected error occurred.",
+  welcome: "Hello! I am the AI agent for your Foliode portfolio. Ask me for your project list or practical advice to improve your descriptions.",
+}
+
+const createWelcomeMessage = (content: string): ChatMessage =>
+  ({ ...createChatMessage("assistant", content, "sent"), id: "initial_welcome" })
+
 export const useChatStore = create<ChatState>((set) => ({
-  messages: [INITIAL_ASSISTANT_MESSAGE],
+  messages: [createWelcomeMessage(DEFAULT_ERROR_MESSAGES.welcome)],
+  welcomeMessage: DEFAULT_ERROR_MESSAGES.welcome,
   isLoading: false,
   error: null,
   suggestedQuestions: [...DEFAULT_SUGGESTED_QUESTIONS],
@@ -57,11 +77,15 @@ export const useChatStore = create<ChatState>((set) => ({
     }
   },
 
-  sendMessage: async (content: string) => {
+  sendMessage: async (
+    content: string,
+    messages: ChatErrorMessagesWithoutWelcome = DEFAULT_ERROR_MESSAGES,
+    locale: Locale = "fr",
+  ) => {
     const validation = validateChatMessage(content)
     if (!validation.isValid) {
-      set({ error: validation.error ?? "Message invalide" })
-      return
+      set({ error: validation.errorCode ? messages[validation.errorCode] : messages.invalid })
+      return undefined
     }
 
     const trimmedContent = content.trim()
@@ -72,24 +96,27 @@ export const useChatStore = create<ChatState>((set) => ({
       isLoading: true,
       error: null,
     }))
-
     try {
-      const response = await sendPortfolioChatMessage({ message: trimmedContent })
+      const response = await sendPortfolioChatMessage(
+        { message: trimmedContent, locale },
+        messages.unableToProcess,
+      )
       const botMessage = createChatMessage("assistant", response.answer, "sent")
 
       set((state) => ({
         messages: [...state.messages, botMessage],
         isLoading: false,
       }))
+      return response.action
     } catch (err) {
       const errorText =
         err instanceof Error
           ? err.message
-          : "Une erreur est survenue lors de l'envoi du message."
+          : messages.unexpected
 
       const errorBotMessage = createChatMessage(
         "assistant",
-        "Je n'ai pas pu répondre à votre demande. Assurez-vous d'avoir enregistré des projets dans votre portfolio ou essayez de poser une question comme « Quels sont mes projets ? » ou « Des conseils ».",
+        messages.unableToProcess,
         "error",
         errorText,
       )
@@ -99,14 +126,24 @@ export const useChatStore = create<ChatState>((set) => ({
         isLoading: false,
         error: errorText,
       }))
+      return undefined
     }
   },
 
   clearMessages: () => {
-    set({
-      messages: [INITIAL_ASSISTANT_MESSAGE],
+    set((state) => ({
+      messages: [createWelcomeMessage(state.welcomeMessage)],
       error: null,
-    })
+    }))
+  },
+
+  setWelcomeMessage: (message) => {
+    set((state) => ({
+      welcomeMessage: message,
+      messages: state.messages.length === 1 && state.messages[0]?.id === "initial_welcome"
+        ? [createWelcomeMessage(message)]
+        : state.messages,
+    }))
   },
 
   setError: (error) => {
