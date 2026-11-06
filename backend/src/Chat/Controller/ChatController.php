@@ -44,7 +44,11 @@ final class ChatController extends AbstractController
         $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
 
         return new JsonResponse([
-            'answer' => $this->portfolioChatService->answer($portfolio, $portfolioChatRequest->message),
+            'answer' => $this->portfolioChatService->answer(
+                $portfolio,
+                $portfolioChatRequest->message,
+                $request->getPreferredLanguage(['fr', 'en']) ?? 'fr',
+            ),
         ]);
     }
 }

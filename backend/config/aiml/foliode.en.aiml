@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="1.0">
+    <category>
+        <pattern>WHAT ARE THE PROJECTS *</pattern>
+        <template><condition name="project_count"><li value="0">Your portfolio does not contain any project yet.</li><li>Here are the projects in your portfolio:
+<get name="project_list"/><condition name="bio_present"><li value="1">
+Your portfolio also contains an introduction.</li><li></li></condition></li></condition></template>
+    </category>
+    <category>
+        <pattern>WHAT ARE MY PROJECTS *</pattern>
+        <template><condition name="project_count"><li value="0">Your portfolio does not contain any project yet.</li><li>Here are the projects in your portfolio:
+<get name="project_list"/><condition name="bio_present"><li value="1">
+Your portfolio also contains an introduction.</li><li></li></condition></li></condition></template>
+    </category>
+    <category>
+        <pattern>PROJECT LIST *</pattern>
+        <template><condition name="project_count"><li value="0">Your portfolio does not contain any project yet.</li><li>Here are the projects in your portfolio:
+<get name="project_list"/><condition name="bio_present"><li value="1">
+Your portfolio also contains an introduction.</li><li></li></condition></li></condition></template>
+    </category>
+    <category>
+        <pattern>HELLO FOLIODE AGENT WHAT ARE MY PROJECTS *</pattern>
+        <template><condition name="project_count"><li value="0">Your portfolio does not contain any project yet.</li><li>Here are the projects in your portfolio:
+<get name="project_list"/></li></condition></template>
+    </category>
+    <category>
+        <pattern>HELLO FOLIODE AGENT ADVICE *</pattern>
+        <template>To improve a description, be specific: explain the problem solved, your role, the technologies used and the result achieved. Avoid vague wording and add an example or a metric.</template>
+    </category>
+    <category>
+        <pattern>HELLO *</pattern>
+        <template>Hello <star/>! I am the Foliode agent. Ask me for your project list or advice on a description.</template>
+    </category>
+    <category>
+        <pattern>HOW TO IMPROVE THE DESCRIPTION *</pattern>
+        <template>To improve this description, clearly state the problem solved, your role, the technologies used and a measurable result. Suggestion: start with a short sentence about the project's value, then add two or three concrete facts.</template>
+    </category>
+    <category>
+        <pattern>ADVICE *</pattern>
+        <template>To improve a description, be specific: explain the problem solved, your role, the technologies used and the result achieved. Avoid vague wording and add an example or a metric.</template>
+    </category>
+    <category>
+        <pattern>* DESCRIPTION *</pattern>
+        <template>To improve a description, be specific: explain the problem solved, your role, the technologies used and the result achieved. Avoid vague wording and add an example or a metric.</template>
+    </category>
+    <category>
+        <pattern>*</pattern>
+        <template>I can answer two types of questions: list the projects in your portfolio and give advice to improve a description.</template>
+    </category>
+</aiml>
