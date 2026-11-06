@@ -11,6 +11,31 @@
     "empty": "Track your portfolio's views and engagement!",
     "title": "Portfolio views"
   },
+  "chat": {
+    "badge": "AIML Agent",
+    "badgeStatus": "Online",
+    "categories": {
+      "advice": "Advice",
+      "custom": "Suggested",
+      "general": "General",
+      "projects": "Projects"
+    },
+    "characterCount": "{{current}} / {{max}} characters",
+    "clear": "Clear",
+    "clearAria": "Clear conversation",
+    "copied": "Copied!",
+    "copy": "Copy answer",
+    "disclaimer": "The AIML agent analyzes your portfolio content to answer you.",
+    "errors": {
+      "unable_to_process": "Sorry, I was unable to process your request. Try asking a question about your projects or requesting writing advice."
+    },
+    "placeholder": "Ask a question about your portfolio (e.g., What are my projects?)...",
+    "send": "Send",
+    "subtitle": "Ask questions about your projects or request advice",
+    "suggestedTitle": "Quick suggestions:",
+    "thinking": "Foliode agent is thinking...",
+    "title": "Foliode AI Assistant"
+  },
   "colors": {
     "info": "Info",
     "light": "Light",

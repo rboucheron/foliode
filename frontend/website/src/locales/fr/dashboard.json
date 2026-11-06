@@ -11,6 +11,31 @@
     "empty": "Suivez les vues et l'engagement de votre portfolio !",
     "title": "Vues du portfolio"
   },
+  "chat": {
+    "badge": "Agent AIML",
+    "badgeStatus": "En ligne",
+    "categories": {
+      "advice": "Conseils",
+      "custom": "Suggéré",
+      "general": "Général",
+      "projects": "Projets"
+    },
+    "characterCount": "{{current}} / {{max}} caractères",
+    "clear": "Effacer",
+    "clearAria": "Effacer la conversation",
+    "copied": "Copié !",
+    "copy": "Copier la réponse",
+    "disclaimer": "L'agent AIML analyse le contenu de votre portfolio pour vous répondre.",
+    "errors": {
+      "unable_to_process": "Désolé, je n'ai pas pu traiter votre demande. Essayez de poser une question sur vos projets ou demandez des conseils de rédaction."
+    },
+    "placeholder": "Posez une question sur votre portfolio (ex: Quels sont mes projets ?)...",
+    "send": "Envoyer",
+    "subtitle": "Posez vos questions sur vos projets ou demandez des conseils",
+    "suggestedTitle": "Suggestions rapides :",
+    "thinking": "L'agent Foliode réfléchit...",
+    "title": "Assistant Foliode AI"
+  },
   "colors": {
     "info": "Info",
     "light": "Clair",
