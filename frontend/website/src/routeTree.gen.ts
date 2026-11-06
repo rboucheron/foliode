@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as UsernameIndexRouteImport } from './routes/$username/index'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as DevAimlRouteImport } from './routes/dev/aiml'
 import { Route as DevLanguagesRouteImport } from './routes/dev/languages'
 import { Route as DevTranslationsRouteImport } from './routes/dev/translations'
 import { Route as UsernameProjectTitleRouteImport } from './routes/$username/project/$title'
@@ -71,6 +72,11 @@ const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthedRoute,
+} as any)
+const DevAimlRoute = DevAimlRouteImport.update({
+  id: '/dev/aiml',
+  path: '/dev/aiml',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DevLanguagesRoute = DevLanguagesRouteImport.update({
   id: '/dev/languages',
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthedDashboardRouteWithChildren
+  '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
   '/$username/': typeof UsernameIndexRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
   '/$username': typeof UsernameIndexRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
+  '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
   '/$username/': typeof UsernameIndexRoute
@@ -231,6 +240,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/dashboard'
+    | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
     | '/$username/'
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
+    | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
     | '/$username'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/_authed/dashboard'
+    | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
     | '/$username/'
@@ -304,6 +316,7 @@ export interface RootRouteChildren {
   FrRoute: typeof FrRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  DevAimlRoute: typeof DevAimlRoute
   DevLanguagesRoute: typeof DevLanguagesRoute
   DevTranslationsRoute: typeof DevTranslationsRoute
   UsernameIndexRoute: typeof UsernameIndexRoute
@@ -369,6 +382,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthedDashboardRouteImport
       parentRoute: typeof AuthedRoute
+    }
+    '/dev/aiml': {
+      id: '/dev/aiml'
+      path: '/dev/aiml'
+      fullPath: '/dev/aiml'
+      preLoaderRoute: typeof DevAimlRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/dev/languages': {
       id: '/dev/languages'
@@ -526,6 +546,7 @@ const rootRouteChildren: RootRouteChildren = {
   FrRoute: FrRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  DevAimlRoute: DevAimlRoute,
   DevLanguagesRoute: DevLanguagesRoute,
   DevTranslationsRoute: DevTranslationsRoute,
   UsernameIndexRoute: UsernameIndexRoute,

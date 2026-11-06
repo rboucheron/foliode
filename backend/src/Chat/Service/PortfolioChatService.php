@@ -12,32 +12,21 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 final class PortfolioChatService
 {
     private DOMDocument $aiml;
+    private ?DOMDocument $englishAiml = null;
 
-    public function __construct(string $aimlFile)
+    public function __construct(string $aimlFile, ?string $englishAimlFile = null)
     {
-        if (!is_readable($aimlFile)) {
-            throw new \RuntimeException(sprintf('AIML file is not readable: %s', $aimlFile));
-        }
-
-        $this->aiml = new DOMDocument();
-        $this->aiml->preserveWhiteSpace = true;
-        $previousErrors = libxml_use_internal_errors(true);
-        $loaded = $this->aiml->load($aimlFile, LIBXML_NONET);
-        $errors = libxml_get_errors();
-        libxml_clear_errors();
-        libxml_use_internal_errors($previousErrors);
-
-        if (!$loaded) {
-            $details = $errors[0]->message ?? 'Invalid XML.';
-            throw new \RuntimeException('Unable to load AIML file: '.trim($details));
+        $this->aiml = $this->loadAimlFile($aimlFile);
+        if ($englishAimlFile !== null && is_readable($englishAimlFile)) {
+            $this->englishAiml = $this->loadAimlFile($englishAimlFile);
         }
     }
 
-    public function answer(Portfolios $portfolio, string $message): string
+    public function answer(Portfolios $portfolio, string $message, string $locale = 'fr'): string
     {
         $variables = $this->buildVariables($portfolio);
         $normalizedMessage = $this->normalize($message);
-        $xpath = new DOMXPath($this->aiml);
+        $xpath = new DOMXPath($locale === 'en' && $this->englishAiml !== null ? $this->englishAiml : $this->aiml);
 
         foreach ($xpath->query('//category') as $category) {
             if (!$category instanceof DOMElement) {
@@ -61,6 +50,27 @@ final class PortfolioChatService
         }
 
         throw new ServiceUnavailableHttpException(null, 'No AIML response rule matched the message.');
+    }
+
+    private function loadAimlFile(string $aimlFile): DOMDocument
+    {
+        if (!is_readable($aimlFile)) {
+            throw new \RuntimeException(sprintf('AIML file is not readable: %s', $aimlFile));
+        }
+
+        $document = new DOMDocument();
+        $document->preserveWhiteSpace = true;
+        $previousErrors = libxml_use_internal_errors(true);
+        $loaded = $document->load($aimlFile, LIBXML_NONET);
+        $errors = libxml_get_errors();
+        libxml_clear_errors();
+        libxml_use_internal_errors($previousErrors);
+        if (!$loaded) {
+            $details = $errors[0]->message ?? 'Invalid XML.';
+            throw new \RuntimeException('Unable to load AIML file: '.trim($details));
+        }
+
+        return $document;
     }
 
     /**

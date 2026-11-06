@@ -5,7 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     upload_directory: '%kernel.project_dir%/public/uploads'
-    foliade_aiml_file: '%kernel.project_dir%/config/aiml/foliode.aiml'
+    foliade_aiml_file: '%kernel.project_dir%/config/aiml/foliode.fr.aiml'
+    foliade_aiml_english_file: '%kernel.project_dir%/config/aiml/foliode.en.aiml'
 
 services:
 
@@ -29,6 +30,7 @@ services:
     App\Chat\Service\PortfolioChatService:
         arguments:
             $aimlFile: '%foliade_aiml_file%'
+            $englishAimlFile: '%foliade_aiml_english_file%'
 
 
     # add more service definitions when explicit configuration is needed
