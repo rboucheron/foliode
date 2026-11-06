@@ -16,6 +16,7 @@ import { Route as FrRouteImport } from './routes/fr'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as UsernameIndexRouteImport } from './routes/$username/index'
+import { Route as AuthedChatRouteImport } from './routes/_authed/chat'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as DevAimlRouteImport } from './routes/dev/aiml'
 import { Route as DevLanguagesRouteImport } from './routes/dev/languages'
@@ -67,6 +68,11 @@ const UsernameIndexRoute = UsernameIndexRouteImport.update({
   id: '/$username/',
   path: '/$username/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedChatRoute = AuthedChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   id: '/dashboard',
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/chat': typeof AuthedChatRoute
   '/dashboard': typeof AuthedDashboardRouteWithChildren
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/chat': typeof AuthedChatRoute
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_authed/chat': typeof AuthedChatRoute
   '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
+    | '/chat'
     | '/dashboard'
     | '/dev/aiml'
     | '/dev/languages'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
+    | '/chat'
     | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/fr'
     | '/login'
     | '/signup'
+    | '/_authed/chat'
     | '/_authed/dashboard'
     | '/dev/aiml'
     | '/dev/languages'
@@ -375,6 +387,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$username/'
       preLoaderRoute: typeof UsernameIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authed/chat': {
+      id: '/_authed/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthedChatRouteImport
+      parentRoute: typeof AuthedRoute
     }
     '/_authed/dashboard': {
       id: '/_authed/dashboard'
@@ -527,11 +546,13 @@ const AuthedDashboardRouteWithChildren = AuthedDashboardRoute._addFileChildren(
 )
 
 interface AuthedRouteChildren {
+  AuthedChatRoute: typeof AuthedChatRoute
   AuthedDashboardRoute: typeof AuthedDashboardRouteWithChildren
   AuthedPortfolioEditRoute: typeof AuthedPortfolioEditRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedChatRoute: AuthedChatRoute,
   AuthedDashboardRoute: AuthedDashboardRouteWithChildren,
   AuthedPortfolioEditRoute: AuthedPortfolioEditRoute,
 }

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import type { FormEvent } from "react"
-import { BotIcon, LoaderCircleIcon, SendIcon, Trash2Icon } from "lucide-react"
+import { LoaderCircleIcon, SendIcon, Trash2Icon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { useTranslation } from "@/i18n"
+import { useI18n, useTranslation } from "@/i18n"
 import { cn } from "@/lib/utils"
 import { useChatStore } from "../application/chat.store"
 import { validateChatMessage } from "../domain/chat"
 import { ChatMessageItem } from "./chat-message-item"
 import { ChatSuggestions } from "./chat-suggestions"
+import { ProjectForm } from "@/features/project"
 
 interface ChatPanelProps {
   userLabel?: string
@@ -17,6 +19,8 @@ interface ChatPanelProps {
 
 export function ChatPanel({ userLabel }: ChatPanelProps) {
   const t = useTranslation()
+  const { locale } = useI18n()
+  const [showProjectForm, setShowProjectForm] = useState(false)
   const [draft, setDraft] = useState("")
   const messages = useChatStore((state) => state.messages)
   const isLoading = useChatStore((state) => state.isLoading)
@@ -25,17 +29,28 @@ export function ChatPanel({ userLabel }: ChatPanelProps) {
   const fetchSuggestedQuestions = useChatStore((state) => state.fetchSuggestedQuestions)
   const sendMessage = useChatStore((state) => state.sendMessage)
   const clearMessages = useChatStore((state) => state.clearMessages)
+  const setWelcomeMessage = useChatStore((state) => state.setWelcomeMessage)
+  const errorMessages = {
+    empty: t("chat.errors.empty"),
+    tooShort: t("chat.errors.tooShort"),
+    tooLong: t("chat.errors.tooLong", { min: 2, max: 4000 }),
+    invalid: t("chat.errors.invalid"),
+    unableToProcess: t("chat.errors.unableToProcess"),
+    unexpected: t("chat.errors.unexpected"),
+  }
 
   useEffect(() => {
     void fetchSuggestedQuestions()
-  }, [fetchSuggestedQuestions])
+    setWelcomeMessage(t("chat.welcome"))
+  }, [fetchSuggestedQuestions, setWelcomeMessage, t])
 
   const handleSend = async (content: string) => {
     const validation = validateChatMessage(content)
     if (!validation.isValid || isLoading) return
 
     setDraft("")
-    await sendMessage(content)
+    const action = await sendMessage(content, errorMessages, locale)
+    if (action === "add_project") setShowProjectForm(true)
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -45,12 +60,9 @@ export function ChatPanel({ userLabel }: ChatPanelProps) {
 
   return (
     <Card className="col-span-full overflow-hidden border-violet-500/20 shadow-lg">
-      <CardHeader className="border-b bg-gradient-to-r from-violet-500/10 via-indigo-500/5 to-transparent">
+      <CardHeader className="border-b to-transparent">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="rounded-xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-purple-500 p-2 text-white shadow-sm">
-              <BotIcon className="size-5" />
-            </div>
             <div>
               <CardTitle>{t("dashboard.chat.title")}</CardTitle>
               <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.chat.subtitle")}</p>
@@ -126,6 +138,14 @@ export function ChatPanel({ userLabel }: ChatPanelProps) {
           </div>
         </form>
       </CardContent>
+      <Dialog open={showProjectForm} onOpenChange={setShowProjectForm}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("projects.create.submit")}</DialogTitle>
+          </DialogHeader>
+          <ProjectForm compact onCreated={() => setShowProjectForm(false)} />
+        </DialogContent>
+      </Dialog>
     </Card>
   )
 }

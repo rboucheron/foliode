@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aiml version="1.0">
     <category>
+        <pattern>ADD PROJECT *</pattern>
+        <template><action name="add_project"/>Opening the project creation form.</template>
+    </category>
+    <category>
+        <pattern>ADD PROJECT</pattern>
+        <template><action name="add_project"/>Opening the project creation form.</template>
+    </category>
+    <category>
+        <pattern>AJOUTER UN PROJET</pattern>
+        <template><action name="add_project"/>Opening the project creation form.</template>
+    </category>
+    <category>
+        <pattern>PUBLISH MY PORTFOLIO *</pattern>
+        <template><action name="publish"/>Done! Your portfolio is now online.</template>
+    </category>
+    <category>
+        <pattern>I WANT TO PUBLISH MY PORTFOLIO *</pattern>
+        <template><action name="publish"/>Done! Your portfolio is now online.</template>
+    </category>
+    <category>
+        <pattern>PUT MY PORTFOLIO ONLINE *</pattern>
+        <template><action name="publish"/>Done! Your portfolio is now online.</template>
+    </category>
+    <category>
+        <pattern>I WANT TO PUT MY PORTFOLIO ONLINE *</pattern>
+        <template><action name="publish"/>Done! Your portfolio is now online.</template>
+    </category>
+    <category>
+        <pattern>MAKE MY PORTFOLIO LIVE *</pattern>
+        <template><action name="publish"/>Done! Your portfolio is now online.</template>
+    </category>
+    <category>
         <pattern>WHAT ARE THE PROJECTS *</pattern>
         <template><condition name="project_count"><li value="0">Your portfolio does not contain any project yet.</li><li>Here are the projects in your portfolio:
 <get name="project_list"/><condition name="bio_present"><li value="1">

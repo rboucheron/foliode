@@ -14,4 +14,7 @@ final class PortfolioChatRequest
         maxMessage: 'message cannot exceed 4000 characters.'
     )]
     public string $message = '';
+
+    #[Assert\Choice(choices: ['fr', 'en'], message: 'locale must be fr or en.')]
+    public string $locale = 'fr';
 }

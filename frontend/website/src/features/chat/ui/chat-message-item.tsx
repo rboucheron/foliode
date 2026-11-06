@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { AlertCircleIcon, BotIcon, CheckIcon, CopyIcon, UserIcon } from "lucide-react"
+import { AlertCircleIcon, BotIcon, CheckIcon, CopyIcon } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -20,7 +20,7 @@ const formatTimestamp = (timestamp: number): string => {
   }).format(new Date(timestamp))
 }
 
-export function ChatMessageItem({ message, userLabel }: ChatMessageItemProps) {
+export function ChatMessageItem({ message }: ChatMessageItemProps) {
   const t = useTranslation()
   const [copied, setCopied] = useState(false)
   const isAssistant = message.role === "assistant"
@@ -35,15 +35,6 @@ export function ChatMessageItem({ message, userLabel }: ChatMessageItemProps) {
 
     }
   }
-
-  const initials = userLabel
-    ? userLabel
-        .split(" ")
-        .map((w) => w[0])
-        .slice(0, 2)
-        .join("")
-        .toUpperCase()
-    : "VOUS"
 
   return (
     <div

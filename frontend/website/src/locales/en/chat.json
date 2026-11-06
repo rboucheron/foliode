@@ -1,0 +1,31 @@
+{
+  "badge": "AIML Agent",
+  "welcome": "Hello! I am the AI agent for your Foliode portfolio. Ask me for your project list or practical advice to improve your descriptions.",
+  "errors": {
+    "empty": "The message cannot be empty.",
+    "tooShort": "The message must contain at least {{min}} characters.",
+    "tooLong": "The message cannot exceed {{max}} characters.",
+    "invalid": "Invalid message.",
+    "unableToProcess": "Sorry, I could not answer. Try asking about your projects or request advice.",
+    "unexpected": "An error occurred while sending the message."
+  },
+  "suggestions": {
+    "title": "Try a question",
+    "projects": "What are my projects?",
+    "description": "How can I improve my project descriptions?",
+    "greeting": "Hello Foliode agent!",
+    "general": "Do you have advice for my portfolio?"
+  },
+  "page": {
+    "label": "Portfolio chat",
+    "backToDashboard": "Back to dashboard",
+    "aboutTitle": "About the agent",
+    "aboutDescription": "An assistant specialized in your portfolio content.",
+    "aboutDetails": "It answers using your projects, your introduction and the AIML rules configured in Foliode.",
+    "aboutTip": "Ask a short and specific question to get a more useful answer.",
+    "examplesTitle": "Examples",
+    "exampleProjects": "“What are my projects?”",
+    "exampleDescription": "“How can I improve a description?”",
+    "exampleGreeting": "“Hello Foliode agent”"
+  }
+}

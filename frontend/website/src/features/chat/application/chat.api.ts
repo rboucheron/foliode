@@ -10,6 +10,7 @@ import {
 
 export const sendPortfolioChatMessage = async (
   request: PortfolioChatRequest,
+  fallbackMessage = "Unable to process chat request.",
 ): Promise<PortfolioChatResponse> => {
   try {
     const response = await apiClient.post<PortfolioChatResponse>(
@@ -18,10 +19,9 @@ export const sendPortfolioChatMessage = async (
     )
     return {
       answer: formatChatAnswer(response.data.answer),
+      ...(response.data.action ? { action: response.data.action } : {}),
     }
   } catch (error) {
-    const fallbackMessage =
-      "Désolé, je n'ai pas pu traiter votre demande. Essayez de poser une question sur vos projets ou demandez des conseils de rédaction."
     const message = getApiErrorMessage(error, fallbackMessage)
     throw new Error(message)
   }

@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n"
+
 export type ChatMessageRole = "user" | "assistant" | "system"
 
 export type ChatMessageStatus = "sending" | "sent" | "error"
@@ -13,17 +15,19 @@ export interface ChatMessage {
 
 export interface PortfolioChatRequest {
   message: string
+  locale: Locale
 }
 
 export interface PortfolioChatResponse {
   answer: string
+  action?: "add_project" | "publish"
 }
 
 export interface SuggestedQuestion {
   id: string
   question: string
-  category?: "projects" | "advice" | "general" | "custom"
-  icon?: "sparkles" | "folder" | "lightbulb" | "help"
+  category?: string
+  icon?: string
 }
 
 export const MIN_MESSAGE_LENGTH = 2
@@ -32,6 +36,7 @@ export const MAX_MESSAGE_LENGTH = 4000
 export interface MessageValidationResult {
   isValid: boolean
   error?: string
+  errorCode?: "empty" | "tooShort" | "tooLong"
 }
 
 export const validateChatMessage = (message: string): MessageValidationResult => {
@@ -40,6 +45,7 @@ export const validateChatMessage = (message: string): MessageValidationResult =>
     return {
       isValid: false,
       error: "Le message ne peut pas être vide.",
+      errorCode: "empty",
     }
   }
 
@@ -47,6 +53,7 @@ export const validateChatMessage = (message: string): MessageValidationResult =>
     return {
       isValid: false,
       error: `Le message doit contenir au moins ${MIN_MESSAGE_LENGTH} caractères.`,
+      errorCode: "tooShort",
     }
   }
 
@@ -54,6 +61,7 @@ export const validateChatMessage = (message: string): MessageValidationResult =>
     return {
       isValid: false,
       error: `Le message ne peut pas dépasser ${MAX_MESSAGE_LENGTH} caractères.`,
+      errorCode: "tooLong",
     }
   }
 
@@ -87,25 +95,17 @@ export const DEFAULT_SUGGESTED_QUESTIONS: ReadonlyArray<SuggestedQuestion> = [
   {
     id: "q_projects_list",
     question: "Quels sont mes projets ?",
-    category: "projects",
-    icon: "folder",
   },
   {
     id: "q_description_advice",
     question: "Comment améliorer la description de mes projets ?",
-    category: "advice",
-    icon: "lightbulb",
   },
   {
     id: "q_bot_greeting",
     question: "Bonjour agent Foliode !",
-    category: "general",
-    icon: "sparkles",
   },
   {
     id: "q_general_advice",
     question: "Des conseils pour mon portfolio ?",
-    category: "advice",
-    icon: "help",
   },
 ]

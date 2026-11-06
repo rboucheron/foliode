@@ -11,8 +11,8 @@ export interface AimlIssue {
 
 export type AimlFiles = Record<AimlLocale, { categories: AimlCategory[]; raw: string }>
 
-const allowedTags = new Set(["condition", "li", "get", "set", "star", "that", "srai", "random"])
-const selfClosingTags = new Set(["get", "star"])
+const allowedTags = new Set(["action", "condition", "li", "get", "set", "star", "that", "srai", "random"])
+const selfClosingTags = new Set(["action", "get", "star"])
 
 const categoryId = (category: Pick<AimlCategory, "pattern">, index: number) =>
   `${category.pattern.trim() || "category"}-${index + 1}`

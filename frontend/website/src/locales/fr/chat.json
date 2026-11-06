@@ -1,0 +1,31 @@
+{
+  "badge": "Agent AIML",
+  "welcome": "Bonjour ! Je suis l'agent IA de votre portfolio Foliode. Vous pouvez me demander la liste de vos projets ou des conseils concrets pour améliorer vos descriptions.",
+  "errors": {
+    "empty": "Le message ne peut pas être vide.",
+    "tooShort": "Le message doit contenir au moins {{min}} caractères.",
+    "tooLong": "Le message ne peut pas dépasser {{max}} caractères.",
+    "invalid": "Message invalide.",
+    "unableToProcess": "Désolé, je n'ai pas pu répondre. Essayez une question sur vos projets ou demandez des conseils.",
+    "unexpected": "Une erreur est survenue lors de l'envoi du message."
+  },
+  "suggestions": {
+    "title": "Essayez une question",
+    "projects": "Quels sont mes projets ?",
+    "description": "Comment améliorer la description de mes projets ?",
+    "greeting": "Bonjour agent Foliode !",
+    "general": "Des conseils pour mon portfolio ?"
+  },
+  "page": {
+    "label": "Chat portfolio",
+    "backToDashboard": "Retour au dashboard",
+    "aboutTitle": "À propos de l’agent",
+    "aboutDescription": "Un assistant spécialisé dans le contenu de votre portfolio.",
+    "aboutDetails": "Il répond à partir de vos projets, de votre présentation et des règles AIML configurées dans Foliode.",
+    "aboutTip": "Posez une question courte et précise pour obtenir une réponse plus utile.",
+    "examplesTitle": "Exemples",
+    "exampleProjects": "« Quels sont mes projets ? »",
+    "exampleDescription": "« Comment améliorer une description ? »",
+    "exampleGreeting": "« Bonjour agent Foliode »"
+  }
+}
