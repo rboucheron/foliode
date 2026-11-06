@@ -1,0 +1,13 @@
+mcp:
+    servers:
+        foliode:
+            name: 'foliode'
+            version: '1.0.0'
+            instructions: 'Access the authenticated user portfolio in Foliode.'
+            transports:
+                http: true
+            http:
+                path: /mcp
+            registry:
+                tools:
+                    - 'App\Mcp\Tool\'
