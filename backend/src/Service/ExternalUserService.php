@@ -55,6 +55,9 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
+    /**
+     * @return array{token: string, user: string}
+     */
     public function updateUserWithGithub(Users $user, array $userData): array
     {
         $user->setGithubLogin($userData['login']);
