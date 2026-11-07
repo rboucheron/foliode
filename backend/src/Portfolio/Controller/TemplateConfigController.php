@@ -6,16 +6,15 @@ use App\Portfolio\Dto\TemplateColorConfigDTO;
 use App\Portfolio\Dto\TemplateFontConfigDTO;
 use App\Portfolio\Service\TemplateConfigService;
 use App\Portfolio\Service\PortfolioService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Service\BaseControllerWithAuth;
 
-
-class TemplateConfigController extends AbstractController
+class TemplateConfigController extends BaseControllerWithAuth
 {
     public function __construct(
         private SerializerInterface $serializer,
@@ -74,15 +73,4 @@ class TemplateConfigController extends AbstractController
         );
     }
 
-
-
-    private function getAuthenticatedUser(): \\App\\Entity\\Users
-    {
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
-
-        return $user;
-    }
 }

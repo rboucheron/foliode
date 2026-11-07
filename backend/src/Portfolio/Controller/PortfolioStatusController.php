@@ -4,12 +4,14 @@ namespace App\Portfolio\Controller;
 
 use App\Entity\Portfolio\PortfolioStatus;
 use App\Portfolio\Service\PortfolioService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\BaseControllerWithAuth;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
 
-class PortfolioStatusController extends AbstractController
+
+
+class PortfolioStatusController extends BaseControllerWithAuth
 {
      public function __construct(
         private PortfolioService $portfolioService,
@@ -49,13 +51,4 @@ class PortfolioStatusController extends AbstractController
     }
 
 
-    private function getAuthenticatedUser(): \\App\\Entity\\Users
-    {
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
-
-        return $user;
-    }
 }

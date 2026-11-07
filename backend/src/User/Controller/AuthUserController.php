@@ -72,7 +72,7 @@ class AuthUserController extends AbstractController
         }
 
         $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
+        if (!$user instanceof \App\Entity\Users) {
             throw $this->createAccessDeniedException();
         }
 

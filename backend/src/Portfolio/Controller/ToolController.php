@@ -4,15 +4,15 @@ namespace App\Portfolio\Controller;
 
 use App\Portfolio\Dto\ToolDTO;
 use App\Portfolio\Service\ToolService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
+use App\Service\BaseControllerWithAuth;
 
-class ToolController extends AbstractController
+class ToolController extends BaseControllerWithAuth
 {
     public function __construct(
         private ToolService $toolService,
@@ -105,13 +105,4 @@ class ToolController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
-    private function getAuthenticatedUser(): \\App\\Entity\\Users
-    {
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
-
-        return $user;
-    }
 }

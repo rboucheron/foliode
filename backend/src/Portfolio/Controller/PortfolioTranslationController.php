@@ -6,15 +6,15 @@ use App\Portfolio\Dto\SaveTranslationsDTO;
 use App\Portfolio\Dto\UpdatePortfolioLanguagesDTO;
 use App\Portfolio\Service\PortfolioService;
 use App\Portfolio\Service\PortfolioTranslationService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
+use App\Service\BaseControllerWithAuth;
 
-class PortfolioTranslationController extends AbstractController
+class PortfolioTranslationController extends BaseControllerWithAuth
 {
     public function __construct(
         private PortfolioService $portfolioService,
@@ -75,13 +75,4 @@ class PortfolioTranslationController extends AbstractController
         return new JsonResponse($this->portfolioTranslationService->getStatus($portfolio), Response::HTTP_OK);
     }
 
-    private function getAuthenticatedUser(): \\App\\Entity\\Users
-    {
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
-
-        return $user;
-    }
 }

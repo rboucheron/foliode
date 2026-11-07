@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\BaseControllerWithAuth;
 
-class PortfolioContentController extends AbstractController
+class PortfolioContentController extends BaseControllerWithAuth
 {
     public function __construct(
         private PortfolioService $portfolioService,
@@ -115,13 +115,4 @@ class PortfolioContentController extends AbstractController
         return new JsonResponse(['message' => 'Portfolio deleted successfully'], Response::HTTP_OK);
     }
 
-    private function getAuthenticatedUser(): \\App\\Entity\\Users
-    {
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
-
-        return $user;
-    }
 }
