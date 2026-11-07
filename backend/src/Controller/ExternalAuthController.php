@@ -4,15 +4,14 @@ namespace App\Controller;
 
 use App\Service\ApiRequesterService;
 use App\Service\ExternalUserService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\UsersRepository;
+use App\Service\BaseControllerWithAuth;
 
 
-class ExternalAuthController extends AbstractController
+class ExternalAuthController extends BaseControllerWithAuth
 {
 
     public function __construct(
@@ -30,10 +29,8 @@ class ExternalAuthController extends AbstractController
         $data        = json_decode($request->getContent(), true);
         $githubToken = $data['token'] ?? null;
         $email       = $data['email'] ?? null;
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
+        $user = $this->getAuthenticatedUser();
+      
 
         if (!$githubToken) {
             return new JsonResponse(['error' => 'GitHub token is missing'], Response::HTTP_BAD_REQUEST);
@@ -62,10 +59,7 @@ class ExternalAuthController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         $dribbbleToken = $data['token'] ?? null;
-        $user = $this->getUser();
-        if (!$user instanceof \\App\\Entity\\Users) {
-            throw $this->createAccessDeniedException();
-        }
+        $user = $this->getAuthenticatedUser();
 
         if (!$dribbbleToken) {
             return new JsonResponse(['error' => 'dribbble token is missing'], Response::HTTP_BAD_REQUEST);
