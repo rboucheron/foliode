@@ -19,6 +19,9 @@ class GithubApiRequester
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function authenticateUserFromGithub(GithubUserDto $user): array
     {
         $userData = $this->apiRequester->get(
