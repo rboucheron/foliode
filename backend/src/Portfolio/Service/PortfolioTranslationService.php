@@ -186,6 +186,9 @@ class PortfolioTranslationService
         $this->em->flush();
     }
 
+    /**
+     * @param list<string> $targets
+     */
     private function projectStatus(Projects $project, array $targets): array
     {
         $hash = $this->hasher->hashProject($project);
