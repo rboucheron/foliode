@@ -20,7 +20,7 @@ class ChatSuggestionsService
 
     public function getChatSuggestionsByContext(string $contextType): array
     {
-        return $this->chatSuggestionsRepository->findBy(['isActive' => true, 'contextType' => $contextType]);
+        return $this->chatSuggestionsRepository->findBy(['is_active' => true, 'context_type' => $contextType]);
     }
 
     public function serializeChatSuggestions(array $chatSuggestions): string
