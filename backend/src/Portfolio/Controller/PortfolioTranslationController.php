@@ -50,7 +50,7 @@ class PortfolioTranslationController extends AbstractController
     #[Route('/v1/api/portfolio/translations/main', methods: ['PUT'])]
     public function saveMainTranslations(Request $request): JsonResponse
     {
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $portfolio = $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser());
 
         $this->portfolioTranslationService->saveMainTranslations(
             $portfolio,
