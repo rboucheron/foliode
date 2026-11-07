@@ -9,6 +9,9 @@ use App\Portfolio\ApiPlatform\PortfolioConfigResource;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Bundle\SecurityBundle\Security;
 
+/**
+ * @implements ProviderInterface<PortfolioConfigResource>
+ */
 class PortfolioConfigProvider implements ProviderInterface
 {
     public function __construct(
