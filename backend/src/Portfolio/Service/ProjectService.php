@@ -120,6 +120,9 @@ class ProjectService
         $this->em->flush();
     }
 
+    /**
+     * @param list<array{file: string, imageAlt: string}> $images
+     */
     private function uploadImages(array $images): array
     {
         $uploadDir = rtrim((string) $this->params->get('upload_directory'), '/') . '/project';
