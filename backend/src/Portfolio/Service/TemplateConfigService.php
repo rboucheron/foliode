@@ -33,6 +33,9 @@ class TemplateConfigService
         return TemplateConfig::definedColor($templateColor, $portfolio->getConfig());
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     public function updateTemplateFont(TemplateFontConfigDTO $templateFontConfigDTO, Portfolios $portfolios): array
     {
         return TemplateConfig::definedFont(
