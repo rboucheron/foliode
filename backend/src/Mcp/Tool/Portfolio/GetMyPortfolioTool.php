@@ -19,13 +19,13 @@ final class GetMyPortfolioTool
     }
 
     /**
-     * Retrieve the authenticated user's portfolio.
+     * Retrieve the authenticated user's complete portfolio.
      *
-     * @return array{title: ?string, subtitle: ?string, bio: ?string, url: ?string, status: ?int}
+     * @return array<string, mixed>
      */
     #[McpTool(
         name: 'get_my_portfolio',
-        description: 'Retrieve the portfolio belonging to the currently authenticated Foliode user. No user identifier is accepted; access is scoped to the authenticated account.'
+        description: 'Retrieve the complete portfolio belonging to the authenticated Foliode user. Includes editable content, selected template, appearance configuration, projects, tools and translations. Does not expose account credentials or accept another user identifier.'
     )]
     public function __invoke(): array
     {
@@ -36,13 +36,14 @@ final class GetMyPortfolioTool
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
+        $data = json_decode($this->portfolioService->serializePortfolio($portfolio), true);
 
-        return [
-            'title' => $portfolio->getTitle(),
-            'subtitle' => $portfolio->getSubtitle(),
-            'bio' => $portfolio->getBio(),
-            'url' => $portfolio->getUrl(),
-            'status' => $portfolio->getStatus(),
-        ];
+        if (!is_array($data)) {
+            throw new \RuntimeException('Unable to serialize the authenticated portfolio.');
+        }
+
+        unset($data['users']);
+
+        return $data;
     }
 }
