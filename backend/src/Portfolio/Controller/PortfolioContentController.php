@@ -56,7 +56,7 @@ class PortfolioContentController extends AbstractController
     {
         return new JsonResponse(
             $this->portfolioViewService->getViewsLast7Days(
-                $this->portfolioService->getPortfolioByUser($this->getUser())
+                $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser())
             ),
             Response::HTTP_OK
         );
@@ -113,5 +113,15 @@ class PortfolioContentController extends AbstractController
         $this->portfolioService->deletePortfolio($this->getUser());
 
         return new JsonResponse(['message' => 'Portfolio deleted successfully'], Response::HTTP_OK);
+    }
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
     }
 }
