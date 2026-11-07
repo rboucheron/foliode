@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedRouteImport } from './routes/_authed'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as EnRouteImport } from './routes/en'
 import { Route as FrRouteImport } from './routes/fr'
 import { Route as LoginRouteImport } from './routes/login'
@@ -21,6 +22,8 @@ import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as DevAimlRouteImport } from './routes/dev/aiml'
 import { Route as DevLanguagesRouteImport } from './routes/dev/languages'
 import { Route as DevTranslationsRouteImport } from './routes/dev/translations'
+import { Route as DocsIndexRouteImport } from './routes/docs/index'
+import { Route as DocsMcpRouteImport } from './routes/docs/mcp'
 import { Route as UsernameProjectTitleRouteImport } from './routes/$username/project/$title'
 import { Route as AuthedDashboardIndexRouteImport } from './routes/_authed/dashboard/index'
 import { Route as AuthedDashboardCommentsRouteImport } from './routes/_authed/dashboard/comments'
@@ -42,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnRoute = EnRouteImport.update({
@@ -93,6 +101,16 @@ const DevTranslationsRoute = DevTranslationsRouteImport.update({
   id: '/dev/translations',
   path: '/dev/translations',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DocsIndexRoute = DocsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsMcpRoute = DocsMcpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => DocsRoute,
 } as any)
 const UsernameProjectTitleRoute = UsernameProjectTitleRouteImport.update({
   id: '/$username/project/$title',
@@ -163,6 +181,7 @@ const ApiAuthCallbackProviderRoute = ApiAuthCallbackProviderRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRouteWithChildren
   '/en': typeof EnRoute
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
@@ -172,7 +191,9 @@ export interface FileRoutesByFullPath {
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
+  '/docs/mcp': typeof DocsMcpRoute
   '/$username/': typeof UsernameIndexRoute
+  '/docs/': typeof DocsIndexRoute
   '/$username/project/$title': typeof UsernameProjectTitleRoute
   '/dashboard/comments': typeof AuthedDashboardCommentsRoute
   '/dashboard/edit': typeof AuthedDashboardEditRoute
@@ -197,7 +218,9 @@ export interface FileRoutesByTo {
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
+  '/docs/mcp': typeof DocsMcpRoute
   '/$username': typeof UsernameIndexRoute
+  '/docs': typeof DocsIndexRoute
   '/$username/project/$title': typeof UsernameProjectTitleRoute
   '/dashboard/comments': typeof AuthedDashboardCommentsRoute
   '/dashboard/edit': typeof AuthedDashboardEditRoute
@@ -216,6 +239,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
+  '/docs': typeof DocsRouteWithChildren
   '/en': typeof EnRoute
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
@@ -225,7 +249,9 @@ export interface FileRoutesById {
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
+  '/docs/mcp': typeof DocsMcpRoute
   '/$username/': typeof UsernameIndexRoute
+  '/docs/': typeof DocsIndexRoute
   '/$username/project/$title': typeof UsernameProjectTitleRoute
   '/_authed/dashboard/comments': typeof AuthedDashboardCommentsRoute
   '/_authed/dashboard/edit': typeof AuthedDashboardEditRoute
@@ -244,6 +270,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/docs'
     | '/en'
     | '/fr'
     | '/login'
@@ -253,7 +280,9 @@ export interface FileRouteTypes {
     | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
+    | '/docs/mcp'
     | '/$username/'
+    | '/docs/'
     | '/$username/project/$title'
     | '/dashboard/comments'
     | '/dashboard/edit'
@@ -278,7 +307,9 @@ export interface FileRouteTypes {
     | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
+    | '/docs/mcp'
     | '/$username'
+    | '/docs'
     | '/$username/project/$title'
     | '/dashboard/comments'
     | '/dashboard/edit'
@@ -296,6 +327,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authed'
+    | '/docs'
     | '/en'
     | '/fr'
     | '/login'
@@ -305,7 +337,9 @@ export interface FileRouteTypes {
     | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
+    | '/docs/mcp'
     | '/$username/'
+    | '/docs/'
     | '/$username/project/$title'
     | '/_authed/dashboard/comments'
     | '/_authed/dashboard/edit'
@@ -324,6 +358,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
+  DocsRoute: typeof DocsRouteWithChildren
   EnRoute: typeof EnRoute
   FrRoute: typeof FrRoute
   LoginRoute: typeof LoginRoute
@@ -351,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en': {
@@ -422,6 +464,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dev/translations'
       preLoaderRoute: typeof DevTranslationsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/docs/': {
+      id: '/docs/'
+      path: '/'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/mcp': {
+      id: '/docs/mcp'
+      path: '/mcp'
+      fullPath: '/docs/mcp'
+      preLoaderRoute: typeof DocsMcpRouteImport
+      parentRoute: typeof DocsRoute
     }
     '/$username/project/$title': {
       id: '/$username/project/$title'
@@ -560,9 +616,22 @@ const AuthedRouteChildren: AuthedRouteChildren = {
 const AuthedRouteWithChildren =
   AuthedRoute._addFileChildren(AuthedRouteChildren)
 
+interface DocsRouteChildren {
+  DocsMcpRoute: typeof DocsMcpRoute
+  DocsIndexRoute: typeof DocsIndexRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsMcpRoute: DocsMcpRoute,
+  DocsIndexRoute: DocsIndexRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
+  DocsRoute: DocsRouteWithChildren,
   EnRoute: EnRoute,
   FrRoute: FrRoute,
   LoginRoute: LoginRoute,

@@ -16,6 +16,7 @@ export const NAMESPACES = [
   "settings",
   "landing",
   "auth",
+  "docs",
   "onboarding",
   "dashboard",
   "projects",
