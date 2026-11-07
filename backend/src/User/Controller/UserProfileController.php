@@ -37,8 +37,13 @@ class UserProfileController extends AbstractController
     #[Route('/v1/api/users/avatar', methods: ['PUT'])]
     public function updateAvatar(Request $request): JsonResponse
     {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
         $token = $this->userProfileService->updateAvatar(
-            $this->getUser(),
+            $user,
             $this->serializer->deserialize($request->getContent(), UpdateUserAvatarDto::class, 'json')
         );
 
