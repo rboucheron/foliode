@@ -30,7 +30,7 @@ class TemplateConfigController extends AbstractController
     #[Route('v1/api/portfolio/template/config/color', methods: ['POST'])]
     public function definedTemplateColor(Request $request): JsonResponse
     {
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $portfolio = $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser());
         $portfolio->setConfig(
             $this->templateConfigService->updateTemplateColor(
                 $this->serializer->deserialize(
@@ -77,4 +77,14 @@ class TemplateConfigController extends AbstractController
     }
 
 
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
+    }
 }
