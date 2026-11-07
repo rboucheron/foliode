@@ -25,8 +25,13 @@ class UserProfileController extends AbstractController
     #[Route('/v1/api/users/profile', methods: ['PUT'])]
     public function updateProfile(Request $request): JsonResponse
     {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
         $token = $this->userProfileService->updateProfile(
-            $this->getUser(),
+            $user,
             $this->serializer->deserialize($request->getContent(), UpdateUserProfileDto::class, 'json')
         );
 
