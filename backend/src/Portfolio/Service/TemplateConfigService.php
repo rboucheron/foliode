@@ -18,6 +18,9 @@ class TemplateConfigService
         return TemplateConfig::defindeTemplateConfig();
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     public function updateTemplateColor(TemplateColorConfigDTO $templateColorConfigDTO, Portfolios $portfolio): array
     {
         $templateColor = (new TemplateColor())
