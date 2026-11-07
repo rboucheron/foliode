@@ -46,6 +46,9 @@ class CommentService
         );
     }
 
+    /**
+     * @return list<PortfolioComment>
+     */
     public function getPortfolioComments(Users $user): array
     {
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
