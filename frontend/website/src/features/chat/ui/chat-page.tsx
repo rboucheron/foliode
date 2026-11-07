@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react"
 import type { FormEvent } from "react"
-import { Link } from "@tanstack/react-router"
 import { LoaderCircleIcon, RotateCcwIcon, SendIcon } from "lucide-react"
 import { useI18n, useTranslation } from "@/i18n"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ThemeSwitcher } from "@/components/theme/theme-switcher"
 import { cn } from "@/lib/utils"
 import { useChatStore } from "../application/chat.store"
 import { validateChatMessage } from "../domain/chat"
@@ -17,6 +14,7 @@ import { ChatMessageItem } from "./chat-message-item"
 import { ChatTutorial } from "./chat-tutorial"
 import { ChatSuggestions } from "./chat-suggestions"
 import { ProjectForm } from "@/features/project"
+import { APPHeader } from "@/components/layout/app-header"
 
 export function ChatPage({ userLabel }: { userLabel?: string }) {
   const t = useTranslation()
@@ -59,23 +57,7 @@ export function ChatPage({ userLabel }: { userLabel?: string }) {
 
   return (
     <div className="flex h-svh flex-col overflow-hidden bg-muted/30">
-      <header className="shrink-0 border-b bg-background/90 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 sm:px-6">
-          <Link to="/dashboard" className="flex items-center gap-2 font-semibold">
-            <img src="/foliode-icon.svg" alt="Foliode" className="size-7" />
-            <span>Foliode</span>
-          </Link>
-          <Separator orientation="vertical" className="mx-1 h-6" />
-          <span className="text-sm text-muted-foreground">{t("chat.page.label")}</span>
-          <div className="ml-auto flex items-center gap-2">
-            <ThemeSwitcher />
-            <Button variant="outline" asChild>
-              <Link to="/dashboard">{t("chat.page.backToDashboard")}</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
-
+      < APPHeader />
       <main className="mx-auto grid min-h-0 w-full max-w-7xl flex-1 gap-4 overflow-hidden px-4 py-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <Card className="min-h-0 overflow-hidden border-violet-500/20 shadow-xl">
           <CardHeader className="shrink-0 border-b px-5 py-3 sm:px-8">
