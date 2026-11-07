@@ -27,51 +27,5 @@
     "exampleProjects": "“What are my projects?”",
     "exampleDescription": "“How can I improve a description?”",
     "exampleGreeting": "“Hello Foliode agent”"
-  },
-  "suggestion": {
-    "general": {
-      "1": "How does this portfolio work?",
-      "2": "What skills are presented?",
-      "3": "Which projects are available?",
-      "4": "Can you introduce the portfolio owner?",
-      "5": "What areas of expertise are presented?",
-      "6": "Which projects are the most interesting?",
-      "7": "Which technologies are used in the projects?",
-      "8": "Can you summarize this portfolio?",
-      "9": "How can I contact the portfolio owner?"
-    },
-    "not_registered": {
-      "1": "How do I create an account?",
-      "2": "What are the benefits of creating an account?",
-      "3": "How do I create my own portfolio?",
-      "4": "Can I customize my portfolio?",
-      "5": "How do I add my skills?",
-      "6": "How do I add a project to my portfolio?",
-      "7": "Can I edit my portfolio at any time?",
-      "8": "How do I make my portfolio visible?",
-      "9": "How do I manage my profile information?"
-    },
-    "portfolio_unpublished": {
-      "1": "How do I publish my portfolio?",
-      "2": "Why hasn't my portfolio been published yet?",
-      "3": "How can I preview my portfolio?",
-      "4": "What information should I complete before publishing?",
-      "5": "How do I change my template?",
-      "6": "How do I add a new project?",
-      "7": "How do I delete a project?",
-      "8": "How do I update my skills and experience?",
-      "9": "Can I cancel my portfolio publication?"
-    },
-    "portfolio_published": {
-      "1": "How do I share my portfolio?",
-      "2": "How do I edit my published portfolio?",
-      "3": "How do I change my template?",
-      "4": "How do I add a new project?",
-      "5": "How do I update my skills?",
-      "6": "How can I improve my portfolio visibility?",
-      "7": "Can I view my portfolio statistics?",
-      "8": "How do I update my personal information?",
-      "9": "How do I temporarily unpublish my portfolio?"
-    }
   }
 }

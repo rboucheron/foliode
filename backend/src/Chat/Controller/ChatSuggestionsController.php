@@ -23,13 +23,11 @@ final class ChatSuggestionsController extends AbstractController
     #[Route('/v1/api/portfolio/chat/suggestions/by-context', methods: ['PATCH'])]
     public function suggestionsByContext(Request $request): JsonResponse
     {
-        /** @var ChatSuggestions $payload */
-        $payload = $this->serializer->deserialize(
+        $contextType = $this->serializer->deserialize(
             $request->getContent(),
             ChatSuggestions::class,
             'json'
-        );
-        $contextType = $payload->contextType;
+        )['contextType'] ?? '';
 
         if (empty($contextType)) {
             return new JsonResponse(['error' => 'contextType is required.'], Response::HTTP_BAD_REQUEST);

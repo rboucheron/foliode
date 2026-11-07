@@ -27,51 +27,5 @@
     "exampleProjects": "« Quels sont mes projets ? »",
     "exampleDescription": "« Comment améliorer une description ? »",
     "exampleGreeting": "« Bonjour agent Foliode »"
-  },
-  "suggestion": {
-    "general": {
-      "1": "Comment fonctionne ce portfolio ?",
-      "2": "Quelles sont les compétences présentées ?",
-      "3": "Quels sont les projets disponibles ?",
-      "4": "Peux-tu me présenter le propriétaire de ce portfolio ?",
-      "5": "Quels sont les domaines d’expertise présentés ?",
-      "6": "Quels projets sont les plus intéressants ?",
-      "7": "Quelles technologies sont utilisées dans les projets ?",
-      "8": "Peux-tu résumer ce portfolio ?",
-      "9": "Comment contacter le propriétaire du portfolio ?"
-    },
-    "not_registered": {
-      "1": "Comment créer un compte ?",
-      "2": "Quels sont les avantages de créer un compte ?",
-      "3": "Comment créer mon propre portfolio ?",
-      "4": "Puis-je personnaliser mon portfolio ?",
-      "5": "Comment ajouter mes compétences ?",
-      "6": "Comment ajouter un projet à mon portfolio ?",
-      "7": "Puis-je modifier mon portfolio à tout moment ?",
-      "8": "Comment rendre mon portfolio visible ?",
-      "9": "Comment gérer les informations de mon profil ?"
-    },
-    "portfolio_unpublished": {
-      "1": "Comment publier mon portfolio ?",
-      "2": "Pourquoi mon portfolio n’est-il pas encore publié ?",
-      "3": "Comment prévisualiser mon portfolio ?",
-      "4": "Quelles informations dois-je compléter avant publication ?",
-      "5": "Comment modifier mon template ?",
-      "6": "Comment ajouter un nouveau projet ?",
-      "7": "Comment supprimer un projet ?",
-      "8": "Comment modifier mes compétences et expériences ?",
-      "9": "Puis-je annuler la publication de mon portfolio ?"
-    },
-    "portfolio_published": {
-      "1": "Comment partager mon portfolio ?",
-      "2": "Comment modifier mon portfolio publié ?",
-      "3": "Comment changer mon template ?",
-      "4": "Comment ajouter un nouveau projet ?",
-      "5": "Comment mettre à jour mes compétences ?",
-      "6": "Comment améliorer la visibilité de mon portfolio ?",
-      "7": "Puis-je consulter les statistiques de mon portfolio ?",
-      "8": "Comment mettre à jour mes informations personnelles ?",
-      "9": "Comment dépublier temporairement mon portfolio ?"
-    }
   }
 }
