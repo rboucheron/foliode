@@ -10,6 +10,9 @@ use App\Portfolio\Service\PortfolioService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * @implements ProviderInterface<PortfolioResource>
+ */
 class PortfolioProvider implements ProviderInterface
 {
     public function __construct(
