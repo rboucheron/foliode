@@ -39,8 +39,6 @@ class PublicPortfolioProvider implements ProviderInterface
             return null;
         }
 
-        unset($payload['users']);
-
         $resource = new PortfolioResource();
         $resource->status = $payload['status'] ?? null;
         $resource->title = $payload['title'] ?? null;
@@ -50,6 +48,7 @@ class PublicPortfolioProvider implements ProviderInterface
         $resource->config = $payload['config'] ?? null;
         $resource->template = $payload['template'] ?? null;
         $resource->author = $payload['author'] ?? null;
+        $resource->users = $payload['users'] ?? null;
         $resource->projects = $payload['projects'] ?? [];
         $resource->tools = $payload['tools'] ?? [];
         $resource->sourceLanguage = $payload['sourceLanguage'] ?? null;
