@@ -1,4 +1,4 @@
-import { useTranslation } from "@/i18n"
+import { useTranslation, type TranslationKey } from "@/i18n"
 import type { SuggestedQuestion } from "../domain/chat"
 
 interface ChatSuggestionsProps {
@@ -13,7 +13,6 @@ export function ChatSuggestions({
   disabled = false,
 }: ChatSuggestionsProps) {
   const t = useTranslation()
-
   if (suggestions.length === 0) return null
 
   const translatedQuestions: Record<string, string> = {
@@ -28,7 +27,9 @@ export function ChatSuggestions({
       <p className="text-xs font-medium text-muted-foreground">{t("chat.suggestions.title")}</p>
       <div className="flex flex-wrap gap-2">
         {suggestions.map((item) => {
-          const question = translatedQuestions[item.id] ?? item.question
+          const question = item.translationKey
+            ? t(item.translationKey as TranslationKey)
+            : translatedQuestions[item.id] ?? item.question
 
           return (
             <button
