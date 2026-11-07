@@ -28,6 +28,9 @@ class PortfolioTranslationService
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getStatus(Portfolios $portfolio): array
     {
         $targets = $this->targetCodes($portfolio);
