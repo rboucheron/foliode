@@ -136,6 +136,9 @@ class ProjectService
         return $images;
     }
 
+    /**
+     * @param list<array{name: string, url: string}> $links
+     */
     private function buildLinks(array $links): array
     {
         $linkEntities = [];
