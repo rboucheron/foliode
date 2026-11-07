@@ -58,6 +58,9 @@ class ToolService
         return $tool;
     }
 
+    /**
+     * @return list<Tools>
+     */
     public function createTools(Users $user, array $tools): array
     {
         foreach ($tools as &$tool) {
