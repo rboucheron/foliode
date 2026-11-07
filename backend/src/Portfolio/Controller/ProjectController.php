@@ -96,7 +96,7 @@ class ProjectController extends AbstractController
     {
         $updatedProject = $this->projectService->updateProject(
             $this->projectService->getProjectsByUsersAndID(
-                $this->getUser(),
+                $this->getAuthenticatedUser(),
                 $id
             ),
             $this->serializer->deserialize(
