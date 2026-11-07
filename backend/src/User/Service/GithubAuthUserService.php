@@ -65,6 +65,9 @@ class GithubAuthUserService
         return $user;
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     */
     private function creatGithubUserFromData(array $userData, string $githubToken): Users
     {
         $user = (new Users())
