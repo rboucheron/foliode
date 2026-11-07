@@ -36,6 +36,9 @@ class CommentService
     ) {
     }
 
+    /**
+     * @return list<PortfolioComment>
+     */
     public function getPublicComments(string $url): array
     {
         $portfolio = $this->portfolioService->getPortfolioByUniqueUrl($url);
