@@ -77,7 +77,7 @@ class ProjectController extends AbstractController
 
         $projects = $this->projectService->createSomesNewProjects(
             $this->portfolioService->getPortfolioByUser(
-                $this->getUser()
+                $this->getAuthenticatedUser()
             ),
             $projectsDto
         );
