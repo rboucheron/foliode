@@ -132,6 +132,9 @@ class CommentService
         return $this->serializer->serialize($comment, 'json', ['groups' => 'getPortfolioComment']);
     }
 
+    /**
+     * @param list<PortfolioComment> $comments
+     */
     public function serializeComments(array $comments): string
     {
         return $this->serializer->serialize($comments, 'json', ['groups' => 'getPortfolioComment']);
