@@ -25,7 +25,7 @@ class UserEmailVerificationCodeService
 
             $this->mailerService->sendEmail($subject, $content, $user->getEmail());
 
-            $user->setEmailVerificationCode($verificationCode);
+            $user->setEmailVerificationCode((string) $verificationCode);
             $this->em->flush();
 
         } catch (\Exception $e) {
