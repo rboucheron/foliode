@@ -28,6 +28,9 @@ class ToolService
     ) {
     }
 
+    /**
+     * @return list<Tools>
+     */
     public function getPortfolioTools(Users $user): array
     {
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
