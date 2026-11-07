@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\ChatSuggestions;
-use App\Entity\Portfolio\ChatSuggestionContextType;
+use App\Entity\ChatSuggestionContextType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

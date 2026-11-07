@@ -6,7 +6,7 @@ use App\Repository\ChatSuggestionsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Symfony\Component\Serializer\Attribute\Groups;
-use App\Entity\Portfolio\ChatSuggestionContextType;
+use App\Entity\ChatSuggestionContextType;
 
 #[ORM\Entity(repositoryClass: ChatSuggestionsRepository::class)]
 class ChatSuggestions

@@ -3,7 +3,7 @@
 namespace App\Chat\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Portfolio\ChatSuggestionContextType;
+use App\Entity\ChatSuggestionContextType;
 
 final class ChatSuggestions
 {

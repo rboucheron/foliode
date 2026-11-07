@@ -3,7 +3,7 @@
 namespace App\Chat\Command;
 
 use App\Entity\ChatSuggestions;
-use App\Entity\Portfolio\ChatSuggestionContextType;
+use App\Entity\ChatSuggestionContextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
