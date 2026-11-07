@@ -70,6 +70,9 @@ class ProjectService
         return $project;
     }
 
+    /**
+     * @return list<Projects>
+     */
     public function getPortfolioProjects(Users $user): array
     {
         return $this->projectsRepository->findBy(['user' => $user]);
