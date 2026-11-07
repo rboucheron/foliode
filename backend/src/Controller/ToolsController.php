@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Tools;
 use App\Repository\PortfoliosRepository;
-use App\Repository\ToolsRepository;
 use App\Service\FileUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ToolsController extends AbstractController
 {
     public function __construct(
-        private ToolsRepository $toolsRepository,
         private FileUploaderService $uploader,
         private EntityManagerInterface $entityManager,
         private PortfoliosRepository $portfoliosRepository,
