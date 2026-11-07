@@ -23,6 +23,9 @@ class ChatSuggestionsService
         return $this->chatSuggestionsRepository->findBy(['is_active' => true, 'context_type' => $contextType]);
     }
 
+    /**
+     * @param list<\\App\\Entity\\ChatSuggestions> $chatSuggestions
+     */
     public function serializeChatSuggestions(array $chatSuggestions): string
     {
         return $this->serializer->serialize($chatSuggestions, 'json', ['groups' => ['chat_suggestions']]);
