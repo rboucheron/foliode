@@ -10,5 +10,8 @@ class UpdatePortfolioLanguagesDTO
     public ?array $sourceLanguage = null;
 
     #[Assert\NotNull(message: "languages is required.")]
+    /**
+     * @var list<array{code?: string|null, label?: string|null}>|null
+     */
     public ?array $languages = null;
 }
