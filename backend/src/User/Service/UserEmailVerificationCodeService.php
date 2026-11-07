@@ -36,7 +36,7 @@ class UserEmailVerificationCodeService
 
     public function verifyEmail(Users $user, int $code): bool
     {
-        if ($user->getEmailVerificationCode() === $code) {
+        if ($user->getEmailVerificationCode() === (string) $code) {
             $user->setIsEmailVerified(true);
             $user->setEmailVerificationCode(null);
             $this->em->flush();
