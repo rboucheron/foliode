@@ -27,6 +27,9 @@ class ExternalUserService
         return ["token" => $token, "user" => $jsonUser];
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     */
     public function findOrCreateUserFromGithub(array $userData, string $email): array
     {
         $user = $this->usersRepository->findOneBy(['github_id' => $userData['id']]);
