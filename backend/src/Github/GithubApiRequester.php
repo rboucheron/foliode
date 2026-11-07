@@ -33,6 +33,9 @@ class GithubApiRequester
         return $userData;
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     public function getRepositories(string $githubLogin, string $token): array
     {
         return $this->cache->get("github_repos_{$githubLogin}", function (ItemInterface $item) use ($githubLogin, $token) {
