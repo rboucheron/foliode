@@ -3,6 +3,7 @@ import { BookOpen, ChevronRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { APPHeader } from "@/components/layout/app-header"
 import { useTranslation } from "@/i18n/context"
+import type { TranslationKey } from "@/i18n"
 
 const navigation = [
   {
@@ -20,7 +21,7 @@ const navigation = [
       { labelKey: "docs.navigation.translations", to: "/docs/translations" },
     ],
   },
-]
+] satisfies Array<{ labelKey: TranslationKey; items: Array<{ labelKey: TranslationKey; to: string }> }>
 
 function DocsNavigation() {
   const location = useLocation()
@@ -55,7 +56,7 @@ function DocsNavigation() {
 export function DocsPage({ section = "introduction" }: { section?: "introduction" | "mcp" }) {
   const t = useTranslation()
   const isMcp = section === "mcp"
-  const tableOfContents = isMcp
+  const tableOfContents: TranslationKey[] = isMcp
     ? ["docs.toc.mcpWhat", "docs.toc.mcpConfigure", "docs.toc.nextSteps"]
     : ["docs.toc.introWelcome", "docs.toc.introLiving", "docs.toc.nextSteps"]
 
