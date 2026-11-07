@@ -26,7 +26,7 @@ class ToolController extends AbstractController
     {
         return new JsonResponse(
             $this->toolService->serializeTools(
-                $this->toolService->getPortfolioTools($this->getUser())
+                $this->toolService->getPortfolioTools($this->getAuthenticatedUser())
             ),
             Response::HTTP_OK,
             [],
@@ -103,5 +103,15 @@ class ToolController extends AbstractController
         $this->toolService->deleteTool($this->getUser(), $id);
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
     }
 }
