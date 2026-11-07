@@ -55,7 +55,7 @@ class TemplateConfigController extends AbstractController
     #[Route('v1/api/portfolio/template/config/font', methods: ['POST'])]
     public function definedTemplateFont(Request $request): JsonResponse
     {
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $portfolio = $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser());
         $portfolio->setConfig(
             $this->templateConfigService->updateTemplateFont(
                 $this->serializer->deserialize(
@@ -77,4 +77,14 @@ class TemplateConfigController extends AbstractController
     }
 
 
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
+    }
 }
