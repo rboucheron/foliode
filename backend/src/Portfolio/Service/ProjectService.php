@@ -120,6 +120,25 @@ class ProjectService
         $this->em->flush();
     }
 
+    /**
+     * Replace all links attached to a project.
+     *
+     * @param array<array{name: string, url: string}> $links
+     */
+    public function replaceProjectLinks(Projects $project, array $links): void
+    {
+        foreach ($project->getProjectsLinks()->toArray() as $existingLink) {
+            $project->removeProjectsLink($existingLink);
+            $this->em->remove($existingLink);
+        }
+
+        foreach ($this->buildLinks($links) as $link) {
+            $project->addProjectsLink($link);
+        }
+
+        $this->em->flush();
+    }
+
     private function uploadImages(array $images): array
     {
         $uploadDir = rtrim((string) $this->params->get('upload_directory'), '/') . '/project';
