@@ -55,6 +55,9 @@ class GithubAuthUserService
         }
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     */
     private function updateUserWithGithub(Users $user, array $userData, string $githubToken): Users
     {
         $user->setGithubLogin($userData['login']);
