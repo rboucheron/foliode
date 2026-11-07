@@ -2,21 +2,22 @@ import { Link } from "@tanstack/react-router"
 import { ThemeSwitcher } from "@/components/theme/theme-switcher"
 import { Button } from "@/components/ui/button"
 import { useTranslation, type TranslationKey } from "@/i18n"
-import { useUserStore } from "@/features/user";
-import { FaGithub } from "react-icons/fa";
-import { Menu, Search } from "lucide-react";
+import { useUserStore } from "@/features/user"
+import { FaGithub } from "react-icons/fa"
+import { Menu, Search } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useState } from "react";
+import { useState } from "react"
 
 interface APPHeaderProps {
-  locationKey: TranslationKey;
-  needSheet?: boolean;
-  navContent?: React.ReactNode;
-  needSearch?: boolean;
+  locationKey: TranslationKey
+  needSheet?: boolean
+  navContent?: React.ReactNode
+  needSearch?: boolean
 }
+
 export function APPHeader({ locationKey, needSheet, navContent, needSearch }: APPHeaderProps) {
   const t = useTranslation()
-  const user = useUserStore((state) => state.user);
+  const user = useUserStore((state) => state.user)
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
@@ -25,7 +26,7 @@ export function APPHeader({ locationKey, needSheet, navContent, needSearch }: AP
         {needSheet && (
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Ouvrir le menu">
+              <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t("common.header.openMenu")}>
                 <Menu data-icon="inline-start" />
               </Button>
             </SheetTrigger>
@@ -42,20 +43,18 @@ export function APPHeader({ locationKey, needSheet, navContent, needSearch }: AP
         <div className="ml-auto flex items-center gap-2">
           {needSearch && (
             <Button variant="ghost" size="sm" className="hidden text-muted-foreground sm:flex">
-              <Search data-icon="inline-start" /> Rechercher <kbd className="ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px]">⌘ K</kbd>
+              <Search data-icon="inline-start" /> {t("common.header.search")} <kbd className="ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px]">⌘ K</kbd>
             </Button>
           )}
-
           <ThemeSwitcher />
           {user ? (
             <Button variant="outline" asChild>
               <Link to="/dashboard">{t("chat.page.backToDashboard")}</Link>
             </Button>
-
           ) : (
-            <Button size="sm" asChild><Link to="/dashboard">Ouvrir l&apos;app</Link></Button>
+            <Button size="sm" asChild><Link to="/dashboard">{t("common.header.openApp")}</Link></Button>
           )}
-          <Button variant="ghost" size="icon" asChild aria-label="GitHub">
+          <Button variant="ghost" size="icon" asChild aria-label={t("common.header.github")}>
             <a href="https://github.com/rboucheron/foliode" target="_blank" rel="noreferrer"><FaGithub /></a>
           </Button>
         </div>
