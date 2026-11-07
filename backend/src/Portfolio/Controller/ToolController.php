@@ -39,7 +39,7 @@ class ToolController extends AbstractController
     public function createTool(Request $request): JsonResponse
     {
         $tool = $this->toolService->createTool(
-            $this->getUser(),
+            $this->getAuthenticatedUser(),
             $this->serializer->deserialize($request->getContent(), ToolDTO::class, 'json')
         );
 
