@@ -79,7 +79,7 @@ class ProjectService
     {
         $this->validatorBaseService->CatchInvalidData($projectDTO);
 
-        $project->setTitle($projectDTO->title ?? $project->getTitle())
+        $project->setTitle($projectDTO->title)
             ->setDescription($projectDTO->description ?? $project->getDescription());
 
         if ($projectDTO->images !== []) {
