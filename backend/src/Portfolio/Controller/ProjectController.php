@@ -134,7 +134,7 @@ class ProjectController extends AbstractController
     {
         return new JsonResponse(
             $this->projectService->serializeProject(
-                $this->projectService->getProjectsByUsersAndID($this->getUser(), $id)
+                $this->projectService->getProjectsByUsersAndID($this->getAuthenticatedUser(), $id)
             ),
             Response::HTTP_OK,
             [],
