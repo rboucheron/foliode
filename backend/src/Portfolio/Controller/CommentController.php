@@ -72,11 +72,21 @@ class CommentController extends AbstractController
     {
         return new JsonResponse(
             $this->commentService->serializeComment(
-                $this->commentService->hideComment($this->getUser(), $id)
+                $this->commentService->hideComment($this->getAuthenticatedUser(), $id)
             ),
             Response::HTTP_OK,
             [],
             true
         );
+    }
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
     }
 }
