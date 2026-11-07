@@ -15,6 +15,9 @@ class ApiRequesterService
     {
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function get(string $url, array $header): ?array
     {
         try {
