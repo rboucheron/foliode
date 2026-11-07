@@ -134,7 +134,7 @@ class ProjectController extends AbstractController
     {
         return new JsonResponse(
             $this->projectService->serializeProject(
-                $this->projectService->getProjectsByUsersAndID($this->getUser(), $id)
+                $this->projectService->getProjectsByUsersAndID($this->getAuthenticatedUser(), $id)
             ),
             Response::HTTP_OK,
             [],
@@ -151,4 +151,14 @@ class ProjectController extends AbstractController
         return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
     }
 
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
+    }
 }
