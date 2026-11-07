@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Projects;
-use App\Entity\ProjectsImages;
+use App\Entity\Portfolio\ProjectsImages;
 use App\Repository\PortfoliosRepository;
 use App\Repository\ProjectsRepository;
 use App\Service\FileUploaderService;
