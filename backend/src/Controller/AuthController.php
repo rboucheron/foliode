@@ -79,7 +79,7 @@ class AuthController extends AbstractController
         }
 
         $user->setIsEmailVerified(false);
-        $user->setEmailVerificationCode($verificationCode);
+        $user->setEmailVerificationCode((string) $verificationCode);
 
         $subject = 'Vérification de votre adresse email';
         $content = "Votre code de vérification est : $verificationCode";
