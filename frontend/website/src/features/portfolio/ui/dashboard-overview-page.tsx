@@ -93,7 +93,7 @@ export function DashboardOverviewPage() {
   const projects = portfolio?.projects ?? []
   const skills = portfolio?.tools ?? []
   const portfolioColors = portfolio?.config.colors
-  const promotion = portfolio?.users.promotion ?? null
+  const promotion = portfolio?.users?.promotion ?? null
 
   return (
     <>

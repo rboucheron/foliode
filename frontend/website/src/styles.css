@@ -161,6 +161,26 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+.prose-folio h1 {
+  @apply text-4xl font-bold tracking-[-0.04em] sm:text-5xl;
+}
+
+.prose-folio h2 {
+  @apply text-2xl font-bold tracking-[-0.025em] sm:text-3xl;
+}
+
+.prose-folio p {
+  @apply text-[15px] leading-7 text-muted-foreground;
+}
+
+.prose-folio .lead {
+  @apply max-w-2xl text-lg leading-8;
+}
+
+.prose-folio strong {
+  @apply font-semibold;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

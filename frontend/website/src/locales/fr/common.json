@@ -29,5 +29,11 @@
     "light": "Mode jour",
     "switchToDark": "Passer en mode sombre",
     "switchToLight": "Passer en mode clair"
+  },
+  "header": {
+    "openMenu": "Ouvrir le menu",
+    "search": "Rechercher",
+    "openApp": "Ouvrir l’application",
+    "github": "GitHub"
   }
 }

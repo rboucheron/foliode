@@ -1,0 +1,61 @@
+{
+  "navigation": {
+    "gettingStarted": "Pour commencer",
+    "introduction": "Introduction",
+    "keyConcepts": "Concepts clés",
+    "features": "Fonctionnalités",
+    "mcp": "MCP",
+    "portfolio": "Portfolio",
+    "translations": "Traductions"
+  },
+  "page": {
+    "title": "Documentation",
+    "version": "Version actuelle",
+    "onThisPage": "Sur cette page",
+    "introduction": "Introduction",
+    "mcp": "MCP"
+  },
+  "hero": {
+    "description": "Bienvenue dans la documentation Foliode. Retrouvez ici tout ce qu’il faut savoir pour créer, personnaliser et faire évoluer votre portfolio.",
+    "title": "Construisez votre espace créatif."
+  },
+  "introduction": {
+    "livingTitle": "Une documentation vivante",
+    "livingDescription": "Foliode vous aide à transformer vos projets et vos compétences en une présence en ligne qui vous ressemble. Cette documentation rassemble les guides, les bonnes pratiques et les explications de chaque fonctionnalité.",
+    "mcpDescription": "Connectez vos outils et enrichissez votre workflow.",
+    "portfolioTitle": "Votre portfolio",
+    "portfolioDescription": "Présentez vos projets avec une identité claire et personnelle.",
+    "growingTitle": "Un guide qui grandit avec vous",
+    "growingDescription": "Les pages sont pensées pour aller droit au but : une structure claire, des exemples concrets et les détails utiles quand vous en avez besoin. Revenez régulièrement pour découvrir les nouvelles fonctionnalités.",
+    "readyTitle": "Prêt à commencer ?",
+    "readyDescription": "Créez votre premier projet et donnez-lui une place dans votre portfolio.",
+    "openApp": "Accéder à Foliode"
+  },
+  "mcpContent": {
+    "category": "Fonctionnalités",
+    "description": "Connectez Foliode à vos outils préférés pour créer un espace de travail plus intelligent, plus fluide et vraiment adapté à votre façon de travailler.",
+    "whatTitle": "Qu’est-ce que le MCP ?",
+    "whatDescription": "Le Model Context Protocol permet à Foliode de communiquer avec des outils externes de manière standardisée. Vous pouvez ainsi partager le contexte de vos projets et automatiser les tâches répétitives sans perdre le contrôle de vos données.",
+    "creativeContext": "votre contexte créatif",
+    "bridge": "un pont vers vos outils",
+    "lessFriction": "moins de friction, plus de création",
+    "configureTitle": "Configurer une connexion",
+    "configureDescription": "Depuis votre espace Foliode, ouvrez la section MCP puis choisissez le serveur à connecter. Suivez les étapes affichées pour autoriser l’accès et sélectionnez les ressources que vous souhaitez rendre disponibles.",
+    "chooseServer": "Choisissez un serveur.",
+    "chooseServerDescription": "Identifiez l’outil qui doit accéder à votre contexte.",
+    "setPermissions": "Définissez les permissions.",
+    "setPermissionsDescription": "Gardez uniquement les ressources nécessaires.",
+    "testConnection": "Testez la connexion.",
+    "testConnectionDescription": "Vérifiez que le serveur répond avant de l’utiliser.",
+    "nextTitle": "Prochaines étapes",
+    "nextDescription": "Commencez par connecter un seul outil, puis ajoutez progressivement les intégrations qui vous font gagner du temps. La documentation de chaque fonctionnalité suivra la même structure.",
+    "backToIntro": "Retour à l’introduction"
+  },
+  "toc": {
+    "introWelcome": "Bienvenue sur Foliode",
+    "introLiving": "Une documentation vivante",
+    "nextSteps": "Prochaines étapes",
+    "mcpWhat": "Qu’est-ce que le MCP ?",
+    "mcpConfigure": "Configurer une connexion"
+  }
+}

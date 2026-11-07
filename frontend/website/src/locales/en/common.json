@@ -29,5 +29,11 @@
     "light": "Light mode",
     "switchToDark": "Switch to dark mode",
     "switchToLight": "Switch to light mode"
+  },
+  "header": {
+    "openMenu": "Open menu",
+    "search": "Search",
+    "openApp": "Open app",
+    "github": "GitHub"
   }
 }

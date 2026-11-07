@@ -7,6 +7,7 @@ import type frCommon from "../locales/fr/common.json"
 import type frSettings from "../locales/fr/settings.json"
 import type frLanding from "../locales/fr/landing.json"
 import type frAuth from "../locales/fr/auth.json"
+import type frDocs from "../locales/fr/docs.json"
 import type frOnboarding from "../locales/fr/onboarding.json"
 import type frDashboard from "../locales/fr/dashboard.json"
 import type frProjects from "../locales/fr/projects.json"
@@ -27,6 +28,7 @@ type SourceMessages = {
   skills: typeof frSkills
   forms: typeof frForms
   portfolio: typeof frPortfolio
+  docs: typeof frDocs
   localization: typeof frLocalization
   chat: typeof frChat
 }

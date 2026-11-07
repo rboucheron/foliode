@@ -57,7 +57,7 @@ export function ChatPage({ userLabel }: { userLabel?: string }) {
 
   return (
     <div className="flex h-svh flex-col overflow-hidden bg-muted/30">
-      < APPHeader />
+      < APPHeader locationKey="dashboard.chat.title" />
       <main className="mx-auto grid min-h-0 w-full max-w-7xl flex-1 gap-4 overflow-hidden px-4 py-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <Card className="min-h-0 overflow-hidden border-violet-500/20 shadow-xl">
           <CardHeader className="shrink-0 border-b px-5 py-3 sm:px-8">
