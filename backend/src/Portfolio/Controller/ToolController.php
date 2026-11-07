@@ -100,7 +100,7 @@ class ToolController extends AbstractController
     #[Route('/v1/api/portfolio/tools/{id}', methods: ['DELETE'])]
     public function deleteTool(string $id): JsonResponse
     {
-        $this->toolService->deleteTool($this->getUser(), $id);
+        $this->toolService->deleteTool($this->getAuthenticatedUser(), $id);
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
