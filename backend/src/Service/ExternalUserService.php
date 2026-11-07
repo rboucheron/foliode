@@ -20,6 +20,9 @@ class ExternalUserService
     ) {
     }
 
+    /**
+     * @return array{token: string, user: string}
+     */
     private function getJsonUser(Users $user): array
     {
         $token = $this->JWTManager->create($user);
