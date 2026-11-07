@@ -28,7 +28,7 @@ class PortfolioContentController extends AbstractController
     #[Route('/v1/api/portfolio', methods: ['GET'])]
     public function getPortfolio(): JsonResponse
     {
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $portfolio = $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser());
 
         return new JsonResponse(
             $this->portfolioService->serializePortfolio($portfolio),
@@ -113,5 +113,15 @@ class PortfolioContentController extends AbstractController
         $this->portfolioService->deletePortfolio($this->getUser());
 
         return new JsonResponse(['message' => 'Portfolio deleted successfully'], Response::HTTP_OK);
+    }
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
     }
 }
