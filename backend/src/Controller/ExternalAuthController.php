@@ -61,6 +61,9 @@ class ExternalAuthController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $dribbbleToken = $data['token'] ?? null;
         $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
 
         if (!$dribbbleToken) {
             return new JsonResponse(['error' => 'dribbble token is missing'], Response::HTTP_BAD_REQUEST);
