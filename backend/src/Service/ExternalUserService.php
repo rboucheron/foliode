@@ -65,6 +65,9 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     */
     public function findOrCreateUserFromDribbble(array $userData): array
     {
         $user = $this->usersRepository->findOneBy(['dribbble_id' => $userData['id']]);
