@@ -109,6 +109,7 @@ final class PortfolioApiTest extends ApiTestCase
         $client->request('PATCH', '/v1/api/portfolio/status/publish');
         self::assertResponseIsSuccessful();
 
+        static::ensureKernelShutdown();
         $publicClient = static::createClient();
         $publicClient->request('GET', '/v1/api/public/portfolio/' . $portfolio['url']);
         self::assertResponseIsSuccessful();

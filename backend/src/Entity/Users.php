@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
@@ -65,7 +65,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
-    private ?int $email_verification_code = null;
+    private ?string $email_verification_code = null;
 
     #[ORM\Column]
     #[Groups('getUsers')]

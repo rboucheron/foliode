@@ -28,6 +28,7 @@ class PortfolioResource
     public ?array $config = null;
     public ?string $template = null;
     public ?string $author = null;
+    public ?array $users = null;
     public array $projects = [];
     public array $tools = [];
     public ?array $sourceLanguage = null;

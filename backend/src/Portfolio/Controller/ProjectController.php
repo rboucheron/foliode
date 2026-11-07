@@ -61,6 +61,13 @@ class ProjectController extends AbstractController
 
         $projectsDto = [];
         foreach ($payload as $item) {
+            if (!is_array($item)) {
+                return new JsonResponse(
+                    ['error' => 'Invalid payload, each project must be an object'],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
             $projectsDto[] = $this->serializer->deserialize(
                 json_encode($item, JSON_THROW_ON_ERROR),
                 ProjectDTO::class,
