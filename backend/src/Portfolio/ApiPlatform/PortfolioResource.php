@@ -32,6 +32,9 @@ class PortfolioResource
     public array $projects = [];
     public array $tools = [];
     public ?array $sourceLanguage = null;
+    /**
+     * @var list<array<string, mixed>>
+     */
     public array $languages = [];
     public array $translations = [];
 
