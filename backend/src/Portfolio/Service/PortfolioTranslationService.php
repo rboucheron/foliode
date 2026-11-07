@@ -217,6 +217,9 @@ class PortfolioTranslationService
         );
     }
 
+    /**
+     * @param array{code: string, label: string|null} $resolved
+     */
     private function createLanguage(array $resolved, bool $isSource): PortfolioLanguage
     {
         return (new PortfolioLanguage())
