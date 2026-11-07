@@ -15,7 +15,7 @@ const localesDir = async (): Promise<string> => {
 const isNamespace = (value: unknown): value is Namespace =>
   typeof value === "string" && (NAMESPACES as ReadonlyArray<string>).includes(value)
 
-const validateFiles = (input: unknown): FlatFiles => {
+export const validateTranslationFiles = (input: unknown): FlatFiles => {
   if (typeof input !== "object" || input === null) throw new Error("Payload invalide.")
   const files = input as Record<string, unknown>
 
@@ -41,12 +41,9 @@ const validateFiles = (input: unknown): FlatFiles => {
   return files as FlatFiles
 }
 
-export const loadTranslationFiles = createServerFn({ method: "GET" }).handler(async (): Promise<FlatFiles> => {
-  assertDevelopment()
+export const loadTranslationFilesFromDirectory = async (dir: string): Promise<FlatFiles> => {
   const fs = await import("node:fs/promises")
   const path = await import("node:path")
-  const dir = await localesDir()
-
   const files = {} as FlatFiles
   for (const locale of LOCALES) {
     files[locale] = {} as Record<Namespace, Record<string, string>>
@@ -60,10 +57,15 @@ export const loadTranslationFiles = createServerFn({ method: "GET" }).handler(as
     }
   }
   return files
+}
+
+export const loadTranslationFiles = createServerFn({ method: "GET" }).handler(async (): Promise<FlatFiles> => {
+  assertDevelopment()
+  return loadTranslationFilesFromDirectory(await localesDir())
 })
 
 export const saveTranslationFiles = createServerFn({ method: "POST" })
-  .validator(validateFiles)
+  .validator(validateTranslationFiles)
   .handler(async ({ data }): Promise<{ written: number }> => {
     assertDevelopment()
     const fs = await import("node:fs/promises")

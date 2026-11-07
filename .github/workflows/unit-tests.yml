@@ -23,7 +23,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4'
           extensions: ctype, iconv, intl, pdo_pgsql
           tools: composer
 
@@ -31,7 +31,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Install backend dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist --no-blocking
+        run: composer install --no-interaction --no-progress --prefer-dist
 
       - name: Run unit tests
         run: vendor/bin/phpunit tests/Unit
