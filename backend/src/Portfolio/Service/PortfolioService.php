@@ -72,7 +72,7 @@ class PortfolioService
         return $portfolio->getUrl();
     }
 
-    public function updatePortfolio(Portfolios $portfolio, UpdatePortfolioDTO $portfolioDTO)
+    public function updatePortfolio(Portfolios $portfolio, UpdatePortfolioDTO $portfolioDTO): Portfolios
     {
         $this->validatorBaseService->CatchInvalidData($portfolioDTO);
         $portfolio->setTitle($portfolioDTO->title ?? $portfolio->getTitle());
