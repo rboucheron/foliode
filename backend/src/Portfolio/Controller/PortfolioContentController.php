@@ -110,7 +110,7 @@ class PortfolioContentController extends AbstractController
     #[Route('/v1/api/portfolio', methods: ['DELETE'])]
     public function deletePortfolio(): JsonResponse
     {
-        $this->portfolioService->deletePortfolio($this->getUser());
+        $this->portfolioService->deletePortfolio($this->getAuthenticatedUser());
 
         return new JsonResponse(['message' => 'Portfolio deleted successfully'], Response::HTTP_OK);
     }
