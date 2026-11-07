@@ -12,7 +12,7 @@ class ValidatorBaseService
     {
     }
 
-    public function CatchInvalidData(object $data): ?array
+    public function CatchInvalidData(object $data): null
     {
         $errors = $this->validator->validate($data);
 
