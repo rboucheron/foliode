@@ -2,7 +2,6 @@
 
 namespace App\User\Controller;
 
-use App\Service\MailerService;
 use App\User\Dto\AuthUserDto;
 use App\User\Dto\CreateUsersDto;
 use App\User\Service\AuthUserService;
