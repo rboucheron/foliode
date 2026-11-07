@@ -23,6 +23,10 @@ class TemplateConfig
         ];
     }
 
+    /**
+     * @param array<string, mixed> $templateConfig
+     * @return list<array<string, mixed>>
+     */
     public static function definedColor(TemplateColor $templateColor, array $templateConfig): array
     {
         $templateConfig = $templateConfig ?: self::TEMPLATECONFIG_1;
