@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\PortfoliosRepository;
 use App\Repository\ProjectsImagesRepository;
-use App\Repository\ProjectsLinksRepository;
 use App\Service\FileUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +19,6 @@ class ProjectRessourceController extends AbstractController
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ProjectsImagesRepository $projectsImagesRepository,
-        private ProjectsLinksRepository $projectsLinksRepository,
         private PortfoliosRepository $portfoliosRepository,
         private FileUploaderService $fileUploader,
         private SerializerInterface $serializer
