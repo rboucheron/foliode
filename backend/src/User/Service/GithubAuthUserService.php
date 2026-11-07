@@ -5,7 +5,6 @@ namespace App\User\Service;
 use App\Entity\Users;
 use App\Github\GithubApiRequester;
 use App\Service\InternalServerExceptionService;
-use App\Service\ApiRequesterService;
 use App\Repository\UsersRepository;
 use App\Service\ValidatorBaseService;
 use App\User\Dto\GithubUserDto;
@@ -19,7 +18,6 @@ class GithubAuthUserService
     private const GITHUB_API_VERSION = 'application/vnd.github.v3+json';
 
     public function __construct(
-        private ApiRequesterService $apiRequester,
         private InternalServerExceptionService $internalServerExceptionService,
         private UsersRepository $usersRepository,
         private EntityManagerInterface $em,
