@@ -71,7 +71,12 @@ class AuthUserController extends AbstractController
             return new JsonResponse(['error' => 'Verification code is missing'], Response::HTTP_BAD_REQUEST);
         }
 
-        $this->userEmailVerificationCodeService->verifyEmail($this->getUser(), $code);
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $this->userEmailVerificationCodeService->verifyEmail($user, $code);
 
         return new JsonResponse(
             ['message' => 'Email verified successfully'],
