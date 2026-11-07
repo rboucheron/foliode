@@ -9,7 +9,6 @@ use App\Entity\Portfolio\PortfolioVisitor;
 use App\Entity\Users;
 use App\Portfolio\Dto\CreatePortfolioCommentDTO;
 use App\Repository\PortfolioCommentsRepository;
-use App\Repository\PortfolioVisitorsRepository;
 use App\Service\FileUploaderService;
 use App\Service\ValidatorBaseService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +25,6 @@ class CommentService
 
     public function __construct(
         private PortfolioCommentsRepository $portfolioCommentsRepository,
-        private PortfolioVisitorsRepository $portfolioVisitorsRepository,
         private PortfolioService $portfolioService,
         private EntityManagerInterface $em,
         private SerializerInterface $serializer,
