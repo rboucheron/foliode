@@ -56,7 +56,7 @@ class AuthController extends AbstractController
                 ->setFirstName((string) $user->getFirstName())
                 ->setPassword($this->passwordHasher->hashPassword($existingUser, (string) $user->getPassword()))
                 ->setIsEmailVerified(false)
-                ->setEmailVerificationCode($verificationCode);
+                ->setEmailVerificationCode((string) $verificationCode);
 
             $subject = 'Vérification de votre adresse email';
             $content = "Votre code de vérification est : $verificationCode";
