@@ -94,6 +94,9 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     */
     public function updateUserWithDribble(Users $user, array $userData): array
     {
         $user->setDribbbleLogin($userData['login']);
