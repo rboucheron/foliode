@@ -13,6 +13,9 @@ class TemplateConfigService
     {
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     public function getTemplateConfig(): array
     {
         return TemplateConfig::defindeTemplateConfig();
