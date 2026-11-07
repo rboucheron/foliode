@@ -22,7 +22,7 @@ class PortfolioStatusController extends AbstractController
     {
         $this->portfolioService->updateStatus(
             $this->portfolioService->getPortfolioByUser(
-                $this->getUser()
+                $this->getAuthenticatedUser()
             ), 
             PortfolioStatus::PUBLISHED
         );
@@ -48,4 +48,14 @@ class PortfolioStatusController extends AbstractController
         ]);
     }
 
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
+    }
 }
