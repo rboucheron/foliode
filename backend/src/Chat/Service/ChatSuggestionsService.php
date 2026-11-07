@@ -21,6 +21,9 @@ class ChatSuggestionsService
         return $this->chatSuggestionsRepository->findBy(['isActive' => true]);
     }
 
+    /**
+     * @return list<\\App\\Entity\\ChatSuggestions>
+     */
     public function getChatSuggestionsByContext(string $contextType): array
     {
         return $this->chatSuggestionsRepository->findBy(['is_active' => true, 'context_type' => $contextType]);
