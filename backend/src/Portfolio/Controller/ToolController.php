@@ -71,7 +71,7 @@ class ToolController extends AbstractController
         }
 
         return new JsonResponse(
-            $this->toolService->serializeTools($this->toolService->createTools($this->getUser(), $toolsDto)),
+            $this->toolService->serializeTools($this->toolService->createTools($this->getAuthenticatedUser(), $toolsDto)),
             Response::HTTP_CREATED,
             [],
             true
