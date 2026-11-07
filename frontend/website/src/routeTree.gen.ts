@@ -11,13 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedRouteImport } from './routes/_authed'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as EnRouteImport } from './routes/en'
 import { Route as FrRouteImport } from './routes/fr'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as UsernameIndexRouteImport } from './routes/$username/index'
-import { Route as AuthedChatRouteImport } from './routes/_authed/chat'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as DevAimlRouteImport } from './routes/dev/aiml'
 import { Route as DevLanguagesRouteImport } from './routes/dev/languages'
@@ -45,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsRoute = DocsRouteImport.update({
@@ -76,11 +81,6 @@ const UsernameIndexRoute = UsernameIndexRouteImport.update({
   id: '/$username/',
   path: '/$username/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthedChatRoute = AuthedChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   id: '/dashboard',
@@ -181,12 +181,12 @@ const ApiAuthCallbackProviderRoute = ApiAuthCallbackProviderRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/docs': typeof DocsRouteWithChildren
   '/en': typeof EnRoute
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/chat': typeof AuthedChatRoute
   '/dashboard': typeof AuthedDashboardRouteWithChildren
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
@@ -210,11 +210,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/en': typeof EnRoute
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/chat': typeof AuthedChatRoute
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
   '/dev/translations': typeof DevTranslationsRoute
@@ -239,12 +239,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
+  '/chat': typeof ChatRoute
   '/docs': typeof DocsRouteWithChildren
   '/en': typeof EnRoute
   '/fr': typeof FrRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/_authed/chat': typeof AuthedChatRoute
   '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
   '/dev/aiml': typeof DevAimlRoute
   '/dev/languages': typeof DevLanguagesRoute
@@ -270,12 +270,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/chat'
     | '/docs'
     | '/en'
     | '/fr'
     | '/login'
     | '/signup'
-    | '/chat'
     | '/dashboard'
     | '/dev/aiml'
     | '/dev/languages'
@@ -299,11 +299,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/chat'
     | '/en'
     | '/fr'
     | '/login'
     | '/signup'
-    | '/chat'
     | '/dev/aiml'
     | '/dev/languages'
     | '/dev/translations'
@@ -327,12 +327,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authed'
+    | '/chat'
     | '/docs'
     | '/en'
     | '/fr'
     | '/login'
     | '/signup'
-    | '/_authed/chat'
     | '/_authed/dashboard'
     | '/dev/aiml'
     | '/dev/languages'
@@ -358,6 +358,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
+  ChatRoute: typeof ChatRoute
   DocsRoute: typeof DocsRouteWithChildren
   EnRoute: typeof EnRoute
   FrRoute: typeof FrRoute
@@ -386,6 +387,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/docs': {
@@ -429,13 +437,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/$username/'
       preLoaderRoute: typeof UsernameIndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authed/chat': {
-      id: '/_authed/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof AuthedChatRouteImport
-      parentRoute: typeof AuthedRoute
     }
     '/_authed/dashboard': {
       id: '/_authed/dashboard'
@@ -602,13 +603,11 @@ const AuthedDashboardRouteWithChildren = AuthedDashboardRoute._addFileChildren(
 )
 
 interface AuthedRouteChildren {
-  AuthedChatRoute: typeof AuthedChatRoute
   AuthedDashboardRoute: typeof AuthedDashboardRouteWithChildren
   AuthedPortfolioEditRoute: typeof AuthedPortfolioEditRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
-  AuthedChatRoute: AuthedChatRoute,
   AuthedDashboardRoute: AuthedDashboardRouteWithChildren,
   AuthedPortfolioEditRoute: AuthedPortfolioEditRoute,
 }
@@ -631,6 +630,7 @@ const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
+  ChatRoute: ChatRoute,
   DocsRoute: DocsRouteWithChildren,
   EnRoute: EnRoute,
   FrRoute: FrRoute,
