@@ -214,6 +214,9 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param list<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
