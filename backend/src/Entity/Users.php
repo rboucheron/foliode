@@ -257,6 +257,14 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->email;
     }
 
+    /**
+     * @return Collection<int, Projects>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
     public function getPortfolio(): ?Portfolios
     {
         return $this->portfolio;
