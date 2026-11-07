@@ -200,3 +200,9 @@ def all(ctx):
     print("[info] Running tests...")
     test(ctx)
     print("[ok] Complete setup and tests executed successfully!")
+
+@task
+def phpstan(ctx):
+    """Run PHPStan static analysis on backend/src."""
+    _ensure_backend_deps(ctx)
+    _run(ctx, f"{COMPOSE} exec -T backend vendor/bin/phpstan analyse src")

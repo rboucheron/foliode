@@ -30,3 +30,17 @@ jobs:
           ignore-unfixed: true
           severity: CRITICAL,HIGH
           exit-code: '1'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install backend dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: backend
+
+      - name: Run PHPStan static analysis
+        run: vendor/bin/phpstan analyse src
+        working-directory: backend
