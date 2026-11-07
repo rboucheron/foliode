@@ -61,8 +61,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $avatar_url = null;
 
+    /**
+     * @var list<string>
+     */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?string $email_verification_code = null;
