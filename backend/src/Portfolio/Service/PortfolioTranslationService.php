@@ -267,6 +267,9 @@ class PortfolioTranslationService
         }
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     private function assertValues(mixed $values, string $language): array
     {
         if (!is_array($values)) {
