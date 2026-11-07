@@ -146,7 +146,7 @@ class ProjectController extends AbstractController
     #[Route('/v1/api/portfolio/projects/{id}', methods: ['DELETE'])]
     public function deleteProject(string $id): JsonResponse
     {
-        $this->projectService->deleteProject($this->getUser(), $id);
+        $this->projectService->deleteProject($this->getAuthenticatedUser(), $id);
 
         return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
     }
