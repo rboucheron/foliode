@@ -31,7 +31,10 @@ class ExternalAuthController extends AbstractController
         $data        = json_decode($request->getContent(), true);
         $githubToken = $data['token'] ?? null;
         $email       = $data['email'] ?? null;
-        $user        = $this->getUser();
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
 
         if (!$githubToken) {
             return new JsonResponse(['error' => 'GitHub token is missing'], Response::HTTP_BAD_REQUEST);
