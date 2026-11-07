@@ -36,7 +36,7 @@ class PortfolioTranslationController extends AbstractController
     #[Route('/v1/api/portfolio/languages', methods: ['PUT'])]
     public function updateLanguages(Request $request): JsonResponse
     {
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $portfolio = $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser());
 
         $this->portfolioTranslationService->updateLanguages(
             $portfolio,
@@ -73,5 +73,15 @@ class PortfolioTranslationController extends AbstractController
         );
 
         return new JsonResponse($this->portfolioTranslationService->getStatus($portfolio), Response::HTTP_OK);
+    }
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
     }
 }
