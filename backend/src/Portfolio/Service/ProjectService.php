@@ -50,6 +50,9 @@ class ProjectService
         return $newProject;
     }
 
+    /**
+     * @return list<Projects>
+     */
     public function createSomesNewProjects(Portfolios $portfolio, array $projects): array
     {
         foreach ($projects as &$project) {
