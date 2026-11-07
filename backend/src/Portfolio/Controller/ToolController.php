@@ -83,7 +83,7 @@ class ToolController extends AbstractController
     public function updateTool(string $id, Request $request): JsonResponse
     {
         $tool = $this->toolService->updateTool(
-            $this->getUser(),
+            $this->getAuthenticatedUser(),
             $id,
             $this->serializer->deserialize($request->getContent(), ToolDTO::class, 'json')
         );
