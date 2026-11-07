@@ -77,7 +77,7 @@ class ProjectController extends AbstractController
 
         $projects = $this->projectService->createSomesNewProjects(
             $this->portfolioService->getPortfolioByUser(
-                $this->getUser()
+                $this->getAuthenticatedUser()
             ),
             $projectsDto
         );
@@ -151,4 +151,14 @@ class ProjectController extends AbstractController
         return new JsonResponse(['message' => 'Project deleted successfully'], Response::HTTP_OK);
     }
 
+
+    private function getAuthenticatedUser(): \\App\\Entity\\Users
+    {
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $user;
+    }
 }
