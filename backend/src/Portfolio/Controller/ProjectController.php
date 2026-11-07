@@ -120,7 +120,7 @@ class ProjectController extends AbstractController
     {
         return new JsonResponse(
             $this->projectService->serializeProjects(
-                $this->projectService->getPortfolioProjects($this->getUser())
+                $this->projectService->getPortfolioProjects($this->getAuthenticatedUser())
             ),
             Response::HTTP_OK,
             [],
