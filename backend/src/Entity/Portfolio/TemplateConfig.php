@@ -34,6 +34,11 @@ class TemplateConfig
         ];
     }
 
+    /**
+     * @param array<string, mixed> $templateFont
+     * @param array<string, mixed> $templateConfig
+     * @return list<array<string, mixed>>
+     */
     public static function definedFont(array $templateFont, array $templateConfig): array
     {
         $templateConfig = $templateConfig ?: self::TEMPLATECONFIG_1;
