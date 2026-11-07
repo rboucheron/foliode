@@ -17,7 +17,6 @@ class ExternalAuthController extends AbstractController
 
     public function __construct(
         private ApiRequesterService $apiRequester,
-        private UsersRepository     $usersRepository,
     )
     {
     }
