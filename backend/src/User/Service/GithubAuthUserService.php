@@ -16,7 +16,6 @@ use Symfony\Flex\GithubApi;
 class GithubAuthUserService
 {
     private const GITHUB_USER_URL = 'https://api.github.com/user';
-    private const GITHUB_API_VERSION = 'application/vnd.github.v3+json';
 
     public function __construct(
         private ApiRequesterService $apiRequester,
