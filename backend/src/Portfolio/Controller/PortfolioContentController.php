@@ -56,7 +56,7 @@ class PortfolioContentController extends AbstractController
     {
         return new JsonResponse(
             $this->portfolioViewService->getViewsLast7Days(
-                $this->portfolioService->getPortfolioByUser($this->getUser())
+                $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser())
             ),
             Response::HTTP_OK
         );
