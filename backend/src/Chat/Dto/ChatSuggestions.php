@@ -10,7 +10,6 @@ final class ChatSuggestions
     #[Assert\NotBlank(message: 'contextType is required.')]
     #[Assert\Choice(choices: [
         ChatSuggestionContextType::CONTEXT_GENERAL,
-        ChatSuggestionContextType::CONTEXT_PORTFOLIO,
         ChatSuggestionContextType::CONTEXT_NOT_REGISTERED,
         ChatSuggestionContextType::CONTEXT_PORTFOLIO_UNPUBLISHED,
         ChatSuggestionContextType::CONTEXT_PORTFOLIO_PUBLISHED
