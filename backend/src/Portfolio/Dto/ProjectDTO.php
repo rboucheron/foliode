@@ -49,6 +49,9 @@ class ProjectDTO
             allowMissingFields: false,
         ),
     ])]
+    /**
+     * @var list<array{name: string, url: string}>
+     */
     public array $links = [];
 }
 
