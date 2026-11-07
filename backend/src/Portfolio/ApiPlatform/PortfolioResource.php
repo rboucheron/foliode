@@ -25,6 +25,9 @@ class PortfolioResource
     public ?string $url = null;
     public ?string $subtitle = null;
     public ?string $bio = null;
+    /**
+     * @var array<string, mixed>|null
+     */
     public ?array $config = null;
     public ?string $template = null;
     public ?string $author = null;
