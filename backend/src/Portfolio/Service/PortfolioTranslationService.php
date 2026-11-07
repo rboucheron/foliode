@@ -209,6 +209,9 @@ class PortfolioTranslationService
         ];
     }
 
+    /**
+     * @return list<string>
+     */
     private function targetCodes(Portfolios $portfolio): array
     {
         return array_map(
