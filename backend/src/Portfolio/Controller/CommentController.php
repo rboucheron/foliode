@@ -44,7 +44,12 @@ class CommentController extends AbstractController
 
         return new JsonResponse(
             $this->commentService->serializeComment(
-                $this->commentService->createComment($url, $this->getUser(), $commentDto, $avatarFile)
+                $this->commentService->createComment(
+                    $url,
+                    $this->getUser() instanceof \\App\\Entity\\Users ? $this->getUser() : null,
+                    $commentDto,
+                    $avatarFile
+                )
             ),
             Response::HTTP_CREATED,
             [],
