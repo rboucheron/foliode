@@ -89,7 +89,7 @@ class PortfolioContentController extends AbstractController
     {
         $portfolio = $this->portfolioService->updatePortfolio(
             $this->portfolioService->getPortfolioByUser(
-                $this->getUser()
+                $this->getAuthenticatedUser()
             ),
             $this->serializer->deserialize(
                 $request->getContent(),
