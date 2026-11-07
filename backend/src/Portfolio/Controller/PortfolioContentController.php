@@ -67,7 +67,7 @@ class PortfolioContentController extends AbstractController
     public function creatNewPortfolio(Request $request): JsonResponse
     {
         $portfolio = $this->portfolioService->createNewPortfolio(
-            $this->getUser(),
+            $this->getAuthenticatedUser(),
             $this->serializer->deserialize(
                 $request->getContent(),
                 CreatNewPortfolioDTO::class,
