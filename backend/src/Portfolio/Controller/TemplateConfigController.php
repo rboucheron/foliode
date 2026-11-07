@@ -6,7 +6,6 @@ use App\Portfolio\Dto\TemplateColorConfigDTO;
 use App\Portfolio\Dto\TemplateFontConfigDTO;
 use App\Portfolio\Service\TemplateConfigService;
 use App\Portfolio\Service\PortfolioService;
-use App\Repository\PortfoliosRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +19,6 @@ class TemplateConfigController extends AbstractController
 {
     public function __construct(
         private SerializerInterface $serializer,
-        private PortfoliosRepository $portfoliosRepository,
         private PortfolioService $portfolioService,
         private TemplateConfigService $templateConfigService
     ) {
