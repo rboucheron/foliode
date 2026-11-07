@@ -30,6 +30,9 @@ class PortfolioResource
     public ?string $author = null;
     public ?array $users = null;
     public array $projects = [];
+    /**
+     * @var list<array<string, mixed>>
+     */
     public array $tools = [];
     public ?array $sourceLanguage = null;
     public array $languages = [];
