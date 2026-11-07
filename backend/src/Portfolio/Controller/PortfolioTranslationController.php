@@ -64,7 +64,7 @@ class PortfolioTranslationController extends AbstractController
     #[Route('/v1/api/portfolio/projects/{id}/translations', methods: ['PUT'])]
     public function saveProjectTranslations(string $id, Request $request): JsonResponse
     {
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $portfolio = $this->portfolioService->getPortfolioByUser($this->getAuthenticatedUser());
 
         $this->portfolioTranslationService->saveProjectTranslations(
             $portfolio,
