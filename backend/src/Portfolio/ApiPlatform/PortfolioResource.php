@@ -29,6 +29,9 @@ class PortfolioResource
     public ?string $template = null;
     public ?string $author = null;
     public ?array $users = null;
+    /**
+     * @var list<array<string, mixed>>
+     */
     public array $projects = [];
     public array $tools = [];
     public ?array $sourceLanguage = null;
