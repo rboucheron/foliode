@@ -38,7 +38,7 @@ class PortfolioStatusController extends AbstractController
     {
         $this->portfolioService->updateStatus(
             $this->portfolioService->getPortfolioByUser(
-                $this->getUser()
+                $this->getAuthenticatedUser()
             ), 
             PortfolioStatus::DRAFT
         );
