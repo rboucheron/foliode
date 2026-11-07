@@ -120,6 +120,9 @@ class ProjectService
         $this->em->flush();
     }
 
+    /**
+     * @return list<ProjectsImages>
+     */
     private function uploadImages(array $images): array
     {
         $uploadDir = rtrim((string) $this->params->get('upload_directory'), '/') . '/project';
