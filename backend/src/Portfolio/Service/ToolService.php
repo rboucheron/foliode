@@ -97,6 +97,9 @@ class ToolService
         return $this->serializer->serialize($tool, 'json', ['groups' => 'getPortfolio']);
     }
 
+    /**
+     * @param list<Tools> $tools
+     */
     public function serializeTools(array $tools): string
     {
         return $this->serializer->serialize($tools, 'json', ['groups' => 'getPortfolio']);
