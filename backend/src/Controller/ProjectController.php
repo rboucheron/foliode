@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Projects;
+use App\Entity\Portfolio\Projects;
 use App\Entity\ProjectsImages;
 use App\Repository\PortfoliosRepository;
 use App\Repository\ProjectsRepository;
