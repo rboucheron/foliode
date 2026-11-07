@@ -31,6 +31,9 @@ class PortfolioResource
     public ?array $users = null;
     public array $projects = [];
     public array $tools = [];
+    /**
+     * @var array<string, mixed>|null
+     */
     public ?array $sourceLanguage = null;
     public array $languages = [];
     public array $translations = [];
