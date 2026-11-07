@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\ChatSuggestionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Symfony\Component\Serializer\Attribute\Groups;
+use App\Entity\Portfolio\ChatSuggestionContextType;
 
 #[ORM\Entity(repositoryClass: ChatSuggestionsRepository::class)]
 class ChatSuggestions
@@ -14,13 +17,19 @@ class ChatSuggestions
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['chat_suggestions'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['chat_suggestions'])]
     private ?string $translation_key = null;
 
     #[ORM\Column]
     private ?bool $is_active = null;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['chat_suggestions'])]
+    private ?string  $context_type = ChatSuggestionContextType::CONTEXT_GENERAL; 
 
     public function getId(): ?int
     {
@@ -30,6 +39,13 @@ class ChatSuggestions
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    public function setContextType(string $context_type): static
+    {
+        $this->context_type = $context_type;
+
+        return $this;
     }
 
     public function setDescription(string $description): static

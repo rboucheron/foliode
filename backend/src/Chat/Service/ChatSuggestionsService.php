@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Chat\Service;
+
+use App\Repository\ChatSuggestionsRepository;
+use Symfony\Component\Serializer\SerializerInterface;
+
+class ChatSuggestionsService
+{
+    public function __construct(
+        private readonly ChatSuggestionsRepository $chatSuggestionsRepository, 
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
+
+    public function getChatSuggestions(): array
+    {
+        return $this->chatSuggestionsRepository->findBy(['isActive' => true]);
+    }
+
+    public function getChatSuggestionsByContext(string $contextType): array
+    {
+        return $this->chatSuggestionsRepository->findBy(['isActive' => true, 'contextType' => $contextType]);
+    }
+
+    public function serializeChatSuggestions(array $chatSuggestions): string
+    {
+        return $this->serializer->serialize($chatSuggestions, 'json', ['groups' => ['chat_suggestions']]);
+    }
+}
