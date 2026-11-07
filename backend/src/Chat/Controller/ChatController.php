@@ -42,7 +42,12 @@ final class ChatController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $portfolio = $this->portfolioService->getPortfolioByUser($this->getUser());
+        $user = $this->getUser();
+        if (!$user instanceof \\App\\Entity\\Users) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $portfolio = $this->portfolioService->getPortfolioByUser($user);
         $locale = $portfolioChatRequest->locale ?: ($request->getPreferredLanguage(['fr', 'en']) ?? 'fr');
 
         $response = $this->portfolioChatService->respond(
