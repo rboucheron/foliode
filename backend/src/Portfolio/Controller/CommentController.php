@@ -39,7 +39,11 @@ class CommentController extends AbstractController
     public function createPublicComment(string $url, Request $request): JsonResponse
     {
         $data = $request->request->all();
-        $commentDto = $this->serializer->denormalize($data, CreatePortfolioCommentDTO::class);
+        $commentDto = $this->serializer->deserialize(
+            json_encode($data, JSON_THROW_ON_ERROR),
+            CreatePortfolioCommentDTO::class,
+            'json'
+        );
         $avatarFile = $request->files->get('avatar');
 
         return new JsonResponse(
