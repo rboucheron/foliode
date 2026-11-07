@@ -14,6 +14,9 @@ class LanguageCodeResolver
     public const MAX_CODE_LENGTH = 64;
     public const MAX_LABEL_LENGTH = 100;
 
+    /**
+     * @return array{code: string, label: string|null}
+     */
     public function resolve(mixed $code, mixed $label): array
     {
         if ($code !== null && !is_string($code)) {
