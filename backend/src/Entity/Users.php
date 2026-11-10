@@ -61,8 +61,9 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $avatar_url = null;
 
+    /** @var list<string> */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?string $email_verification_code = null;
@@ -206,6 +207,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
+    /** @return list<string> */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -214,6 +216,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return array_unique($roles);
     }
 
+    /** @param list<string> $roles */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
