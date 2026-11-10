@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Tools;
+use App\Entity\Portfolio\Tools;
 use App\Repository\PortfoliosRepository;
 use App\Repository\ToolsRepository;
 use App\Service\FileUploaderService;
@@ -18,7 +18,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ToolsController extends AbstractController
 {
     public function __construct(
-        private ToolsRepository $toolsRepository,
         private FileUploaderService $uploader,
         private EntityManagerInterface $entityManager,
         private PortfoliosRepository $portfoliosRepository,
@@ -30,8 +29,8 @@ class ToolsController extends AbstractController
     public function add_tool(Request $request): JsonResponse
     {
         $user = $this->getUser();
-        $data = $request->get('json');
-        $files = $request->files->get('images');
+        $data = $request->request->get('json');
+        $files = $request->files->all()['images'] ?? [];
         $uploadDir = $this->getParameter('upload_directory') . '/tool';
         $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
 
