@@ -81,7 +81,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
      * @var Collection<int, Projects>
      */
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'user')]
-    private Collection $projects; // @phpstan-ignore property.unused (Required as the inverse side of the Doctrine association)
+    private Collection $projects;
 
     public function __construct()
     {
