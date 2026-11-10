@@ -50,6 +50,9 @@ class ProjectService
         return $newProject;
     }
 
+    /** @param list<ProjectDTO> $projects
+     * @return list<Projects>
+     */
     public function createSomesNewProjects(Portfolios $portfolio, array $projects): array
     {
         foreach ($projects as &$project) {
@@ -70,6 +73,7 @@ class ProjectService
         return $project;
     }
 
+    /** @return list<Projects> */
     public function getPortfolioProjects(Users $user): array
     {
         return $this->projectsRepository->findBy(['user' => $user]);
@@ -79,7 +83,7 @@ class ProjectService
     {
         $this->validatorBaseService->CatchInvalidData($projectDTO);
 
-        $project->setTitle($projectDTO->title ?? $project->getTitle())
+        $project->setTitle($projectDTO->title)
             ->setDescription($projectDTO->description ?? $project->getDescription());
 
         if ($projectDTO->images !== []) {
@@ -120,6 +124,9 @@ class ProjectService
         $this->em->flush();
     }
 
+    /** @param list<array{file: string, imageAlt?: string}> $images
+     * @return list<ProjectsImages>
+     */
     private function uploadImages(array $images): array
     {
         $uploadDir = rtrim((string) $this->params->get('upload_directory'), '/') . '/project';
@@ -136,6 +143,9 @@ class ProjectService
         return $images;
     }
 
+    /** @param list<array<string, mixed>> $links
+     * @return list<ProjectsLinks>
+     */
     private function buildLinks(array $links): array
     {
         $linkEntities = [];
@@ -169,6 +179,7 @@ class ProjectService
         return $this->serializer->serialize($project, 'json', ['groups' => 'getProject']);
     }
 
+    /** @param list<Projects> $projects */
     public function serializeProjects(array $projects): string
     {
         return $this->serializer->serialize($projects, 'json', ['groups' => 'getPortfolio']);
