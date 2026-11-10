@@ -24,30 +24,30 @@ class TemplateConfig
         ];
     }
 
-    /** @param array<string, mixed> $templateConfig
-     * @return array<int, array<string, mixed>>
+    /** @param array{0: array<string, mixed>}|null $templateConfig
+     * @return array{0: array<string, mixed>}
      */
-    public static function definedColor(TemplateColor $templateColor, array $templateConfig): array
+    public static function definedColor(TemplateColor $templateColor, ?array $templateConfig): array
     {
-        $templateConfig = $templateConfig ?: self::TEMPLATECONFIG_1;
+        $templateConfig = $templateConfig ?: [self::TEMPLATECONFIG_1];
 
-        $templateConfig['color'] = $templateColor->getTemplateColor();
+        $templateConfig[0]['color'] = $templateColor->getTemplateColor();
 
         return [
             $templateConfig,
         ];
     }
 
-    /** @param array<string, mixed> $templateFont
-     * @param array<string, mixed> $templateConfig
-     * @return array<string, mixed>
+    /** @param array{family: string, provider: string} $templateFont
+     * @param array{0: array<string, mixed>}|null $templateConfig
+     * @return array{0: array<string, mixed>}
      */
-    public static function definedFont(array $templateFont, array $templateConfig): array
+    public static function definedFont(array $templateFont, ?array $templateConfig): array
     {
-        $templateConfig = $templateConfig ?: self::TEMPLATECONFIG_1;
+        $templateConfig = $templateConfig ?: [self::TEMPLATECONFIG_1];
 
-        if (in_array($templateFont['provider'], self::TEMPLATEFONT_PROVIDER)) {
-            $templateConfig['font'] = [
+        if (in_array($templateFont['provider'], self::TEMPLATEFONT_PROVIDER, true)) {
+            $templateConfig[0]['font'] = [
                 'family' => $templateFont['family'],
                 'provider' => $templateFont['provider'],
             ];
