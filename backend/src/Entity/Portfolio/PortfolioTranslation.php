@@ -134,6 +134,7 @@ class PortfolioTranslation
         return $this;
     }
 
+    /** @return array{title: string, subtitle: string|null, bio: string|null} */
     public function toContent(): array
     {
         return ['title' => $this->title, 'subtitle' => $this->subtitle, 'bio' => $this->bio];
