@@ -213,7 +213,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
     /** @param list<string> $roles */
