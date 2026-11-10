@@ -11,6 +11,7 @@ class TemplateConfig
 
     private const TEMPLATEFONT_PROVIDER = ['fonts.googleapis.com'];
 
+    /** @return array<string, mixed> */
     public static function defindeTemplateConfig(): array
     {
         $templateColor = new TemplateColor();
@@ -23,6 +24,9 @@ class TemplateConfig
         ];
     }
 
+    /** @param array<string, mixed> $templateConfig
+     * @return array<string, mixed>
+     */
     public static function definedColor(TemplateColor $templateColor, array $templateConfig): array
     {
         $templateConfig = $templateConfig ?: self::TEMPLATECONFIG_1;
@@ -34,6 +38,10 @@ class TemplateConfig
         ];
     }
 
+    /** @param array<string, mixed> $templateFont
+     * @param array<string, mixed> $templateConfig
+     * @return array<string, mixed>
+     */
     public static function definedFont(array $templateFont, array $templateConfig): array
     {
         $templateConfig = $templateConfig ?: self::TEMPLATECONFIG_1;
