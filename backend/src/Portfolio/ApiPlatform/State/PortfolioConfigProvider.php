@@ -8,6 +8,7 @@ use App\Entity\Users;
 use App\Portfolio\ApiPlatform\PortfolioConfigResource;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /** @implements ProviderInterface<PortfolioConfigResource> */
 class PortfolioConfigProvider implements ProviderInterface
