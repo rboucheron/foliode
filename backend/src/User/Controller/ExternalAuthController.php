@@ -2,6 +2,7 @@
 
 namespace App\User\Controller;
 
+use App\Entity\Users;
 use App\Service\ApiRequesterService;
 use App\Service\ExternalUserService;
 use App\User\Dto\GithubUserDto;
@@ -61,6 +62,10 @@ class ExternalAuthController extends AbstractController
 
         if (!$user) {
             return new JsonResponse($this->externalUserService->findOrCreateUserFromDribbble($userData), Response::HTTP_OK);
+        }
+
+        if (!$user instanceof Users) {
+            throw $this->createAccessDeniedException();
         }
 
         return new JsonResponse($this->externalUserService->updateUserWithDribble($user, $userData), Response::HTTP_OK);
