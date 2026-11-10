@@ -16,6 +16,7 @@ class PortfolioViewsRepository extends ServiceEntityRepository
         parent::__construct($registry, PortfolioViews::class);
     }
 
+    /** @return list<array{count: int|string, day: string}> */
     public function getViewsLast7DaysForPortfolio(string $portfolioId): array
     {
         return $this->createQueryBuilder('pv')
