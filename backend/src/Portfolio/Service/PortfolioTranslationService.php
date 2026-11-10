@@ -77,9 +77,6 @@ class PortfolioTranslationService
         /** @var array<string, array{code: string, label: string|null}> $targets */
         $targets = [];
         foreach ($dto->languages ?? [] as $language) {
-            if (!is_array($language)) {
-                throw new BadRequestHttpException('Each language must be an object with a code or a label.');
-            }
             $resolved = $this->languageCodeResolver->resolve($language['code'] ?? null, $language['label'] ?? null);
             if ($resolved['code'] === $source['code']) {
                 throw new BadRequestHttpException('The source language cannot also be a translation language.');
