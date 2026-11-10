@@ -15,5 +15,6 @@ class UpdatePortfolioDTO
     #[Assert\Length(max: 255, maxMessage: "url cannot exceed 255 characters")]
     public ?string $url = null;
     public ?string $template = null;
+    /** @var array<string, mixed>|null */
     public ?array $config = null;
 }
