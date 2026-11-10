@@ -10,7 +10,7 @@ use App\Portfolio\Service\PortfolioService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/** @implements ProviderInterface<PortfolioResource|null> */
+/** @implements ProviderInterface<PortfolioResource> */
 class PortfolioProvider implements ProviderInterface
 {
     public function __construct(
@@ -20,11 +20,11 @@ class PortfolioProvider implements ProviderInterface
     ) {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?PortfolioResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): PortfolioResource
     {
         $user = $this->security->getUser();
         if (!$user instanceof Users) {
-            return null;
+            throw new AccessDeniedHttpException('Authentication is required.');
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
@@ -35,7 +35,7 @@ class PortfolioProvider implements ProviderInterface
         );
 
         if (!is_array($payload)) {
-            return null;
+            throw new NotFoundHttpException('Portfolio resource could not be serialized.');
         }
 
         $resource = new PortfolioResource();
