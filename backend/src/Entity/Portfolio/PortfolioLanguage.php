@@ -97,6 +97,7 @@ class PortfolioLanguage
         return $this->createdAt;
     }
 
+    /** @return array{code: string|null, label: string|null} */
     public function toArray(): array
     {
         return ['code' => $this->code, 'label' => $this->label];
