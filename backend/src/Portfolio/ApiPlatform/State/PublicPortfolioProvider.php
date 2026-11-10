@@ -8,6 +8,7 @@ use App\Entity\Portfolio\PortfolioStatus;
 use App\Portfolio\ApiPlatform\PortfolioResource;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /** @implements ProviderInterface<PortfolioResource> */
 class PublicPortfolioProvider implements ProviderInterface
