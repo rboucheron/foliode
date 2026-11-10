@@ -18,7 +18,7 @@ class PortfolioComment
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups('getPortfolioComment')]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\ManyToOne(targetEntity: Portfolios::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,7 +38,7 @@ class PortfolioComment
 
     #[ORM\Column(type: Types::INTEGER)]
     #[Groups('getPortfolioComment')]
-    private ?int $status = PortfolioCommentStatus::VISIBLE;
+    private int $status = PortfolioCommentStatus::VISIBLE;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups('getPortfolioComment')]
@@ -106,7 +106,7 @@ class PortfolioComment
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): int
     {
         return $this->status;
     }
