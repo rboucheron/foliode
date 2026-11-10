@@ -59,7 +59,7 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $commentMessage = null;
 
-    /** @var array<string, mixed>|null */
+    /** @var array<int, array<string, mixed>>|null */
     #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups('getPortfolio')]
     private ?array $config = null;
@@ -201,13 +201,13 @@ class Portfolios
         return $this;
     }
 
-    /** @return array<string, mixed>|null */
+    /** @return array<int, array<string, mixed>>|null */
     public function getConfig(): ?array
     {
         return $this->config;
     }
 
-    /** @param array<string, mixed>|null $config */
+    /** @param array<int, array<string, mixed>>|null $config */
     public function setConfig(?array $config): self
     {
         $this->config = $config;
@@ -382,15 +382,15 @@ class Portfolios
         return null;
     }
 
-    #[Groups('getPortfolio')]
     /** @return array{code: string|null, label: string|null}|null */
+    #[Groups('getPortfolio')]
     public function getSourceLanguage(): ?array
     {
         return $this->findSourceLanguage()?->toArray();
     }
 
-    #[Groups('getPortfolio')]
     /** @return list<array{code: string|null, label: string|null}> */
+    #[Groups('getPortfolio')]
     public function getLanguages(): array
     {
         return array_map(
@@ -399,9 +399,9 @@ class Portfolios
         );
     }
 
+    /** @return array<string, array{title: string, subtitle: string|null, bio: string|null}> */
     #[Groups('getPortfolio')]
     #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
-    /** @return array<string, array{title: string, subtitle: string|null, bio: string|null}> */
     public function getTranslations(): array
     {
         $targets = array_map(
