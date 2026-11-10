@@ -13,11 +13,13 @@ class TemplateConfigService
     {
     }
 
+    /** @return array<string, mixed> */
     public function getTemplateConfig(): array
     {
         return TemplateConfig::defindeTemplateConfig();
     }
 
+    /** @return array<string, mixed> */
     public function updateTemplateColor(TemplateColorConfigDTO $templateColorConfigDTO, Portfolios $portfolio): array
     {
         $templateColor = (new TemplateColor())
@@ -33,6 +35,7 @@ class TemplateConfigService
         return TemplateConfig::definedColor($templateColor, $portfolio->getConfig());
     }
 
+    /** @return array<string, mixed> */
     public function updateTemplateFont(TemplateFontConfigDTO $templateFontConfigDTO, Portfolios $portfolios): array
     {
         return TemplateConfig::definedFont(
