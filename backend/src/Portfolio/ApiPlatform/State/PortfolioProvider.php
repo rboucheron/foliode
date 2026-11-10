@@ -9,6 +9,8 @@ use App\Portfolio\ApiPlatform\PortfolioResource;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /** @implements ProviderInterface<PortfolioResource> */
 class PortfolioProvider implements ProviderInterface
