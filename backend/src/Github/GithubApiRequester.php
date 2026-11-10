@@ -37,7 +37,7 @@ class GithubApiRequester
     /** @return list<array<string, mixed>> */
     public function getRepositories(string $githubLogin, string $token): array
     {
-        return $this->cache->get("github_repos_{$githubLogin}", function (ItemInterface $item) use ($githubLogin, $token) {
+        $repositories = $this->cache->get("github_repos_{$githubLogin}", function (ItemInterface $item) use ($githubLogin, $token) {
             $item->expiresAfter(3600);
 
             $response = $this->apiRequester->get(
@@ -56,6 +56,13 @@ class GithubApiRequester
 
             return $response ?? [];
         });
+
+        if (!is_array($repositories)) {
+            return [];
+        }
+
+        /** @var list<array<string, mixed>> $repositories */
+        return $repositories;
     }
 
     public function getReadme(string $owner, string $repo, string $token): ?string
