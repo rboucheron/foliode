@@ -31,7 +31,6 @@ class ProjectDTO
             allowMissingFields: false,
         ),
     ])]
-    /** @var list<array{file: string, imageAlt: string}> */
     public array $images = [];
     #[Assert\Type(type: 'array', message: 'links must be an array.')]
     #[Assert\All([
@@ -50,7 +49,6 @@ class ProjectDTO
             allowMissingFields: false,
         ),
     ])]
-    /** @var list<array{name: string, url: string}> */
     public array $links = [];
 }
 
