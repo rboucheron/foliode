@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Portfolio\Portfolios;
 use App\Entity\Portfolio\Projects;
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +22,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(length: 255)]
     #[Groups(['getUsers', 'getPortfolio'])]
@@ -61,8 +62,9 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups(['getUsers', 'getPortfolio', 'getPromotion'])]
     private ?string $avatar_url = null;
 
+    /** @var list<string> */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?string $email_verification_code = null;
@@ -80,6 +82,11 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
      */
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'user')]
     private Collection $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -206,14 +213,16 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this;
     }
 
+    /** @return list<string> */
     public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
+    /** @param list<string> $roles */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -255,6 +264,12 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    /** @return Collection<int, Projects> */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
     }
 
     public function getPortfolio(): ?Portfolios

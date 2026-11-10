@@ -19,6 +19,7 @@ class GithubApiRequester
     ) {
     }
 
+    /** @return array<string, mixed> */
     public function authenticateUserFromGithub(GithubUserDto $user): array
     {
         $userData = $this->apiRequester->get(
@@ -26,37 +27,38 @@ class GithubApiRequester
             ['Authorization' => 'Bearer ' . $user->token, 'Accept' => self::GITHUB_API_VERSION,]
         );
 
-        if (!$userData) {
+        if ($userData === null || $userData === []) {
             throw new UnauthorizedHttpException('', 'Github Token is invalid');
         }
 
         return $userData;
     }
 
+    /** @return list<array<string, mixed>> */
     public function getRepositories(string $githubLogin, string $token): array
     {
-        return $this->cache->get("github_repos_{$githubLogin}", function (ItemInterface $item) use ($githubLogin, $token) {
+        $repositories = $this->cache->get("github_repos_{$githubLogin}", function (ItemInterface $item) use ($githubLogin, $token) {
             $item->expiresAfter(3600);
 
             $response = $this->apiRequester->get(
-                self::GITHUB_API_BASE . "/users/{$githubLogin}/repos",
+                self::GITHUB_API_BASE . "/users/{$githubLogin}/repos?" . http_build_query([
+                    'sort' => 'updated',
+                    'direction' => 'desc',
+                    'per_page' => 100,
+                    'type' => 'owner',
+                ]),
                 [
-                    'headers' => [
-                        'Authorization' => "Bearer {$token}",
-                        'Accept' => 'application/vnd.github+json',
-                        'X-GitHub-Api-Version' => '2022-11-28',
-                    ],
-                    'query' => [
-                        'sort' => 'updated',
-                        'direction' => 'desc',
-                        'per_page' => 100,
-                        'type' => 'owner',
-                    ],
+                    'Authorization' => "Bearer {$token}",
+                    'Accept' => 'application/vnd.github+json',
+                    'X-GitHub-Api-Version' => '2022-11-28',
                 ]
             );
 
-            return $response;
+            return $response ?? [];
         });
+
+        /** @var list<array<string, mixed>> $repositories */
+        return $repositories;
     }
 
     public function getReadme(string $owner, string $repo, string $token): ?string
@@ -67,14 +69,12 @@ class GithubApiRequester
             $item->expiresAfter(3600);
 
             $response = $this->apiRequester->get(self::GITHUB_API_BASE . "/repos/{$owner}/{$repo}/readme", [
-                [
-                    'Authorization' => "Bearer {$token}",
-                    'Accept' => 'application/vnd.github+json',
-                ],
+                'Authorization' => "Bearer {$token}",
+                'Accept' => 'application/vnd.github+json',
             ]);
-            $data = $response;
+            $content = $response['content'] ?? null;
 
-            return base64_decode($data['content']);
+            return is_string($content) ? base64_decode($content, true) ?: null : null;
         });
     }
 }

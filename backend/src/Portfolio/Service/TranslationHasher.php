@@ -17,6 +17,7 @@ class TranslationHasher
         return $this->hash([$project->getTitle(), $project->getDescription()]);
     }
 
+    /** @param list<mixed> $values */
     private function hash(array $values): string
     {
         return hash('sha256', (string) json_encode($values, JSON_UNESCAPED_UNICODE));

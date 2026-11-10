@@ -14,7 +14,7 @@ class ChatSuggestions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(length: 255)]
     #[Groups(['chat_suggestions'])]
@@ -29,7 +29,7 @@ class ChatSuggestions
 
     #[ORM\Column(length: 255)]
     #[Groups(['chat_suggestions'])]
-    private ?string  $context_type = ChatSuggestionContextType::CONTEXT_GENERAL; 
+    private string $context_type = ChatSuggestionContextType::CONTEXT_GENERAL; 
 
     public function getId(): ?int
     {
@@ -39,6 +39,11 @@ class ChatSuggestions
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    public function getContextType(): string
+    {
+        return $this->context_type;
     }
 
     public function setContextType(string $context_type): static

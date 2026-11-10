@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
-use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,11 +23,11 @@ class Portfolios
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups('getPortfolio')]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Groups('getPortfolio')]
-    private ?int $status = PortfolioStatus::DRAFT;
+    private ?int $status = PortfolioStatus::DRAFT; // @phpstan-ignore property.unusedType (The database column is nullable)
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
@@ -49,7 +49,7 @@ class Portfolios
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups('getPortfolio')]
-    private ?string $author = 'unknown';
+    private ?string $author = 'unknown'; // @phpstan-ignore property.unusedType (The database column is nullable)
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getPortfolio')]
@@ -59,13 +59,14 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $commentMessage = null;
 
+    /** @var array<int, array<string, mixed>>|null */
     #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups('getPortfolio')]
     private ?array $config = null;
 
     #[ORM\Column(length: 255)]
     #[Groups('getPortfolio')]
-    private ?string $template = Template::TEMPLATE_1;
+    private ?string $template = Template::TEMPLATE_1; // @phpstan-ignore property.unusedType (The database column is nullable)
 
     #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -93,10 +94,12 @@ class Portfolios
     #[ORM\OneToMany(targetEntity: PortfolioViews::class, mappedBy: 'portfolio')]
     private Collection $portfolioViews;
 
+    /** @var Collection<int, PortfolioLanguage> */
     #[ORM\OneToMany(targetEntity: PortfolioLanguage::class, mappedBy: 'portfolio', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'ASC', 'code' => 'ASC'])]
     private Collection $portfolioLanguages;
 
+    /** @var Collection<int, PortfolioTranslation> */
     #[ORM\OneToMany(targetEntity: PortfolioTranslation::class, mappedBy: 'portfolio', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $portfolioTranslations;
 
@@ -198,11 +201,13 @@ class Portfolios
         return $this;
     }
 
+    /** @return array<int, array<string, mixed>>|null */
     public function getConfig(): ?array
     {
         return $this->config;
     }
 
+    /** @param array<int, array<string, mixed>>|null $config */
     public function setConfig(?array $config): self
     {
         $this->config = $config;
@@ -300,6 +305,7 @@ class Portfolios
         return $this->portfolioViews;
     }
 
+    /** @return Collection<int, PortfolioLanguage> */
     public function getPortfolioLanguages(): Collection
     {
         return $this->portfolioLanguages;
@@ -322,6 +328,7 @@ class Portfolios
         return $this;
     }
 
+    /** @return Collection<int, PortfolioTranslation> */
     public function getPortfolioTranslations(): Collection
     {
         return $this->portfolioTranslations;
@@ -355,6 +362,7 @@ class Portfolios
         return null;
     }
 
+    /** @return list<PortfolioLanguage> */
     public function findTargetLanguages(): array
     {
         return array_values(array_filter(
@@ -374,12 +382,14 @@ class Portfolios
         return null;
     }
 
+    /** @return array{code: string|null, label: string|null}|null */
     #[Groups('getPortfolio')]
     public function getSourceLanguage(): ?array
     {
         return $this->findSourceLanguage()?->toArray();
     }
 
+    /** @return list<array{code: string|null, label: string|null}> */
     #[Groups('getPortfolio')]
     public function getLanguages(): array
     {
@@ -389,6 +399,7 @@ class Portfolios
         );
     }
 
+    /** @return array<string, array{title: string, subtitle: string|null, bio: string|null}> */
     #[Groups('getPortfolio')]
     #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
     public function getTranslations(): array

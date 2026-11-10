@@ -28,6 +28,7 @@ class ToolService
     ) {
     }
 
+    /** @return list<Tools> */
     public function getPortfolioTools(Users $user): array
     {
         $portfolio = $this->portfolioService->getPortfolioByUser($user);
@@ -58,6 +59,9 @@ class ToolService
         return $tool;
     }
 
+    /** @param list<ToolDTO> $tools
+     * @return list<Tools>
+     */
     public function createTools(Users $user, array $tools): array
     {
         foreach ($tools as &$tool) {
@@ -97,6 +101,7 @@ class ToolService
         return $this->serializer->serialize($tool, 'json', ['groups' => 'getPortfolio']);
     }
 
+    /** @param list<Tools> $tools */
     public function serializeTools(array $tools): string
     {
         return $this->serializer->serialize($tools, 'json', ['groups' => 'getPortfolio']);

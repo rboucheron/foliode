@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class SaveTranslationsDTO
 {
+    /** @var array<string, array<string, mixed>>|null */
     #[Assert\NotNull(message: "translations is required.")]
     public ?array $translations = null;
 }

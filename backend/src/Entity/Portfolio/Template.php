@@ -8,6 +8,7 @@ class Template
     public const TEMPLATE_2 = 'template-2';
     public const TEMPLATE_3 = 'template-3';
 
+    /** @return list<string> */
     public static function getAvailableTemplates(): array
     {
         return [

@@ -28,6 +28,7 @@ class PortfolioTranslationService
     ) {
     }
 
+    /** @return array<string, mixed> */
     public function getStatus(Portfolios $portfolio): array
     {
         $targets = $this->targetCodes($portfolio);
@@ -73,11 +74,9 @@ class PortfolioTranslationService
             $dto->sourceLanguage['label'] ?? null
         );
 
+        /** @var array<string, array{code: string, label: string|null}> $targets */
         $targets = [];
         foreach ($dto->languages ?? [] as $language) {
-            if (!is_array($language)) {
-                throw new BadRequestHttpException('Each language must be an object with a code or a label.');
-            }
             $resolved = $this->languageCodeResolver->resolve($language['code'] ?? null, $language['label'] ?? null);
             if ($resolved['code'] === $source['code']) {
                 throw new BadRequestHttpException('The source language cannot also be a translation language.');
@@ -186,6 +185,9 @@ class PortfolioTranslationService
         $this->em->flush();
     }
 
+    /** @param list<string> $targets
+     * @return array<string, mixed>
+     */
     private function projectStatus(Projects $project, array $targets): array
     {
         $hash = $this->hasher->hashProject($project);
@@ -209,6 +211,7 @@ class PortfolioTranslationService
         ];
     }
 
+    /** @return list<string> */
     private function targetCodes(Portfolios $portfolio): array
     {
         return array_map(
@@ -217,6 +220,7 @@ class PortfolioTranslationService
         );
     }
 
+    /** @param array{code: string, label: string|null} $resolved */
     private function createLanguage(array $resolved, bool $isSource): PortfolioLanguage
     {
         return (new PortfolioLanguage())
@@ -267,6 +271,7 @@ class PortfolioTranslationService
         }
     }
 
+    /** @return array<string, mixed> */
     private function assertValues(mixed $values, string $language): array
     {
         if (!is_array($values)) {

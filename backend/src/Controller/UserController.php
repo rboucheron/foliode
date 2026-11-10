@@ -4,15 +4,14 @@ namespace App\Controller;
 
 use App\Service\FileUploaderService;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\UsersRepository;
 use App\Entity\Users;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -20,9 +19,7 @@ class UserController extends AbstractController
 {
 
     public function __construct(
-        private UsersRepository $usersRepository,
         private EntityManagerInterface $entityManager,
-        private UserPasswordHasherInterface $passwordHasher,
         private JWTTokenManagerInterface $jwtManager,
         private SerializerInterface $serializer,
         private FileUploaderService $fileUploader
@@ -35,6 +32,9 @@ class UserController extends AbstractController
         Request $req
     ): JsonResponse {
         $user = $this->getUser();
+        if (!$user instanceof Users) {
+            throw $this->createAccessDeniedException();
+        }
         $data = $req->getContent();
 
         $this->serializer->deserialize($data, Users::class, 'json', ['object_to_populate' => $user]);
@@ -49,11 +49,18 @@ class UserController extends AbstractController
     #[Route('/api/user/profil', methods: ['POST'])]
     public function change_profil_picture(
         Request $request
-    ) {
+    ): JsonResponse {
         $user = $this->getUser();
+        if (!$user instanceof Users) {
+            throw $this->createAccessDeniedException();
+        }
         $files = $request->files->get('image');
         $uploadDir = $this->getParameter('upload_directory') . '/avatar';
 
+
+        if (!$files instanceof UploadedFile) {
+            return new JsonResponse(['error' => 'An image is required.'], Response::HTTP_BAD_REQUEST);
+        }
 
         $profilPicture = $this->fileUploader->uploadFile($files, $uploadDir);
 

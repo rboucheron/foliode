@@ -23,7 +23,7 @@ class FileUploaderService
         }
 
         ['file' => $decodedFile, 'mimeType' => $mimeType] = $this->decodeBase64File($fileContent);
-        $extension = $this->guessExtensionFromMimeType($mimeType ?? $decodedFile->getMimeType());
+        $extension = $this->guessExtensionFromMimeType($mimeType);
 
         if (!in_array($mimeType, self::ALLOWED_IMAGE_MIME_TYPES, true) || !in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
             @unlink($decodedFile->getPathname());
@@ -79,6 +79,7 @@ class FileUploaderService
         return ByteString::fromRandom(25, 'abcdefghijklmnopqrstuvwxyz0123456789');
     }
 
+    /** @return array{file: File, mimeType: string} */
     private function decodeBase64File(string $fileContent): array
     {
         if (preg_match('/^data:(.*?);base64,(.*)$/', $fileContent, $matches)) {

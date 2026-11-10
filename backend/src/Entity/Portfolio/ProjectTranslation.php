@@ -16,7 +16,7 @@ class ProjectTranslation
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\ManyToOne(inversedBy: 'projectTranslations')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -119,6 +119,7 @@ class ProjectTranslation
         return $this;
     }
 
+    /** @return array{title: string, description: string} */
     public function toContent(): array
     {
         return ['title' => $this->title, 'description' => $this->description];

@@ -5,21 +5,15 @@ namespace App\User\Service;
 use App\Entity\Users;
 use App\Github\GithubApiRequester;
 use App\Service\InternalServerExceptionService;
-use App\Service\ApiRequesterService;
 use App\Repository\UsersRepository;
 use App\Service\ValidatorBaseService;
 use App\User\Dto\GithubUserDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Flex\GithubApi;
 
 class GithubAuthUserService
 {
-    private const GITHUB_USER_URL = 'https://api.github.com/user';
-    private const GITHUB_API_VERSION = 'application/vnd.github.v3+json';
-
     public function __construct(
-        private ApiRequesterService $apiRequester,
         private InternalServerExceptionService $internalServerExceptionService,
         private UsersRepository $usersRepository,
         private EntityManagerInterface $em,
@@ -55,6 +49,7 @@ class GithubAuthUserService
         }
     }
 
+    /** @param array<string, mixed> $userData */
     private function updateUserWithGithub(Users $user, array $userData, string $githubToken): Users
     {
         $user->setGithubLogin($userData['login']);
@@ -65,6 +60,7 @@ class GithubAuthUserService
         return $user;
     }
 
+    /** @param array<string, mixed> $userData */
     private function creatGithubUserFromData(array $userData, string $githubToken): Users
     {
         $user = (new Users())

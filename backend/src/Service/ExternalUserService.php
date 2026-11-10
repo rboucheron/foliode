@@ -20,6 +20,7 @@ class ExternalUserService
     ) {
     }
 
+    /** @return array{token: string, user: string} */
     private function getJsonUser(Users $user): array
     {
         $token = $this->JWTManager->create($user);
@@ -27,6 +28,10 @@ class ExternalUserService
         return ["token" => $token, "user" => $jsonUser];
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function findOrCreateUserFromGithub(array $userData, string $email): array
     {
         $user = $this->usersRepository->findOneBy(['github_id' => $userData['id']]);
@@ -55,6 +60,10 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function updateUserWithGithub(Users $user, array $userData): array
     {
         $user->setGithubLogin($userData['login']);
@@ -65,6 +74,10 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function findOrCreateUserFromDribbble(array $userData): array
     {
         $user = $this->usersRepository->findOneBy(['dribbble_id' => $userData['id']]);
@@ -85,15 +98,17 @@ class ExternalUserService
             ->setIsEmailVerified(true)
             ->setDribbbleLogin($userData['login'])
             ->setDribbbleId($userData['id'])
-            ->setAvatarUrl($userData['avatar_url'] ?? null)
-            ->setStudent(true)
-            ->setTeacher(false);
+            ->setAvatarUrl($userData['avatar_url'] ?? null);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         return $this->getJsonUser($user);
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function updateUserWithDribble(Users $user, array $userData): array
     {
         $user->setDribbbleLogin($userData['login']);

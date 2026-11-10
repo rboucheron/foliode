@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
-use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,7 +24,7 @@ class Projects
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups(['getPortfolio', 'getProject']) ]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "The name is required.")]
@@ -65,6 +65,7 @@ class Projects
     #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $tools;
 
+    /** @var Collection<int, ProjectTranslation> */
     #[ORM\OneToMany(targetEntity: ProjectTranslation::class, mappedBy: 'project', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $projectTranslations;
 
@@ -217,6 +218,7 @@ class Projects
         return $this;
     }
 
+    /** @return Collection<int, ProjectTranslation> */
     public function getProjectTranslations(): Collection
     {
         return $this->projectTranslations;
@@ -250,6 +252,7 @@ class Projects
         return null;
     }
 
+    /** @return array<string, array{title: string, description: string}> */
     #[Groups('getPortfolio')]
     #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
     public function getTranslations(): array

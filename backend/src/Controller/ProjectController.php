@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Projects;
-use App\Entity\ProjectsImages;
+use App\Entity\Portfolio\Projects;
+use App\Entity\Portfolio\ProjectsImages;
 use App\Repository\PortfoliosRepository;
 use App\Repository\ProjectsRepository;
 use App\Service\FileUploaderService;
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use OpenApi\Annotations as OA;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -36,8 +36,8 @@ class ProjectController extends AbstractController
         Request $request,
     ): JsonResponse {
         $user = $this->getUser();
-        $data = $request->get('json');
-        $files = $request->files->get('images');
+        $data = $request->request->get('json');
+        $files = $request->files->all()['images'] ?? [];
         $uploadDir = $this->getParameter('upload_directory') . '/project';
 
         if (!$user) {
@@ -134,7 +134,7 @@ class ProjectController extends AbstractController
         Request $request,
     ): JsonResponse {
         $user = $this->getUser();
-        $data = $request->get('json');
+        $data = $request->request->get('json');
         $files = $request->files->get('images');
         $uploadDir = $this->getParameter('upload_directory') . '/project';
 

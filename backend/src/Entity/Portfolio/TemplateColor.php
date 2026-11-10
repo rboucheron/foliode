@@ -63,6 +63,7 @@ class TemplateColor
         return $this;
     }
 
+    /** @return array<string, string> */
     public function getTemplateColor(): array
     {
         return [

@@ -9,6 +9,7 @@ class ProjectDTO
     #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
     public string $title = '';
     public ?string $description = null;
+    /** @var list<array{file: string, imageAlt: string}> */
     #[Assert\Type(type: 'array', message: 'images must be an array.')]
     #[Assert\All([
         new Assert\Collection(
@@ -32,6 +33,7 @@ class ProjectDTO
         ),
     ])]
     public array $images = [];
+    /** @var list<array{name: string, url: string}> */
     #[Assert\Type(type: 'array', message: 'links must be an array.')]
     #[Assert\All([
         new Assert\Collection(
