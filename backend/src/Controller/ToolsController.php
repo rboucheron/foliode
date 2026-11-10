@@ -6,6 +6,7 @@ use App\Entity\Portfolio\Tools;
 use App\Repository\PortfoliosRepository;
 use App\Service\FileUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,11 +30,14 @@ class ToolsController extends AbstractController
     {
         $user = $this->getUser();
         $data = $request->request->get('json');
-        $files = $request->files->all()['images'] ?? [];
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
+        $files = $request->files->get('images');
         $uploadDir = $this->getParameter('upload_directory') . '/tool';
         $portfolio = $this->portfoliosRepository->findOneBy(['user' => $user]);
 
-        if (!$data && !$files) {
+        if (!is_array($data) || !is_string($data['name'] ?? null) || !$files instanceof UploadedFile) {
             return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -119,16 +123,19 @@ class ToolsController extends AbstractController
         }
 
         $data = $request->request->get('json');
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
         $files = $request->files->get('images');
         $uploadDir = $this->getParameter('upload_directory') . '/tool';
 
-        if (!$data && !$files) {
+        if (!is_array($data) || !is_string($data['name'] ?? null)) {
             return new JsonResponse(['error' => 'bad request'], Response::HTTP_BAD_REQUEST);
         }
 
         $tool->setName($data['name']);
 
-        if ($files) {
+        if ($files instanceof UploadedFile) {
             $picto = $this->uploader->uploadFile($files, $uploadDir);
             $tool->setPicto($picto);
         }
