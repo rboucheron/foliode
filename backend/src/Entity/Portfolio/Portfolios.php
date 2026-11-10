@@ -23,11 +23,11 @@ class Portfolios
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups('getPortfolio')]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Groups('getPortfolio')]
-    private ?int $status = PortfolioStatus::DRAFT;
+    private ?int $status = PortfolioStatus::DRAFT; // @phpstan-ignore property.unusedType (The database column is nullable)
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(max: 255, maxMessage: "title cannot exceed 255 characters")]
@@ -49,7 +49,7 @@ class Portfolios
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups('getPortfolio')]
-    private ?string $author = 'unknown';
+    private ?string $author = 'unknown'; // @phpstan-ignore property.unusedType (The database column is nullable)
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups('getPortfolio')]
@@ -66,7 +66,7 @@ class Portfolios
 
     #[ORM\Column(length: 255)]
     #[Groups('getPortfolio')]
-    private ?string $template = Template::TEMPLATE_1;
+    private ?string $template = Template::TEMPLATE_1; // @phpstan-ignore property.unusedType (The database column is nullable)
 
     #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
