@@ -18,7 +18,7 @@ class Formation
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups(['getFormation', 'getPromotion'])]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(length: 255)]
     #[Groups(['getFormation', 'getPromotion', 'getPortfolio'])]
