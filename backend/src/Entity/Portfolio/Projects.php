@@ -65,6 +65,7 @@ class Projects
     #[Groups(['getPortfolio', 'getProject']) ]
     private Collection $tools;
 
+    /** @var Collection<int, ProjectTranslation> */
     #[ORM\OneToMany(targetEntity: ProjectTranslation::class, mappedBy: 'project', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $projectTranslations;
 
@@ -217,6 +218,7 @@ class Projects
         return $this;
     }
 
+    /** @return Collection<int, ProjectTranslation> */
     public function getProjectTranslations(): Collection
     {
         return $this->projectTranslations;
@@ -252,6 +254,7 @@ class Projects
 
     #[Groups('getPortfolio')]
     #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
+    /** @return array<string, array{title: string, description: string}> */
     public function getTranslations(): array
     {
         $targets = array_map(
