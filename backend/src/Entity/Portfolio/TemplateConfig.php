@@ -33,9 +33,7 @@ class TemplateConfig
 
         $templateConfig[0]['color'] = $templateColor->getTemplateColor();
 
-        return [
-            $templateConfig,
-        ];
+        return $templateConfig;
     }
 
     /** @param array{family: string, provider: string} $templateFont
@@ -53,9 +51,7 @@ class TemplateConfig
             ];
         }
 
-        return [
-            $templateConfig,
-        ];
+        return $templateConfig;
 
     }
 
