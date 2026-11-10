@@ -79,6 +79,7 @@ class FileUploaderService
         return ByteString::fromRandom(25, 'abcdefghijklmnopqrstuvwxyz0123456789');
     }
 
+    /** @return array{file: File, mimeType: string} */
     private function decodeBase64File(string $fileContent): array
     {
         if (preg_match('/^data:(.*?);base64,(.*)$/', $fileContent, $matches)) {
