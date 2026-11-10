@@ -24,7 +24,7 @@ class Projects
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Groups(['getPortfolio', 'getProject']) ]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "The name is required.")]
