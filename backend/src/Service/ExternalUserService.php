@@ -89,8 +89,7 @@ class ExternalUserService
             ->setIsEmailVerified(true)
             ->setDribbbleLogin($userData['login'])
             ->setDribbbleId($userData['id'])
-            ->setAvatarUrl($userData['avatar_url'] ?? null)
-            ;
+            ->setAvatarUrl($userData['avatar_url'] ?? null);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
