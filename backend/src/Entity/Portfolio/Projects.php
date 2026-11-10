@@ -252,9 +252,9 @@ class Projects
         return null;
     }
 
+    /** @return array<string, array{title: string, description: string}> */
     #[Groups('getPortfolio')]
     #[Context(normalizationContext: [Serializer::EMPTY_ARRAY_AS_OBJECT => true])]
-    /** @return array<string, array{title: string, description: string}> */
     public function getTranslations(): array
     {
         $targets = array_map(
