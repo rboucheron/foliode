@@ -134,7 +134,7 @@ class ProjectController extends AbstractController
         Request $request,
     ): JsonResponse {
         $user = $this->getUser();
-        $data = $request->get('json');
+        $data = $request->request->get('json');
         $files = $request->files->get('images');
         $uploadDir = $this->getParameter('upload_directory') . '/project';
 
