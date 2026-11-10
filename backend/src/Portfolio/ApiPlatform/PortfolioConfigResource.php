@@ -16,5 +16,6 @@ use App\Portfolio\ApiPlatform\State\PortfolioConfigProvider;
 class PortfolioConfigResource
 {
     /** @var array<string, mixed>|null */
+    /** @var array<int, array<string, mixed>>|null */
     public ?array $config = null;
 }
