@@ -119,6 +119,7 @@ class ProjectTranslation
         return $this;
     }
 
+    /** @return array{title: string, description: string} */
     public function toContent(): array
     {
         return ['title' => $this->title, 'description' => $this->description];
