@@ -23,7 +23,7 @@ class FileUploaderService
         }
 
         ['file' => $decodedFile, 'mimeType' => $mimeType] = $this->decodeBase64File($fileContent);
-        $extension = $this->guessExtensionFromMimeType($mimeType ?? $decodedFile->getMimeType());
+        $extension = $this->guessExtensionFromMimeType($mimeType);
 
         if (!in_array($mimeType, self::ALLOWED_IMAGE_MIME_TYPES, true) || !in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
             @unlink($decodedFile->getPathname());
