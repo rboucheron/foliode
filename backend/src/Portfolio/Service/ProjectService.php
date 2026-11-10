@@ -143,7 +143,7 @@ class ProjectService
         return $images;
     }
 
-    /** @param list<array<string, mixed>> $links
+    /** @param list<array{name?: string, url?: string}> $links
      * @return list<ProjectsLinks>
      */
     private function buildLinks(array $links): array
@@ -151,10 +151,6 @@ class ProjectService
         $linkEntities = [];
 
         foreach ($links as $link) {
-            if (!is_array($link)) {
-                continue;
-            }
-
             if (empty($link['url'])) {
                 continue;
             }
