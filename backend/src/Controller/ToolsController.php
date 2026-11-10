@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Portfolio\Tools;
 use App\Repository\PortfoliosRepository;
-use App\Repository\ToolsRepository;
 use App\Service\FileUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -119,7 +118,7 @@ class ToolsController extends AbstractController
             return new JsonResponse(['error' => 'tool not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $data = $request->get('json');
+        $data = $request->request->get('json');
         $files = $request->files->get('images');
         $uploadDir = $this->getParameter('upload_directory') . '/tool';
 
