@@ -57,10 +57,6 @@ class GithubApiRequester
             return $response ?? [];
         });
 
-        if (!is_array($repositories)) {
-            return [];
-        }
-
         /** @var list<array<string, mixed>> $repositories */
         return $repositories;
     }
