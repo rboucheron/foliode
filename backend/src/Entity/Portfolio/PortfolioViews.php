@@ -13,7 +13,7 @@ class PortfolioViews
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\ManyToOne(inversedBy: 'portfolioViews')]
     #[ORM\JoinColumn(nullable: false)]
