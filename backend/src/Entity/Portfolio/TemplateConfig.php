@@ -11,7 +11,7 @@ class TemplateConfig
 
     private const TEMPLATEFONT_PROVIDER = ['fonts.googleapis.com'];
 
-    /** @return array<int, array<string, mixed>> */
+    /** @return array{0: array<string, mixed>} */
     public static function defindeTemplateConfig(): array
     {
         $templateColor = new TemplateColor();
