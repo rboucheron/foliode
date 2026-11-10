@@ -28,7 +28,10 @@ class ExternalUserService
         return ["token" => $token, "user" => $jsonUser];
     }
 
-    /** @param array<string, mixed> $userData */
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function findOrCreateUserFromGithub(array $userData, string $email): array
     {
         $user = $this->usersRepository->findOneBy(['github_id' => $userData['id']]);
@@ -57,7 +60,10 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
-    /** @param array<string, mixed> $userData */
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function updateUserWithGithub(Users $user, array $userData): array
     {
         $user->setGithubLogin($userData['login']);
@@ -68,7 +74,10 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
-    /** @param array<string, mixed> $userData */
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function findOrCreateUserFromDribbble(array $userData): array
     {
         $user = $this->usersRepository->findOneBy(['dribbble_id' => $userData['id']]);
@@ -96,7 +105,10 @@ class ExternalUserService
         return $this->getJsonUser($user);
     }
 
-    /** @param array<string, mixed> $userData */
+    /**
+     * @param array<string, mixed> $userData
+     * @return array{token: string, user: string}
+     */
     public function updateUserWithDribble(Users $user, array $userData): array
     {
         $user->setDribbbleLogin($userData['login']);
