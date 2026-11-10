@@ -9,7 +9,7 @@ use App\Portfolio\ApiPlatform\PortfolioResource;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/** @implements ProviderInterface<PortfolioResource|null> */
+/** @implements ProviderInterface<PortfolioResource> */
 class PublicPortfolioProvider implements ProviderInterface
 {
     public function __construct(
@@ -18,17 +18,17 @@ class PublicPortfolioProvider implements ProviderInterface
     ) {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?PortfolioResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): PortfolioResource
     {
         $url = $uriVariables['url'] ?? null;
         if (!is_string($url) || '' === trim($url)) {
-            return null;
+            throw new NotFoundHttpException('Portfolio not found.');
         }
 
         $portfolio = $this->portfolioService->getPortfolioByUniqueUrl($url);
 
         if($portfolio->getStatus() !== PortfolioStatus::PUBLISHED) {
-            return null;
+            throw new NotFoundHttpException('Portfolio is not published.');
         }
 
         $payload = json_decode(
@@ -37,7 +37,7 @@ class PublicPortfolioProvider implements ProviderInterface
         );
 
         if (!is_array($payload)) {
-            return null;
+            throw new NotFoundHttpException('Portfolio resource could not be serialized.');
         }
 
         $resource = new PortfolioResource();
