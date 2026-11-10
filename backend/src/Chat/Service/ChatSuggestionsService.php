@@ -14,7 +14,7 @@ class ChatSuggestionsService
     }
 
     /**
-     * @return list<\\App\\Entity\\ChatSuggestions>
+     * @return list<\App\Entity\ChatSuggestions>
      */
     public function getChatSuggestions(): array
     {
@@ -22,7 +22,7 @@ class ChatSuggestionsService
     }
 
     /**
-     * @return list<\\App\\Entity\\ChatSuggestions>
+     * @return list<\App\Entity\ChatSuggestions>
      */
     public function getChatSuggestionsByContext(string $contextType): array
     {
@@ -30,7 +30,7 @@ class ChatSuggestionsService
     }
 
     /**
-     * @param list<\\App\\Entity\\ChatSuggestions> $chatSuggestions
+     * @param list<\App\Entity\ChatSuggestions> $chatSuggestions
      */
     public function serializeChatSuggestions(array $chatSuggestions): string
     {
