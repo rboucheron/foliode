@@ -16,7 +16,7 @@ class PortfolioTranslation
     #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?string $id = null;
+    private ?string $id = null; // @phpstan-ignore property.unusedType (Doctrine generates this identifier during persistence)
 
     #[ORM\ManyToOne(inversedBy: 'portfolioTranslations')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
