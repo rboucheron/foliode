@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AuthUserController extends AbstractController
 {
     public function __construct(
-        private MailerService $mailerService,
         private SerializerInterface $serializer,
         private AuthUserService $authUserService,
         private UserEmailVerificationCodeService $userEmailVerificationCodeService,
