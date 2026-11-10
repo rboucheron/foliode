@@ -24,6 +24,7 @@ class PortfolioViewService
         $this->entityManager->flush();
     }
 
+    /** @return list<array{count: int|string, day: string}> */
     public function getViewsLast7Days(Portfolios $portfolio): array
     {
         return $this->portfolioViewsRepository->getViewsLast7DaysForPortfolio($portfolio->getId());
