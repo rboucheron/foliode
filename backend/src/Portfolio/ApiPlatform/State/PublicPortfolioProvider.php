@@ -9,6 +9,7 @@ use App\Portfolio\ApiPlatform\PortfolioResource;
 use App\Portfolio\Service\PortfolioService;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/** @implements ProviderInterface<PortfolioResource|null> */
 class PublicPortfolioProvider implements ProviderInterface
 {
     public function __construct(
