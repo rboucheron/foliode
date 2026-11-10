@@ -9,6 +9,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Users;
@@ -31,6 +32,9 @@ class UserController extends AbstractController
         Request $req
     ): JsonResponse {
         $user = $this->getUser();
+        if (!$user instanceof Users) {
+            throw $this->createAccessDeniedException();
+        }
         $data = $req->getContent();
 
         $this->serializer->deserialize($data, Users::class, 'json', ['object_to_populate' => $user]);
@@ -54,7 +58,7 @@ class UserController extends AbstractController
         $uploadDir = $this->getParameter('upload_directory') . '/avatar';
 
 
-        if (!$files instanceof \\Symfony\\Component\\HttpFoundation\\File\\UploadedFile) {
+        if (!$files instanceof UploadedFile) {
             return new JsonResponse(['error' => 'An image is required.'], Response::HTTP_BAD_REQUEST);
         }
 
