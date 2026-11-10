@@ -32,13 +32,13 @@ class ExternalAuthController extends BaseControllerWithAuth
         $user = $this->getAuthenticatedUser();
       
 
-        if (!$githubToken) {
+        if (!is_string($githubToken) || $githubToken === '') {
             return new JsonResponse(['error' => 'GitHub token is missing'], Response::HTTP_BAD_REQUEST);
         }
 
         $userData = $this->apiRequester->get('https://api.github.com/user', ['Authorization' => 'Bearer ' . $githubToken, 'Accept' => 'application/vnd.github.v3+json',]);
 
-        if (!$userData) {
+        if ($userData === null || $userData === []) {
             return new JsonResponse(['error' => 'Github Token is invalid'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -61,7 +61,7 @@ class ExternalAuthController extends BaseControllerWithAuth
         $dribbbleToken = $data['token'] ?? null;
         $user = $this->getAuthenticatedUser();
 
-        if (!$dribbbleToken) {
+        if (!is_string($dribbbleToken) || $dribbbleToken === '') {
             return new JsonResponse(['error' => 'dribbble token is missing'], Response::HTTP_BAD_REQUEST);
         }
 
