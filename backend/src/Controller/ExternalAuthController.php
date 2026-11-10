@@ -30,7 +30,7 @@ class ExternalAuthController extends BaseControllerWithAuth
         $githubToken = $data['token'] ?? null;
         $email       = $data['email'] ?? null;
         $user = $this->getAuthenticatedUser();
-      
+
 
         if (!is_string($githubToken) || $githubToken === '') {
             return new JsonResponse(['error' => 'GitHub token is missing'], Response::HTTP_BAD_REQUEST);
@@ -40,11 +40,6 @@ class ExternalAuthController extends BaseControllerWithAuth
 
         if ($userData === null || $userData === []) {
             return new JsonResponse(['error' => 'Github Token is invalid'], Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$user) {
-            $jsonUser = $externalUserService->findOrCreateUserFromGithub($userData, $email);
-            return new JsonResponse($jsonUser, Response::HTTP_OK);
         }
 
         $jsonUser = $externalUserService->updateUserWithGithub($user, $userData);
@@ -69,11 +64,6 @@ class ExternalAuthController extends BaseControllerWithAuth
 
         if (!$userData) {
             return new JsonResponse(['error' => 'dribbble Token is invalid'], Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$user) {
-            $jsonUser = $externalUserService->findOrCreateUserFromDribbble($userData);;
-            return new JsonResponse($jsonUser, Response::HTTP_OK);
         }
 
         $jsonUser = $externalUserService->updateUserWithDribble($user, $userData);
