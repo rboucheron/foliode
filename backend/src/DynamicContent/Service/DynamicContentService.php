@@ -67,7 +67,7 @@ final class DynamicContentService
     {
         $type = $this->getType($user, $siteId, $typeId);
         $entry = $this->entries->findOneBy(['id' => $entryId, 'customType' => $type]);
-        if (!$entry instanceof CustomEntry) { throw new \Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException('Entry not found.'); }
+        if (!$entry instanceof CustomEntry) { throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Entry not found.'); }
         $this->em->remove($entry);
         $this->em->flush();
     }
