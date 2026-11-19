@@ -34,8 +34,10 @@ import { Route as AuthedDashboardSettingsRouteImport } from './routes/_authed/da
 import { Route as AuthedDashboardSkillsRouteImport } from './routes/_authed/dashboard/skills'
 import { Route as AuthedDashboardThemeRouteImport } from './routes/_authed/dashboard/theme'
 import { Route as AuthedPortfolioEditRouteImport } from './routes/_authed/portfolio/edit'
+import { Route as AuthedSitesIndexRouteImport } from './routes/_authed/sites/index'
 import { Route as ApiAuthProviderRouteImport } from './routes/api/auth/$provider'
 import { Route as AuthedDashboardEditTranslationsRouteImport } from './routes/_authed/dashboard/edit_.translations'
+import { Route as AuthedSitesSiteIdDashboardRouteImport } from './routes/_authed/sites/$siteId/dashboard'
 import { Route as ApiAuthCallbackProviderRouteImport } from './routes/api/auth/callback/$provider'
 
 const IndexRoute = IndexRouteImport.update({
@@ -162,6 +164,11 @@ const AuthedPortfolioEditRoute = AuthedPortfolioEditRouteImport.update({
   path: '/portfolio/edit',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedSitesIndexRoute = AuthedSitesIndexRouteImport.update({
+  id: '/sites/',
+  path: '/sites/',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const ApiAuthProviderRoute = ApiAuthProviderRouteImport.update({
   id: '/api/auth/$provider',
   path: '/api/auth/$provider',
@@ -172,6 +179,12 @@ const AuthedDashboardEditTranslationsRoute =
     id: '/edit_/translations',
     path: '/edit/translations',
     getParentRoute: () => AuthedDashboardRoute,
+  } as any)
+const AuthedSitesSiteIdDashboardRoute =
+  AuthedSitesSiteIdDashboardRouteImport.update({
+    id: '/sites/$siteId/dashboard',
+    path: '/sites/$siteId/dashboard',
+    getParentRoute: () => AuthedRoute,
   } as any)
 const ApiAuthCallbackProviderRoute = ApiAuthCallbackProviderRouteImport.update({
   id: '/api/auth/callback/$provider',
@@ -205,7 +218,9 @@ export interface FileRoutesByFullPath {
   '/portfolio/edit': typeof AuthedPortfolioEditRoute
   '/api/auth/$provider': typeof ApiAuthProviderRoute
   '/dashboard/': typeof AuthedDashboardIndexRoute
+  '/sites/': typeof AuthedSitesIndexRoute
   '/dashboard/edit/translations': typeof AuthedDashboardEditTranslationsRoute
+  '/sites/$siteId/dashboard': typeof AuthedSitesSiteIdDashboardRoute
   '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
 }
 export interface FileRoutesByTo {
@@ -232,7 +247,9 @@ export interface FileRoutesByTo {
   '/portfolio/edit': typeof AuthedPortfolioEditRoute
   '/api/auth/$provider': typeof ApiAuthProviderRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/sites': typeof AuthedSitesIndexRoute
   '/dashboard/edit/translations': typeof AuthedDashboardEditTranslationsRoute
+  '/sites/$siteId/dashboard': typeof AuthedSitesSiteIdDashboardRoute
   '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
 }
 export interface FileRoutesById {
@@ -263,7 +280,9 @@ export interface FileRoutesById {
   '/_authed/portfolio/edit': typeof AuthedPortfolioEditRoute
   '/api/auth/$provider': typeof ApiAuthProviderRoute
   '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
+  '/_authed/sites/': typeof AuthedSitesIndexRoute
   '/_authed/dashboard/edit_/translations': typeof AuthedDashboardEditTranslationsRoute
+  '/_authed/sites/$siteId/dashboard': typeof AuthedSitesSiteIdDashboardRoute
   '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
 }
 export interface FileRouteTypes {
@@ -294,7 +313,9 @@ export interface FileRouteTypes {
     | '/portfolio/edit'
     | '/api/auth/$provider'
     | '/dashboard/'
+    | '/sites/'
     | '/dashboard/edit/translations'
+    | '/sites/$siteId/dashboard'
     | '/api/auth/callback/$provider'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -321,7 +342,9 @@ export interface FileRouteTypes {
     | '/portfolio/edit'
     | '/api/auth/$provider'
     | '/dashboard'
+    | '/sites'
     | '/dashboard/edit/translations'
+    | '/sites/$siteId/dashboard'
     | '/api/auth/callback/$provider'
   id:
     | '__root__'
@@ -351,7 +374,9 @@ export interface FileRouteTypes {
     | '/_authed/portfolio/edit'
     | '/api/auth/$provider'
     | '/_authed/dashboard/'
+    | '/_authed/sites/'
     | '/_authed/dashboard/edit_/translations'
+    | '/_authed/sites/$siteId/dashboard'
     | '/api/auth/callback/$provider'
   fileRoutesById: FileRoutesById
 }
@@ -550,6 +575,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedPortfolioEditRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/sites/': {
+      id: '/_authed/sites/'
+      path: '/sites'
+      fullPath: '/sites/'
+      preLoaderRoute: typeof AuthedSitesIndexRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/api/auth/$provider': {
       id: '/api/auth/$provider'
       path: '/api/auth/$provider'
@@ -563,6 +595,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/edit/translations'
       preLoaderRoute: typeof AuthedDashboardEditTranslationsRouteImport
       parentRoute: typeof AuthedDashboardRoute
+    }
+    '/_authed/sites/$siteId/dashboard': {
+      id: '/_authed/sites/$siteId/dashboard'
+      path: '/sites/$siteId/dashboard'
+      fullPath: '/sites/$siteId/dashboard'
+      preLoaderRoute: typeof AuthedSitesSiteIdDashboardRouteImport
+      parentRoute: typeof AuthedRoute
     }
     '/api/auth/callback/$provider': {
       id: '/api/auth/callback/$provider'
@@ -605,11 +644,15 @@ const AuthedDashboardRouteWithChildren = AuthedDashboardRoute._addFileChildren(
 interface AuthedRouteChildren {
   AuthedDashboardRoute: typeof AuthedDashboardRouteWithChildren
   AuthedPortfolioEditRoute: typeof AuthedPortfolioEditRoute
+  AuthedSitesIndexRoute: typeof AuthedSitesIndexRoute
+  AuthedSitesSiteIdDashboardRoute: typeof AuthedSitesSiteIdDashboardRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedDashboardRoute: AuthedDashboardRouteWithChildren,
   AuthedPortfolioEditRoute: AuthedPortfolioEditRoute,
+  AuthedSitesIndexRoute: AuthedSitesIndexRoute,
+  AuthedSitesSiteIdDashboardRoute: AuthedSitesSiteIdDashboardRoute,
 }
 
 const AuthedRouteWithChildren =

@@ -6,16 +6,29 @@ import { Switch } from "@/components/ui/switch"
 import { useTranslation } from "@/i18n"
 import { LanguageSelect } from "./language-select"
 import { getMultiSiteSetting, updateMultiSiteSetting } from "@/features/workspace"
+import { toast } from "sonner"
+import { getApiErrorMessage } from "@/lib/http"
 
 export function SettingsPage() {
   const t = useTranslation()
   const [multiSiteEnabled, setMultiSiteEnabled] = useState(false)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  useEffect(() => { getMultiSiteSetting().then(setMultiSiteEnabled).finally(() => setLoading(false)) }, [])
+  useEffect(() => {
+    getMultiSiteSetting()
+      .then(setMultiSiteEnabled)
+      .catch((error) => toast.error(getApiErrorMessage(error, t("settings.multiSite.loadError"))))
+      .finally(() => setLoading(false))
+  }, [])
   const toggle = async (enabled: boolean) => {
     setSaving(true)
-    try { await updateMultiSiteSetting(enabled); setMultiSiteEnabled(enabled) }
+    try {
+      await updateMultiSiteSetting(enabled)
+      setMultiSiteEnabled(enabled)
+      toast.success(t(enabled ? "settings.multiSite.enabled" : "settings.multiSite.disabled"))
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, t("settings.multiSite.updateError")))
+    }
     finally { setSaving(false) }
   }
 
@@ -34,11 +47,11 @@ export function SettingsPage() {
       </Card>
       <Card className="max-w-xl">
         <CardHeader>
-          <CardTitle>Mode multi-sites</CardTitle>
-          <CardDescription>Autoriser la gestion de plusieurs portfolios depuis votre compte.</CardDescription>
+          <CardTitle>{t("settings.multiSite.title")}</CardTitle>
+          <CardDescription>{t("settings.multiSite.description")}</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-between gap-4">
-          <Label htmlFor="multi-site-enabled">Activer le mode multi-sites</Label>
+          <Label htmlFor="multi-site-enabled">{t("settings.multiSite.label")}</Label>
           <Switch id="multi-site-enabled" checked={multiSiteEnabled} disabled={loading || saving} onCheckedChange={toggle} />
         </CardContent>
       </Card>

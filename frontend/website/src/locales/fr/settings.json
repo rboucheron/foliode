@@ -1,4 +1,13 @@
 {
+  "multiSite": {
+    "title": "Mode multi-sites",
+    "description": "Autoriser la gestion de plusieurs portfolios depuis votre compte.",
+    "label": "Activer le mode multi-sites",
+    "loadError": "Impossible de charger le mode multi-sites",
+    "enabled": "Mode multi-sites activé",
+    "disabled": "Mode multi-sites désactivé",
+    "updateError": "Impossible de modifier le mode multi-sites"
+  },
   "language": {
     "description": "Choisissez la langue de l'interface. Elle est mémorisée sur cet appareil.",
     "label": "Langue de l'interface",

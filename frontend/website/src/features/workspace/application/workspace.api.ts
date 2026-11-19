@@ -1,18 +1,9 @@
-import axios from "axios"
-import { getAuthToken } from "@/features/user"
-import { PUBLIC_API_URL } from "@/lib/http"
+import { apiClient } from "@/lib/http"
 import type { Site } from "../domain/site"
-
-const client = axios.create({ baseURL: PUBLIC_API_URL })
-client.interceptors.request.use((config) => {
-  const token = getAuthToken()
-  if (token) config.headers.Authorization = `Bearer ${token}`
-  return config
-})
-export const getSites = async (): Promise<Site[]> => (await client.get<Site[]>("/api/sites")).data
-export const createSite = async (title: string): Promise<Site> => (await client.post<Site>("/api/sites", { title })).data
-export const getMultiSiteSetting = async (): Promise<boolean> => (await client.get<{multiSiteEnabled:boolean}>("/api/me/settings")).data.multiSiteEnabled
+export const getSites = async (): Promise<Site[]> => (await apiClient.get<Site[]>("/sites")).data
+export const createSite = async (title: string): Promise<Site> => (await apiClient.post<Site>("/sites", { title })).data
+export const getMultiSiteSetting = async (): Promise<boolean> => (await apiClient.get<{ multiSiteEnabled: boolean }>("/me/settings")).data.multiSiteEnabled
 export const updateMultiSiteSetting = async (multiSiteEnabled: boolean): Promise<void> => {
-  await client.patch("/api/me/settings", { multiSiteEnabled })
+  await apiClient.patch("/me/settings", { multiSiteEnabled })
 }
-export const getSite = async (siteId: string): Promise<Site> => (await client.get<Site>(`/api/sites/${siteId}`)).data
+export const getSite = async (siteId: string): Promise<Site> => (await apiClient.get<Site>(`/sites/${siteId}`)).data

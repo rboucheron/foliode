@@ -10,6 +10,7 @@ import { useTranslation } from "@/i18n"
 import { startOAuthSignIn, useUserStore } from "@/features/user"
 import type { OAuthProvider } from "@/features/user"
 import { ChatPanel } from "@/features/chat"
+import { WorkspaceSwitcherCard } from "@/features/workspace"
 import type { ColorKey } from "../domain/portfolio"
 import { usePortfolioStore } from "../application/portfolio.store"
 import { PortfolioCharts } from "./portfolio-charts"
@@ -98,6 +99,7 @@ export function DashboardOverviewPage() {
   return (
     <>
       <DashboardTitle title={t("dashboard.overview.title")} />
+      <WorkspaceSwitcherCard />
 
       <div className="w-full py-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
