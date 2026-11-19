@@ -16,6 +16,12 @@ final class UserSettingsController extends BaseControllerWithAuth
 {
     public function __construct(private EntityManagerInterface $em) {}
 
+    #[Route('/api/me/settings', methods: ['GET'])]
+    public function show(): JsonResponse
+    {
+        return new JsonResponse(['multiSiteEnabled' => $this->getAuthenticatedUser()->isMultiSiteEnabled()]);
+    }
+
     #[Route('/api/me/settings', methods: ['PATCH'])]
     public function update(#[MapRequestPayload] UpdateUserSettingsDTO $dto): JsonResponse
     {
