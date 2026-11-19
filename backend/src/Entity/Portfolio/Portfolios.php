@@ -235,6 +235,9 @@ class Portfolios
     public function setUsers(Users $users): static
     {
         $this->users = $users;
+        if (!$users->getPortfolios()->contains($this)) {
+            $users->addPortfolio($this);
+        }
 
         return $this;
     }
