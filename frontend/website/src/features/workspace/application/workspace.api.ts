@@ -11,6 +11,7 @@ client.interceptors.request.use((config) => {
 })
 export const getSites = async (): Promise<Site[]> => (await client.get<Site[]>("/api/sites")).data
 export const createSite = async (title: string): Promise<Site> => (await client.post<Site>("/api/sites", { title })).data
+export const getMultiSiteSetting = async (): Promise<boolean> => (await client.get<{multiSiteEnabled:boolean}>("/api/me/settings")).data.multiSiteEnabled
 export const updateMultiSiteSetting = async (multiSiteEnabled: boolean): Promise<void> => {
   await client.patch("/api/me/settings", { multiSiteEnabled })
 }
