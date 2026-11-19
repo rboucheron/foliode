@@ -29,7 +29,9 @@ export function SiteDashboardPage() {
     <TypeBuilder siteId={siteId} onSaved={type=>{setTypes(current=>[...current,type]);setEntries(current=>({...current,[type.id]:[]}))}} />
     {types.map(type=><section key={type.id} className="flex flex-col gap-4 rounded-xl border p-4">
       <DynamicTypeRenderer type={type} entries={entries[type.id]??[]} />
+      <details><summary className="cursor-pointer font-medium">Modifier le type</summary><div className="mt-3"><TypeBuilder siteId={siteId} initialType={type} onSaved={saved=>setTypes(current=>current.map(item=>item.id===saved.id?saved:item))}/></div></details>
       <details><summary className="cursor-pointer font-medium">Ajouter une entrée</summary><div className="mt-3"><DynamicEntryForm siteId={siteId} typeId={type.id} fields={type.fields} onSaved={()=>getEntries(siteId,type.id).then(items=>setEntries(current=>({...current,[type.id]:items})))}/></div></details>
+      {(entries[type.id]??[]).map(entry=><details key={entry.id}><summary className="cursor-pointer text-sm">Modifier une entrée</summary><div className="mt-3"><DynamicEntryForm siteId={siteId} typeId={type.id} fields={type.fields} initialEntry={entry} onSaved={()=>getEntries(siteId,type.id).then(items=>setEntries(current=>({...current,[type.id]:items})))}/></div></details>)}
     </section>)}
   </main>
 }
