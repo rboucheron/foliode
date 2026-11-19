@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/api/sites')]
+#[Route('/v1/api/sites')]
 final class SiteController extends BaseControllerWithAuth
 {
     public function __construct(private SiteService $sites) {}

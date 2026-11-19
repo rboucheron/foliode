@@ -18,7 +18,7 @@ class CustomEntry
     private CustomType $customType;
 
     /** @var array<string, scalar|null> */
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(name: 'entry_values', type: 'json')]
     private array $values = [];
 
     #[ORM\Column]

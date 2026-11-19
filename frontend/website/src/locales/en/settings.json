@@ -1,4 +1,13 @@
 {
+  "multiSite": {
+    "title": "Multi-site mode",
+    "description": "Allow multiple portfolios to be managed from your account.",
+    "label": "Enable multi-site mode",
+    "loadError": "Unable to load multi-site mode",
+    "enabled": "Multi-site mode enabled",
+    "disabled": "Multi-site mode disabled",
+    "updateError": "Unable to update multi-site mode"
+  },
   "language": {
     "description": "Choose the interface language. It is remembered on this device.",
     "label": "Interface language",

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/api/sites/{siteId}/custom-types')]
+#[Route('/v1/api/sites/{siteId}/custom-types')]
 final class CustomTypeController extends BaseControllerWithAuth
 {
     public function __construct(private DynamicContentService $content) {}
