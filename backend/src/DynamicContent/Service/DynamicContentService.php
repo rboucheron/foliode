@@ -63,6 +63,15 @@ final class DynamicContentService
         return $entry;
     }
 
+    public function deleteEntry(Users $user, string $siteId, string $typeId, string $entryId): void
+    {
+        $type = $this->getType($user, $siteId, $typeId);
+        $entry = $this->entries->findOneBy(['id' => $entryId, 'customType' => $type]);
+        if (!$entry instanceof CustomEntry) { throw new \\Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException('Entry not found.'); }
+        $this->em->remove($entry);
+        $this->em->flush();
+    }
+
     public function deleteType(Users $user, string $siteId, string $typeId): void
     {
         $type = $this->getType($user, $siteId, $typeId); $this->em->remove($type); $this->em->flush();
