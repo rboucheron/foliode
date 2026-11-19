@@ -68,8 +68,8 @@ class Portfolios
     #[Groups('getPortfolio')]
     private ?string $template = Template::TEMPLATE_1; // @phpstan-ignore property.unusedType (The database column is nullable)
 
-    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'portfolio', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'portfolios')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     #[Groups('getPortfolio')]
     private ?Users $users = null;
 
@@ -235,6 +235,9 @@ class Portfolios
     public function setUsers(Users $users): static
     {
         $this->users = $users;
+        if (!$users->getPortfolios()->contains($this)) {
+            $users->addPortfolio($this);
+        }
 
         return $this;
     }

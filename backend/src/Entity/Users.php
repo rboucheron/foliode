@@ -73,9 +73,13 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups('getUsers')]
     private bool $is_email_verified = false;
 
-    #[ORM\OneToOne(mappedBy: 'users', targetEntity: Portfolios::class)]
+    #[ORM\Column(options: ['default' => false])]
     #[Groups(['getUsers'])]
-    private ?Portfolios $portfolio = null;
+    private bool $multiSiteEnabled = false;
+
+    /** @var Collection<int, Portfolios> */
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Portfolios::class, cascade: ['persist', 'remove'])]
+    private Collection $portfolios;
 
     /**
      * @var Collection<int, Projects>
@@ -86,6 +90,7 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->portfolios = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -272,19 +277,49 @@ class Users implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->projects;
     }
 
+    public function isMultiSiteEnabled(): bool
+    {
+        return $this->multiSiteEnabled;
+    }
+
+    public function setMultiSiteEnabled(bool $enabled): self
+    {
+        $this->multiSiteEnabled = $enabled;
+        return $this;
+    }
+
+    /** @return Collection<int, Portfolios> */
+    public function getPortfolios(): Collection
+    {
+        return $this->portfolios;
+    }
+
+    public function addPortfolio(Portfolios $portfolio): self
+    {
+        if (!$this->portfolios->contains($portfolio)) {
+            $this->portfolios->add($portfolio);
+            $portfolio->setUsers($this);
+        }
+        return $this;
+    }
+
+    public function removePortfolio(Portfolios $portfolio): self
+    {
+        $this->portfolios->removeElement($portfolio);
+        return $this;
+    }
+
+    /** Backward-compatible accessor for the primary portfolio. */
     public function getPortfolio(): ?Portfolios
     {
-        return $this->portfolio;
+        return $this->portfolios->first() ?: null;
     }
 
     public function setPortfolio(?Portfolios $portfolio): self
     {
-        $this->portfolio = $portfolio;
-
-        if ($portfolio && $portfolio->getUsers() !== $this) {
-            $portfolio->setUsers($this);
+        if ($portfolio !== null) {
+            $this->addPortfolio($portfolio);
         }
-
         return $this;
     }
 
