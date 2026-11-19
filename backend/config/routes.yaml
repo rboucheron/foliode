@@ -21,3 +21,15 @@ user_controllers:
         path: ../src/User/Controller/
         namespace: App\User\Controller
     type: attribute
+
+site_controllers:
+    resource:
+        path: ../src/Site/Controller/
+        namespace: App\\Site\\Controller
+    type: attribute
+
+dynamic_content_controllers:
+    resource:
+        path: ../src/DynamicContent/Controller/
+        namespace: App\\DynamicContent\\Controller
+    type: attribute
