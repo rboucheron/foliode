@@ -63,6 +63,13 @@ final class CustomTypeController extends BaseControllerWithAuth
         return new JsonResponse($this->entryData($this->content->saveEntry($this->getAuthenticatedUser(), $siteId, $typeId, $dto, $entryId)));
     }
 
+    #[Route('/{typeId}/entries/{entryId}', methods: ['DELETE'])]
+    public function deleteEntry(string $siteId, string $typeId, string $entryId): JsonResponse
+    {
+        $this->content->deleteEntry($this->getAuthenticatedUser(), $siteId, $typeId, $entryId);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
     private function typeData(CustomType $type): array
     {
         return ['id' => $type->getId(), 'name' => $type->getName(), 'layout' => $type->getLayout(), 'fields' => $type->getFields()];
