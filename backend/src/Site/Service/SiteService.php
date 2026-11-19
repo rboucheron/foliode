@@ -26,6 +26,6 @@ final class SiteService
     public function create(Users $user, CreateSiteDTO $dto): Portfolios
     {
         if (!$user->isMultiSiteEnabled()) { throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Enable multi-site mode first.'); }
-        return $this->portfolios->createNewPortfolio($user, new CreatNewPortfolioDTO(title: $dto->title));
+        $portfolio = new CreatNewPortfolioDTO();\n        $portfolio->title = $dto->title;\n        return $this->portfolios->createNewPortfolio($user, $portfolio);
     }
 }
