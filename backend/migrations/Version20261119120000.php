@@ -22,7 +22,7 @@ final class Version20261119120000 extends AbstractMigration
         $this->addSql('CREATE TABLE custom_type (id UUID NOT NULL, site_id UUID NOT NULL, name VARCHAR(120) NOT NULL, layout VARCHAR(10) NOT NULL, fields JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9AB3F6F3C5D5B6A5 ON custom_type (site_id)');
         $this->addSql('ALTER TABLE custom_type ADD CONSTRAINT FK_9AB3F6F3C5D5B6A5 FOREIGN KEY (site_id) REFERENCES tbl_portfolio (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('CREATE TABLE custom_entry (id UUID NOT NULL, custom_type_id UUID NOT NULL, values JSON NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE custom_entry (id UUID NOT NULL, custom_type_id UUID NOT NULL, entry_values JSON NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7B0A4D08C5D5B6A5 ON custom_entry (custom_type_id)');
         $this->addSql('ALTER TABLE custom_entry ADD CONSTRAINT FK_7B0A4D08C5D5B6A5 FOREIGN KEY (custom_type_id) REFERENCES custom_type (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
