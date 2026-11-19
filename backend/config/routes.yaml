@@ -25,11 +25,11 @@ user_controllers:
 site_controllers:
     resource:
         path: ../src/Site/Controller/
-        namespace: App\\Site\\Controller
+        namespace: App\Site\Controller
     type: attribute
 
 dynamic_content_controllers:
     resource:
         path: ../src/DynamicContent/Controller/
-        namespace: App\\DynamicContent\\Controller
+        namespace: App\DynamicContent\Controller
     type: attribute
